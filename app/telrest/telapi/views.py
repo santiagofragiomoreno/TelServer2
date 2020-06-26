@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from security.jwt_gen import JWTEncoder
+import time
 
 class Index(APIView):
 
@@ -12,24 +13,18 @@ class Payload(APIView):
 
     def post(self, request, format=None):
         # 88 Nothing new
-        payload = {
-            'time': 'test',
-            'nstrct': 101,
-            'iterator': 12,
-        }
-
         # 101 Open Main Door
-        payload = {
-            'time': 'test',
-            'nstrct': 101,
-            'iterator': 12,
-        }
-
         # 235 Open Building Door
+        nstrct = 235
+
+        # Epoch
+        seconds = time.time() + 3600
+
+        # TODO iterator process
         payload = {
-            'time': 'test',
-            'nstrct': 235,
-            'iterator': 12,
+            'tmt': int(seconds),
+            'nstrct': nstrct,
+            'iterator': 0,
         }
 
         encoder = JWTEncoder()
