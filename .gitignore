@@ -39,5 +39,4 @@ coverage.*
 !.travis.yml
 !.isort.cfg
 
-/certificates
 /venv
