@@ -40,3 +40,4 @@ coverage.*
 !.isort.cfg
 
 /venv
+/telgatevenv
