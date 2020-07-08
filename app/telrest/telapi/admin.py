@@ -1,5 +1,5 @@
 from django.contrib import admin
-from telapi.models import Task, Instruction
+from telapi.models import Task, Instruction, Grant, Ownership
 
 
 class InstructionAdmin(admin.ModelAdmin):
@@ -19,5 +19,7 @@ class InstructionAdmin(admin.ModelAdmin):
     get_task_name.short_description = 'Task'  # Renames column head
 
 
+admin.site.register(Grant)
+admin.site.register(Ownership)
 admin.site.register(Task)
 admin.site.register(Instruction, InstructionAdmin)

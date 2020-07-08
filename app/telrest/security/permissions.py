@@ -21,6 +21,16 @@ class IsClient(BasePermission):
         return False
 
 
+class IsOwner(BasePermission):
+
+    def has_permission(self, request, view):
+        user = request.user
+        for group in request.user.groups.all():
+            if group.name == 'Owner':
+                return True
+        return False
+
+
 class IsSuperuser(BasePermission):
 
     def has_permission(self, request, view):

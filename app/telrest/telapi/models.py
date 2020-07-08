@@ -27,3 +27,26 @@ class Task(models.Model):
 
     def __str__(self):
         return str(self.code) + " - " + self.name
+
+
+class Grant(models.Model):
+    client_user = models.ForeignKey(User, models.DO_NOTHING)
+    iot_user_id = models.PositiveIntegerField(blank=True, null=True)
+    start_date = models.DateTimeField(blank=True, null=True)
+    end_date = models.DateTimeField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'grant'
+
+
+class Ownership(models.Model):
+    owner_user = models.ForeignKey(User, models.DO_NOTHING)
+    iot_user_id = models.PositiveIntegerField(blank=True, null=True)
+    active = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'ownership'

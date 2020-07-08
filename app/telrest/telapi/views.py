@@ -3,14 +3,14 @@ from rest_framework.response import Response
 from security.jwt_gen import JWTEncoder
 import time
 from telapi.models import Instruction, Task
-from security.permissions import IsIot
+from security.permissions import IsIot, IsClient, IsSuperuser, IsOwner
 import datetime
 
 
 class Index(APIView):
 
     def get(self, request, format=None):
-        return Response(['Hello World'])
+        return Response(['OK'])
 
 
 class Payload(APIView):
@@ -34,7 +34,6 @@ class Payload(APIView):
             next_instruction.recieved_date = datetime.datetime.now()
             next_instruction.save()
 
-        # TODO iterator process
         payload = {
             'tmt': int(seconds),
             'nstrct': nstrct
@@ -47,3 +46,21 @@ class Payload(APIView):
         }
 
         return Response(response)
+
+
+class CreateTask(APIView):
+    permission_classes = [IsClient]
+
+    def post(self, request, format=None):
+        user = request.user
+
+        return Response(['OK'])
+
+
+class GiveGrant(APIView):
+    permission_classes = [IsOwner]
+
+    def post(self, request, format=None):
+        user = request.user
+
+        return Response(['OK'])
