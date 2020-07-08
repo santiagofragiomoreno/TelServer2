@@ -41,3 +41,4 @@ coverage.*
 
 /venv
 /telgatevenv
+/app/telrest/telrest/static
