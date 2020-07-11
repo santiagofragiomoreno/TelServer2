@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 class Instruction(models.Model):
     task = models.ForeignKey('Task', models.DO_NOTHING)
     issued_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    recieved = models.PositiveIntegerField(blank=True, null=True, db_index=True)
     recieved_date = models.DateTimeField(blank=True, null=True)
-    recieved = models.PositiveIntegerField(blank=True, null=True)
-    user = models.ForeignKey(User, models.DO_NOTHING)
+    user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
 
     class Meta:
         managed = True
@@ -29,24 +29,27 @@ class Task(models.Model):
         return str(self.code) + " - " + self.name
 
 
-class Grant(models.Model):
-    client_user = models.ForeignKey(User, models.DO_NOTHING)
-    iot_user_id = models.PositiveIntegerField(blank=True, null=True)
-    start_date = models.DateTimeField(blank=True, null=True)
-    end_date = models.DateTimeField(blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'grant'
-
-
 class Ownership(models.Model):
-    owner_user = models.ForeignKey(User, models.DO_NOTHING)
-    iot_user_id = models.PositiveIntegerField(blank=True, null=True)
-    active = models.BooleanField(default=True)
+    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
+    iot_user_id = models.PositiveIntegerField(blank=True, null=True, db_index=True)
+    active = models.BooleanField(default=True, db_index=True)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     class Meta:
         managed = True
         db_table = 'ownership'
+
+
+class Grant(models.Model):
+    email = models.EmailField(blank=True)
+    owner_user = models.ForeignKey(User, models.DO_NOTHING)
+    iot_user_id = models.PositiveIntegerField(blank=True, null=True)
+    access_code = models.CharField(max_length=255, blank=True, null=True)
+    start_date = models.DateTimeField(blank=True, null=True)
+    end_date = models.DateTimeField(blank=True, null=True)
+    active = models.BooleanField(default=True, db_index=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'grant'
