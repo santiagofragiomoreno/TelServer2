@@ -42,3 +42,5 @@ coverage.*
 /venv
 /telgatevenv
 /app/telrest/telrest/static
+
+# app/telrest/telrest/settings.py
