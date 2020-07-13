@@ -12,12 +12,45 @@ import datetime
 from telapi.validations import validate_date, validate_datetime, validate_clientemail, validate_integer
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.conf import settings
 
-class Index(APIView):
+from django.template import loader
+from django.http import HttpResponse, Http404
 
-    def get(self, request, format=None):
-        return Response(['OK'])
 
+# ------------------------------------------------------------------------
+def index(request):
+    context = {}
+    context['msg'] = ''
+    template = loader.get_template('telapi/index.html')
+    return HttpResponse(template.render(context, request))
+
+
+def main_door(request):
+    context = {}
+    instruction = Instruction(
+        task_id=1,
+        recieved=0,
+        user_id=1
+    )
+    instruction.save()
+    context['msg'] = 'Main Door Opened'
+    template = loader.get_template('telapi/index.html')
+    return HttpResponse(template.render(context, request))
+
+
+def building_door(request):
+    context = {}
+    instruction = Instruction(
+        task_id=2,
+        recieved=0,
+        user_id=1
+    )
+    instruction.save()
+    context['msg'] = 'Building Door Opened'
+    template = loader.get_template('telapi/index.html')
+    return HttpResponse(template.render(context, request))
+# ------------------------------------------------------------------------
 
 class Payload(APIView):
     permission_classes = [IsIot]
@@ -54,18 +87,8 @@ class Payload(APIView):
         return Response(response)
 
 
-class CreateTask(APIView):
-    permission_classes = [IsClient]
-
-    def post(self, request, format=None):
-        user = request.user
-
-        return Response(['OK'])
-
-
 class RequestClientAccess(APIView):
     permission_classes = [IsOwner]
-
 
     def post(self, request, format=None):
         user = request.user
@@ -120,7 +143,6 @@ class RequestClientAccess(APIView):
 
         # Create Grant and generate Access Code
         access_code = binascii.hexlify(os.urandom(20)).decode()
-
         print(access_code)
 
         grant = Grant(
@@ -138,3 +160,21 @@ class RequestClientAccess(APIView):
         send_mail('Your access code', 'Here is your code: '+access_code, 'noreply@openityourself.com', ['andressarnito@gmail.com'], fail_silently=False)
 
         return Response({'access_code':access_code})
+
+
+class ActivateAccessCode(APIView):
+    permission_classes = [IsOwner]
+
+
+    def post(self, request, format=None):
+        user = request.user
+
+        post = request.POST
+        return Response(':)')
+
+
+class TestOpenMain(APIView):
+    authentication_classes = []
+
+    def get(self, request, format=None):
+        return Response(':)')
