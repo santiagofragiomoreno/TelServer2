@@ -66,8 +66,8 @@ class Payload(APIView):
         # 235 Open Building Door
         nstrct = 88
 
-        if Instruction.objects.filter(recieved__isnull=True, user=user).exists():
-            next_instruction = Instruction.objects.filter(recieved__isnull=True, user=user).order_by('issued_date')[:1].get()
+        if Instruction.objects.exclude(recieved=1).filter(user=user).exists():
+            next_instruction = Instruction.objects.exclude(recieved=1).filter(user=user).order_by('issued_date')[:1].get()
             nstrct = next_instruction.task.code
             next_instruction.recieved = 1
             next_instruction.recieved_date = datetime.datetime.now()
