@@ -31,7 +31,7 @@ def main_door(request):
     instruction = Instruction(
         task_id=1,
         recieved=0,
-        user_id=1
+        user_id=2
     )
     instruction.save()
     context['msg'] = 'Main Door Opened'
@@ -44,7 +44,7 @@ def building_door(request):
     instruction = Instruction(
         task_id=2,
         recieved=0,
-        user_id=1
+        user_id=2
     )
     instruction.save()
     context['msg'] = 'Building Door Opened'
