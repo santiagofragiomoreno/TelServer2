@@ -33,7 +33,12 @@ def main_door(request):
         recieved=0,
         user_id=2
     )
-    instruction.save()
+    if not Instruction.objects.filter(
+        task_id=1,
+        recieved=0,
+        user_id=2
+    ).exists():
+        instruction.save()
     context['msg'] = 'Main Door Opened'
     template = loader.get_template('telapi/index.html')
     return HttpResponse(template.render(context, request))
@@ -46,7 +51,12 @@ def building_door(request):
         recieved=0,
         user_id=2
     )
-    instruction.save()
+    if not Instruction.objects.filter(
+        task_id=2,
+        recieved=0,
+        user_id=2
+    ).exists():
+        instruction.save()
     context['msg'] = 'Building Door Opened'
     template = loader.get_template('telapi/index.html')
     return HttpResponse(template.render(context, request))
