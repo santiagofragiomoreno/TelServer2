@@ -255,5 +255,6 @@ class InstructionView(APIView):
             grant_id=grant.id
         ).exists():
             instruction.save()
+            return Response({'result': 'ok'})
 
-        return Response(':)')
+        return Response({'result': 'exists'})
