@@ -8,6 +8,7 @@ class Instruction(models.Model):
     recieved = models.PositiveIntegerField(blank=True, null=True, db_index=True)
     recieved_date = models.DateTimeField(blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
+    grant = models.ForeignKey('Grant', models.DO_NOTHING)
 
     class Meta:
         managed = True
@@ -41,10 +42,10 @@ class Ownership(models.Model):
 
 
 class Grant(models.Model):
-    email = models.EmailField(blank=True)
+    email = models.EmailField(blank=True, db_index=True)
     owner_user = models.ForeignKey(User, models.DO_NOTHING)
     iot_user_id = models.PositiveIntegerField(blank=True, null=True)
-    access_code = models.CharField(max_length=255, blank=True, null=True)
+    access_code = models.CharField(max_length=255, unique=True, null=True, db_index=True)
     start_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
     active = models.BooleanField(default=True, db_index=True)
@@ -53,3 +54,18 @@ class Grant(models.Model):
     class Meta:
         managed = True
         db_table = 'grant'
+
+
+class Access(models.Model):
+    grant = models.ForeignKey('Grant', models.DO_NOTHING)
+    token = models.CharField(max_length=255, unique=True, null=False, db_index=True)
+    active = models.BooleanField(default=True, db_index=True)
+
+
+class InstructionUser(User):
+    grant_id = models.IntegerField()
+    access_id = models.IntegerField()
+    task_code = models.IntegerField()
+
+    class Meta:
+        managed = False
