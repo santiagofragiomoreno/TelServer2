@@ -8,6 +8,7 @@ from django.conf import settings
 
 import pytz
 
+
 class InstructionAuthorization(authentication.BaseAuthentication):
 
     def authenticate(self, request):

@@ -32,12 +32,14 @@ def main_door(request):
     instruction = Instruction(
         task_id=1,
         recieved=0,
-        user_id=2
+        user_id=5,
+        grant_id=2
     )
     if not Instruction.objects.filter(
         task_id=1,
         recieved=0,
-        user_id=2
+        user_id=5,
+        grant_id=2
     ).exists():
         instruction.save()
     context['msg'] = 'Main Door Opened'
@@ -50,12 +52,14 @@ def building_door(request):
     instruction = Instruction(
         task_id=2,
         recieved=0,
-        user_id=2
+        user_id=5,
+        grant_id=2
     )
     if not Instruction.objects.filter(
         task_id=2,
         recieved=0,
-        user_id=2
+        user_id=5,
+        grant_id=2
     ).exists():
         instruction.save()
     context['msg'] = 'Building Door Opened'
