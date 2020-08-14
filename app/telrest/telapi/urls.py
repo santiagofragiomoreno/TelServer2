@@ -1,5 +1,5 @@
 from django.urls import path, include
-from . import views
+from . import views, views_owner
 
 urlpatterns = [
     # ------------------- Test Btns -------------------
@@ -17,7 +17,7 @@ urlpatterns = [
     path('payload', views.Payload.as_view(), name='payload'),
 
     # ------------------- Owner -------------------
-    path('request-client-access', views.RequestClientAccess.as_view(), name='request-client-access'),
+    path('request-client-access', views_owner.RequestClientAccess.as_view(), name='request-client-access'),
 
     # ------------------- Oauth -------------------
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),

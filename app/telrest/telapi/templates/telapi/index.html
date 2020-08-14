@@ -23,6 +23,7 @@
         </div>
     </div>
     {% endif %}
+    <h1><b>Device:</b> iot_3</h1>
     <div class="card-deck mb-3 mt-4 text-center">
 
         <div class="card mb-6 box-shadow">
@@ -30,7 +31,10 @@
                 <h4 class="my-0 font-weight-normal">Building Door</h4>
             </div>
             <div class="card-body">
-                <a href="mjnrdahjg0l6zh5hayytrt9vigm72ib8nvj" class="btn btn-lg btn-block btn-outline-primary">Open</a>
+                <form method="post" action="/mjnrdahjg0l6zh5hayytrt9vigm72ib8nvj">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Open</button>
+                </form>
             </div>
         </div>
         <div class="card mb-6 box-shadow">
@@ -38,7 +42,10 @@
                 <h4 class="my-0 font-weight-normal">Main Door</h4>
             </div>
             <div class="card-body">
-                <a href="mjnrdahjg0lgtgtd6zh5ha9viipd1s8n0wn" class="btn btn-lg btn-block btn-outline-primary">Open</a>
+                <form method="post" action="/mjnrdahjg0lgtgtd6zh5ha9viipd1s8n0wn">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Open</button>
+                </form>
             </div>
         </div>
     </div>
