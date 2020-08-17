@@ -69,3 +69,23 @@ class InstructionUser(User):
 
     class Meta:
         managed = False
+
+
+class SensorData(models.Model):
+    iot_user = models.ForeignKey(User, models.DO_NOTHING)
+    sensor_type_id = models.PositiveIntegerField(blank=True, null=True, db_index=True)
+    value = models.PositiveIntegerField(blank=True, null=True, db_index=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True, db_index=True)
+
+
+class SensorType(models.Model):
+    name = models.CharField(max_length=255, unique=True, null=True, db_index=True)
+
+
+class Flat(models.Model):
+    name = models.CharField(max_length=255, unique=True, null=True, db_index=True)
+    address = models.CharField(max_length=1024, unique=False, null=True)
+    floor = models.PositiveIntegerField(blank=True, null=True)
+    door = models.CharField(max_length=255, unique=False, null=True, db_index=True)
+    city = models.CharField(max_length=255, unique=False, null=True, db_index=True)
+    postal_code = models.PositiveIntegerField(blank=True, null=True)

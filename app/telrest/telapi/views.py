@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 from security.jwt_gen import JWTEncoder
 import time
-from telapi.models import Instruction, Task, Ownership, Grant, Access
+from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData
 from security.permissions import IsIot, IsClient, IsSuperuser, IsOwner
 import datetime
 from telapi.validations import validate_date, validate_datetime, validate_clientemail, validate_integer
@@ -71,11 +71,37 @@ def building_door(request):
     return HttpResponse(template.render(context, request))
 # ------------------------------------------------------------------------
 
+
 class Payload(APIView):
     permission_classes = [IsIot]
 
     def post(self, request, format=None):
         user = request.user
+
+        post = request.POST
+
+        # --- POST PAYLOAD ---
+        if 'lockstatus' in post:
+            lockstatus = int(post['lockstatus'])
+
+            if lockstatus != 0:
+                sensor_data_lock = SensorData(
+                    iot_user=user,
+                    sensor_type_id=1,
+                    value=lockstatus
+                )
+                sensor_data_lock.save()
+
+        if 'movementstatus' in post:
+            movementstatus = int(post['movementstatus'])
+
+            if movementstatus != 0:
+                sensor_data_mov = SensorData(
+                    iot_user=user,
+                    sensor_type_id=2,
+                    value=movementstatus
+                )
+                sensor_data_mov.save()
 
         # Epoch
         seconds = time.time() + 3600
