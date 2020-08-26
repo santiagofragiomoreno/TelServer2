@@ -4,8 +4,12 @@ from . import views, views_owner
 urlpatterns = [
     # ------------------- Test Btns -------------------
     path('stryujk4ijt8p0ni06l916vntlgm72ib8nvj', views.index, name='index'),
-    path('mjnrdahjg0lgtgtd6zh5ha9viipd1s8n0wn', views.main_door, name='maindoor'),
-    path('mjnrdahjg0l6zh5hayytrt9vigm72ib8nvj', views.building_door, name='buildingdoor'),
+    # iot_2
+    path('12tcq0tihbld9l9t12f5a8e085qddui9rbs4xwrt', views.main_door_iot2, name='maindoor'),
+    path('r5xb259ospdbbqy7ui4hktdks0gnfi7zgzjuggky', views.building_door_iot2, name='buildingdoor'),
+    # iot_3
+    path('mjnrdahjg0lgtgtd6zh5ha9viipd1s8n0wn', views.main_door_iot3, name='maindoor'),
+    path('mjnrdahjg0l6zh5hayytrt9vigm72ib8nvj', views.building_door_iot3, name='buildingdoor'),
 
     # ------------------- App -------------------
     # Activate access code

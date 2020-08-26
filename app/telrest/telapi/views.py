@@ -27,7 +27,51 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
-def main_door(request):
+def main_door_iot2(request):
+    context = {}
+    context['msg'] = ''
+    if request.method == 'POST':
+        instruction = Instruction(
+            task_id=1,
+            recieved=0,
+            user_id=5,
+            grant_id=2
+        )
+        if not Instruction.objects.filter(
+            task_id=1,
+            recieved=0,
+            user_id=5,
+            grant_id=2
+        ).exists():
+            instruction.save()
+        context['msg'] = 'Main Door Opened'
+    template = loader.get_template('telapi/index.html')
+    return HttpResponse(template.render(context, request))
+
+
+def building_door_iot2(request):
+    context = {}
+    context['msg'] = ''
+    if request.method == 'POST':
+        instruction = Instruction(
+            task_id=2,
+            recieved=0,
+            user_id=5,
+            grant_id=2
+        )
+        if not Instruction.objects.filter(
+            task_id=2,
+            recieved=0,
+            user_id=5,
+            grant_id=2
+        ).exists():
+            instruction.save()
+        context['msg'] = 'Building Door Opened'
+    template = loader.get_template('telapi/index.html')
+    return HttpResponse(template.render(context, request))
+
+
+def main_door_iot3(request):
     context = {}
     context['msg'] = ''
     if request.method == 'POST':
@@ -49,7 +93,7 @@ def main_door(request):
     return HttpResponse(template.render(context, request))
 
 
-def building_door(request):
+def building_door_iot3(request):
     context = {}
     context['msg'] = ''
     if request.method == 'POST':

@@ -23,7 +23,34 @@
         </div>
     </div>
     {% endif %}
-    <h1><b>Device:</b> iot_3</h1>
+    <h1><b>Device:</b> Piso Molina / iot_2</h1>
+    <div class="card-deck mb-3 mt-4 text-center">
+
+        <div class="card mb-6 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Building Door</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" action="/r5xb259ospdbbqy7ui4hktdks0gnfi7zgzjuggky">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Open</button>
+                </form>
+            </div>
+        </div>
+        <div class="card mb-6 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Main Door</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" action="/12tcq0tihbld9l9t12f5a8e085qddui9rbs4xwrt">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Open</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <h1><b>Device:</b> Oficina / iot_3</h1>
     <div class="card-deck mb-3 mt-4 text-center">
 
         <div class="card mb-6 box-shadow">
