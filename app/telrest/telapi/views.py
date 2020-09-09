@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 from security.jwt_gen import JWTEncoder
 import time
-from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData
+from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData, SensorType
 from security.permissions import IsIot, IsClient, IsSuperuser, IsOwner
 import datetime
 from telapi.validations import validate_date, validate_datetime, validate_clientemail, validate_integer
@@ -24,6 +24,44 @@ def index(request):
     context = {}
     context['msg'] = ''
     template = loader.get_template('telapi/index.html')
+    return HttpResponse(template.render(context, request))
+
+
+def log_molino(request):
+    context = {}
+    user_id = 5
+
+    # Last instructions:
+    last_instructions = Instruction.objects.filter(
+        user_id=user_id
+    ).order_by('-issued_date').all()[:10]
+
+    tasks = Task.objects.all()
+
+    sensor_data = SensorData.objects.filter(
+        iot_user=user_id
+    ).order_by('-created').all()[:10]
+
+    sensor_types = SensorType.objects.all()
+
+    instructions_building_door = []
+    instructions_flat_door = []
+    for instruction in last_instructions:
+        instruction_fmt = {
+            'issued_date':instruction.issued_date,
+            'recieved_date':instruction.issued_date,
+            'recieved':instruction.recieved
+        }
+
+        if instruction.task_id == 1:
+            instructions_flat_door.append(instruction_fmt)
+        context['instructions_flat_door'] = instructions_flat_door
+
+        if instruction.task_id == 2:
+            instructions_building_door.append(instruction_fmt)
+        context['instructions_building_door'] = instructions_building_door
+
+    template = loader.get_template('telapi/molino.html')
     return HttpResponse(template.render(context, request))
 
 

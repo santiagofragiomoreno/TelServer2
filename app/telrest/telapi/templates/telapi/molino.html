@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Molino</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <h1><b>Device:</b> Piso Molina / iot_2</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card-deck">
+                <div class="card mb-6 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Building Door</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Issued</th>
+                                    <th>Status</th>
+                                    <th>Recieved</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for instruction in instructions_building_door %}
+                                <tr>
+                                    <td>
+                                        {{ instruction.issued_date }}
+                                    </td>
+
+                                    <td>
+                                        {% if instruction.recieved == 1 %}
+                                            <span class="text-success">Recieved</span>
+                                        {% else %}
+                                            <span class="text-warning">Not recieved</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ instruction.recieved_date }}
+                                    </td>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="3">
+                                        <strong>No data</strong>.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="card-deck">
+                <div class="card mb-6 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Flat Door</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Issued</th>
+                                    <th>Status</th>
+                                    <th>Recieved</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for instruction in instructions_flat_door %}
+                                <tr>
+                                    <td>
+                                        {{ instruction.issued_date }}
+                                    </td>
+
+                                    <td>
+                                        {% if instruction.recieved == 1 %}
+                                            <span class="text-success">Recieved</span>
+                                        {% else %}
+                                            <span class="text-warning">Not recieved</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ instruction.recieved_date }}
+                                    </td>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="3">
+                                        <strong>No data</strong>.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

@@ -11,6 +11,9 @@ urlpatterns = [
     path('mjnrdahjg0lgtgtd6zh5ha9viipd1s8n0wn', views.main_door_iot3, name='maindoor'),
     path('mjnrdahjg0l6zh5hayytrt9vigm72ib8nvj', views.building_door_iot3, name='buildingdoor'),
 
+    # ------------------- Test Logs -------------------
+    path('5hayytrt9vigm72i', views.log_molino, name='logs'),
+
     # ------------------- App -------------------
     # Activate access code
     path('1y24nmunu7pl5d3krixqp4b4spj54k', views.ActivateAccessCode.as_view(), name='activate_access_code'),
