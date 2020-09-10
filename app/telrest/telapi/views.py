@@ -32,8 +32,14 @@ def log_molino(request):
     user_id = 5
 
     # Last instructions:
-    last_instructions = Instruction.objects.filter(
-        user_id=user_id
+    last_instructions_flat = Instruction.objects.filter(
+        user_id=user_id,
+        task_id=1
+    ).order_by('-issued_date').all()[:20]
+
+    last_instructions_building = Instruction.objects.filter(
+        user_id=user_id,
+        task_id=2
     ).order_by('-issued_date').all()[:20]
 
     tasks = Task.objects.all()
@@ -53,20 +59,24 @@ def log_molino(request):
     # --- instructions ---
     instructions_building_door = []
     instructions_flat_door = []
-    for instruction in last_instructions:
+    for instruction in last_instructions_flat:
         instruction_fmt = {
             'issued_date':instruction.issued_date,
             'recieved_date':instruction.issued_date,
             'recieved':instruction.recieved
         }
+        instructions_flat_door.append(instruction_fmt)
+    context['instructions_flat_door'] = instructions_flat_door
 
-        if instruction.task_id == 1:
-            instructions_flat_door.append(instruction_fmt)
-        context['instructions_flat_door'] = instructions_flat_door
+    for instruction in last_instructions_building:
+        instruction_fmt = {
+            'issued_date':instruction.issued_date,
+            'recieved_date':instruction.issued_date,
+            'recieved':instruction.recieved
+        }
+        instructions_building_door.append(instruction_fmt)
+    context['instructions_building_door'] = instructions_building_door
 
-        if instruction.task_id == 2:
-            instructions_building_door.append(instruction_fmt)
-        context['instructions_building_door'] = instructions_building_door
 
     # --- sensors ---
     lock_data = []
