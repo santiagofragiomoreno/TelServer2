@@ -28,14 +28,14 @@
                                 <tr>
                                     <th>Issued</th>
                                     <th>Status</th>
-                                    <th>Recieved</th>
+                                    <th>Recieved at</th>
                                 </tr>
                             </thead>
                             <tbody>
                             {% for instruction in instructions_building_door %}
                                 <tr>
                                     <td>
-                                        {{ instruction.issued_date }}
+                                        {{ instruction.issued_date | date:"d/M/y - H:i:s " }}
                                     </td>
 
                                     <td>
@@ -46,7 +46,7 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {{ instruction.recieved_date }}
+                                        {{ instruction.recieved_date | date:"d/M/y - H:i:s " }}
                                     </td>
                             {% empty %}
                                 <tr>
@@ -76,14 +76,14 @@
                                 <tr>
                                     <th>Issued</th>
                                     <th>Status</th>
-                                    <th>Recieved</th>
+                                    <th>Recieved at</th>
                                 </tr>
                             </thead>
                             <tbody>
                             {% for instruction in instructions_flat_door %}
                                 <tr>
                                     <td>
-                                        {{ instruction.issued_date }}
+                                        {{ instruction.issued_date | date:"d/M/y - H:i:s " }}
                                     </td>
 
                                     <td>
@@ -94,7 +94,7 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {{ instruction.recieved_date }}
+                                        {{ instruction.recieved_date | date:"d/M/y - H:i:s " }}
                                     </td>
                             {% empty %}
                                 <tr>
@@ -109,6 +109,73 @@
                 </div>
             </div>
         </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card-deck">
+                <div class="card mb-6 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Door sensor (opened signal)</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Signal</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for data in lock_data %}
+                                <tr>
+                                    <td class="text-info"><b>Door opened</b></td>
+                                    <td class="text-primary">{{ data | date:"d/M/y - H:i:s " }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="card-deck">
+                <div class="card mb-6 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Movement sensor</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Signal</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for data in movement_data %}
+                                <tr>
+                                    <td class="text-info"><b>Movement detected</b></td>
+                                    <td class="text-primary">{{ data | date:"d/M/y - H:i:s " }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="2">
+                                        <strong class="text-warning">No data found</strong>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 </div>

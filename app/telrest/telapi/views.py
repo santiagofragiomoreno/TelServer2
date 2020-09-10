@@ -34,16 +34,23 @@ def log_molino(request):
     # Last instructions:
     last_instructions = Instruction.objects.filter(
         user_id=user_id
-    ).order_by('-issued_date').all()[:10]
+    ).order_by('-issued_date').all()[:20]
 
     tasks = Task.objects.all()
 
-    sensor_data = SensorData.objects.filter(
-        iot_user=user_id
-    ).order_by('-created').all()[:10]
+    sensor_data_door = SensorData.objects.filter(
+        iot_user=user_id,
+        sensor_type_id=1
+    ).order_by('-created').all()[:50]
+
+    sensor_data_mov = SensorData.objects.filter(
+        iot_user=user_id,
+        sensor_type_id=2
+    ).order_by('-created').all()[:50]
 
     sensor_types = SensorType.objects.all()
 
+    # --- instructions ---
     instructions_building_door = []
     instructions_flat_door = []
     for instruction in last_instructions:
@@ -60,6 +67,22 @@ def log_molino(request):
         if instruction.task_id == 2:
             instructions_building_door.append(instruction_fmt)
         context['instructions_building_door'] = instructions_building_door
+
+    # --- sensors ---
+    lock_data = []
+    movement_data = []
+    for data in sensor_data_door:
+        #  - Lock
+        created_val = data.created
+        lock_data.append(created_val)
+
+    for data in sensor_data_mov:
+        #  - Movement
+        created_val = data.created
+        movement_data.append(created_val)
+
+    context['lock_data'] = lock_data
+    context['movement_data'] = movement_data
 
     template = loader.get_template('telapi/molino.html')
     return HttpResponse(template.render(context, request))
