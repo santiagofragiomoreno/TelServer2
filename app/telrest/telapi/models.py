@@ -89,3 +89,8 @@ class Flat(models.Model):
     door = models.CharField(max_length=255, unique=False, null=True, db_index=True)
     city = models.CharField(max_length=255, unique=False, null=True, db_index=True)
     postal_code = models.PositiveIntegerField(blank=True, null=True)
+
+
+class FlatOwner(models.Model):
+    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
+    flat = models.ForeignKey(Flat, models.DO_NOTHING, db_index=True)
