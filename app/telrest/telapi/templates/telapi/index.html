@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>Buttons test</title>
+</head>
+<body>
+<div class="container">
+
+    {% if msg != '' %}
+    <div class="card-deck mb-3 mt-4 text-center">
+        <div class="card mb-12 box-shadow">
+            <div class="alert alert-success" role="alert">
+                {{ msg }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <h1><b>Device:</b> Piso Molina / iot_2</h1>
+    <div class="card-deck mb-3 mt-4 text-center">
+
+        <div class="card mb-6 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Building Door</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" action="/r5xb259ospdbbqy7ui4hktdks0gnfi7zgzjuggky">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Open</button>
+                </form>
+            </div>
+        </div>
+        <div class="card mb-6 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Main Door</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" action="/12tcq0tihbld9l9t12f5a8e085qddui9rbs4xwrt">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Open</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <h1><b>Device:</b> Oficina / iot_3</h1>
+    <div class="card-deck mb-3 mt-4 text-center">
+
+        <div class="card mb-6 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Building Door</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" action="/mjnrdahjg0l6zh5hayytrt9vigm72ib8nvj">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Open</button>
+                </form>
+            </div>
+        </div>
+        <div class="card mb-6 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Main Door</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" action="/mjnrdahjg0lgtgtd6zh5ha9viipd1s8n0wn">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Open</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</body>
+</html>
