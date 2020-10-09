@@ -71,15 +71,21 @@ def owner_panel(request):
 
 
 def create_access(request):
-    owner_object = User.objects.get(username__icontains=owner)
-    for e in FlatOwner.objects.all():
-        piso_owner=e
-    #b = FlatOwner(owner_user_id=owner_object)
-    #b.objects.get()
-    #piso_owner = [owner_user_id__owner_object.id]
-    #piso_owner=FlatOwner.objects.filter(owner_user__contains=7)
     context = {}
-    context['msg'] =  piso_owner
+    owner_object = User.objects.get(username__icontains=owner)
+    id_flats = []
+    flats = []
+    piso_owner = ''
+    for e in FlatOwner.objects.all():
+        if e.owner_user.id == owner_object.id:
+            id_flats.insert(0, e.flat.id)
+            
+    for e in Flat.objects.all():
+        if e.id in id_flats:
+            flats.insert(0,e)
+            
+    context['flats'] = flats        
+    context['msg'] = owner_object
     template = loader.get_template('createaccess.html')
     return HttpResponse(template.render(context, request))
 
@@ -88,8 +94,9 @@ def create_access(request):
 
 def new_reservation(request):
     context = {}
-    try:
-        usuario = User_App(
+    owner= User(owner_object)
+    #try:
+    usuario = User_App(
             username=request.POST["nombre_usuario"],
             lastname=request.POST["apellidos_usuario"],
             city=request.POST["city"],
@@ -99,18 +106,19 @@ def new_reservation(request):
             cp=request.POST["cp"],
             nif=request.POST["dni_usuario"],
             phone=request.POST["telefono_usuario"])
-        usuario.save()
-        return HttpResponseRedirect('panel')
-        """newreservation = Reservation(
-            owner_id=owner_object,
+    usuario.save()
+        
+    newreservation = Reservation(
+            owner_id=owner.id,
             user_id=usuario,
-            piso_owner="PISO PRUEBA",
+            flat_id=request.POST["flats_list"],
             fecha_inicio=request.POST["fecha_inicio"],
             fecha_fin=request.POST["fecha_fin"],
-            huespedes=request.POST["huespedes"])
-        newreservation.save()"""
-        
-    except DatabaseError as saveException:
+            huespedes_reserva=request.POST["huespedes"])
+    newreservation.save()
+    return HttpResponseRedirect('panel')
+    
+    """ except DatabaseError as saveException:
         try:
             transaction.rollback()
             context['msg'] = 'No se pudo realizar esa insercion en la BBDD'
@@ -118,7 +126,7 @@ def new_reservation(request):
             return HttpResponse(template.render(context, request))
         except Exception as rollbackException:
             context = 'No se pudo realizar rollback'
-            return HttpResponse(context)
+            return HttpResponse(context)"""
 
     return HttpResponse(context)
 

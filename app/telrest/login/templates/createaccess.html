@@ -86,12 +86,13 @@
                 required><br>
             <br>
             <label><b>Pisos</b></label>
-            <nav id="menu">
-                <ul *ngFor="let piso of pisos;let i= index">
-                    <li>{{piso.name}} DEMOMENTO SIN BBDD</li>
-                    <!--TODO falta crear el metodo que reocoge los pisos de este owner de la bbdd y sustituir-->
-                </ul>
-            </nav>
+            <select name="flats_list">
+                {% for flat in flats %}
+                <option value="{{flat.id}}">{{flat.name}}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <br>
             <label><b>Fecha inicio</b></label>
             <input type="date" name="fecha_inicio" id="fecha_inicio" required>
             <br>

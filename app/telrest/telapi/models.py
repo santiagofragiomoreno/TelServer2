@@ -95,7 +95,5 @@ class Flat(models.Model):
 class FlatOwner(models.Model):
     owner_user = models.ForeignKey(User,models.DO_NOTHING, db_index=True)
     flat= models.ForeignKey(Flat, models.DO_NOTHING, db_index=True)
-    class Meta:
-        unique_together = (('flat', 'owner_user'),)
 
 

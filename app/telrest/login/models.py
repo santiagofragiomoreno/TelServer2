@@ -1,34 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import User
+from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData, SensorType,FlatOwner,Flat
 from django.utils import timezone
-
-# TODO es necesario crear un nuevo modelo para BBDD que se llame acceso que permita relacionar a los usuarios con los owner bajo un acceso
-# la tabla debera llevar id de usuario, id del owner (N:M) y los campos deben ser fecha, piso escogido para la fecha o en su defecto una que sea accesos
-
 
 class User_App(models.Model):
     owner = models.ManyToManyField(User, through='Reservation')
-    username = models.CharField(
-        max_length=40, unique=False, null=False, db_index=True)
-    password = models.CharField(
-        max_length=255, unique=False, null=False, db_index=True)
-    birthdate = models.CharField(
-        max_length=40, unique=False, null=False, db_index=True)
+    username = models.CharField(max_length=40, unique=False, null=False, db_index=True)
+    password = models.CharField(max_length=255, unique=False, null=False, db_index=True)
+    birthdate = models.CharField(max_length=40, unique=False, null=False, db_index=True)
     date = models.DateTimeField(default=timezone.now)
-    lastname = models.CharField(
-        max_length=255, unique=False, null=False, db_index=True)
-    email = models.CharField(
-        max_length=255, unique=False, null=False, db_index=True)
-    nif = models.CharField(max_length=255, unique=False,
-                           null=False, db_index=True)
-    phone = models.IntegerField(
-        max_length=40, unique=False, null=False, db_index=True)
-    city = models.CharField(max_length=255, unique=False,
-                            null=False, db_index=True)
-    country = models.CharField(
-        max_length=255, unique=False, null=False, db_index=True)
-    cp = models.CharField(max_length=255, unique=False,
-                          null=False, db_index=True)
+    lastname = models.CharField(max_length=255, unique=False, null=False, db_index=True)
+    email = models.CharField(max_length=255, unique=False, null=False, db_index=True)
+    nif = models.CharField(max_length=255, unique=False,null=False, db_index=True)
+    phone = models.IntegerField(max_length=40, unique=False, null=False, db_index=True)
+    city = models.CharField(max_length=255, unique=False,null=False, db_index=True)
+    country = models.CharField(max_length=255, unique=False, null=False, db_index=True)
+    cp = models.CharField(max_length=255, unique=False,null=False, db_index=True)
 
     class Meta:
         managed = True
@@ -36,10 +23,8 @@ class User_App(models.Model):
 
 
 class Rols(models.Model):
-    id_rol = models.IntegerField(
-        max_length=40, unique=False, null=False, db_index=True)
-    rol = models.CharField(max_length=40, unique=False,
-                           null=False, db_index=True)
+    id_rol = models.IntegerField(max_length=40, unique=False, null=False, db_index=True)
+    rol = models.CharField(max_length=40, unique=False,null=False, db_index=True)
 
     class Meta:
         managed = True
@@ -49,10 +34,6 @@ class Rols(models.Model):
 class User_Rols(models.Model):
     id_user = models.ForeignKey(User, models.DO_NOTHING)
     id_rol = models.ForeignKey(Rols, models.DO_NOTHING)
-    name_userols = models.CharField(
-        max_length=255, unique=False, null=False, db_index=True)
-    id_userol = models.CharField(
-        max_length=255, unique=False, null=False, db_index=True)
 
     class Meta:
         managed = True
@@ -60,13 +41,13 @@ class User_Rols(models.Model):
 
 
 class Reservation(models.Model):
-    user_id = models.ForeignKey(User_App, on_delete=models.PROTECT)
+    id_reseve= models.AutoField(auto_created=True, primary_key=True, serialize=False)
     owner_id = models.ForeignKey(User, on_delete=models.PROTECT)
-    fecha_inicio = models.CharField(
-        max_length=255, default=True, db_index=True)
+    user_id = models.ForeignKey(User_App, on_delete=models.PROTECT)
+    flat_id = models.IntegerField(max_length=40, unique=False, null=False, db_index=True)
+    fecha_inicio = models.CharField(max_length=255, default=True, db_index=True)
     fecha_fin = models.CharField(max_length=255, default=True, db_index=True)
-    huespedes_reserva = models.IntegerField(
-        max_length=40, unique=False, null=False, db_index=True)
+    huespedes_reserva = models.IntegerField(max_length=40, unique=False, null=False, db_index=True)
 
     class Meta:
         managed = True

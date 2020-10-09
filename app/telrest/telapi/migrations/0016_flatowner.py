@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FlatOwner',
             fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('flat_id', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='telapi.Flat')),
                 ('owner_user_id', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL)),
             ],
