@@ -1,0 +1,181 @@
+<html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <!----------------------------------------------------------navbar---------------------------------------------------------------------->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="nav-link" href="panel">EHLOCK <span class="sr-only">(current)</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="createaccess">Crear reserva</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Crear acceso</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Pisos
+                    </a>
+                    <div *ngFor="let piso of pisos;let i= index" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="">{{piso.name}}</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Historial de Accesos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Reservas</a>
+                </li>
+            </ul>
+            {% if msg != '' %}
+            <div class="login-container">
+                <form method="POST" action="/mjxmyz5lpbd66gpte5d4/">
+                    {% csrf_token %}
+                    <label>{{ msg }}</label>
+                    <button href="/mjxmyz5lpbd66gpte5d4/">Logout</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+    <!------------------------------------------------Form------------------------------------------------------------------------------------>
+    <form action="/newreservation" method="POST">
+        {% csrf_token %}
+        <div class="container">
+            <h1>Crear Reservas</h1>
+            <hr>
+            <label><b>Nombre</b></label>
+            <input type="text" name="nombre_usuario" id="nombre_usuario" required>
+            <label><b>Apellidos</b></label>
+            <input type="text" name="apellidos_usuario" id="apellidos_usuario" required>
+            <label><b>DNI</b></label>
+            <input type="text" name="dni_usuario" id="dni_usuario" required>
+            <label><b>Ciudad</b></label>
+            <input type="text" name="city" id="city" required>
+            <label><b>Codigo Postal</b></label>
+            <input type="text" name="cp" id="cp" required>
+            <label><b>Pais</b></label>
+            <input type="text" name="country" id="country" required>
+            <label><b>Email</b></label>
+            <input type="email" name="email" id="email" required><br><br>
+            <label><b>Fecha de nacimiento</b></label>
+            <input type="date" name="birthdate" id="birthdate" required><br><br>
+            <label><b>Telefono</b></label>
+            <input type="tel" placeholder="656666222" name="telefono_usuario" id="telefono_usuario" pattern="[0-9]{9}"
+                required><br>
+            <br>
+            <label><b>Pisos</b></label>
+            <nav id="menu">
+                <ul *ngFor="let piso of pisos;let i= index">
+                    <li>{{piso.name}} DEMOMENTO SIN BBDD</li>
+                    <!--TODO falta crear el metodo que reocoge los pisos de este owner de la bbdd y sustituir-->
+                </ul>
+            </nav>
+            <label><b>Fecha inicio</b></label>
+            <input type="date" name="fecha_inicio" id="fecha_inicio" required>
+            <br>
+            <br>
+            <label><b>Fecha fin</b></label>
+            <input type="date" name="fecha_fin" id="fecha_fin" required>
+            <br>
+            <br>
+            <label><b>Nº numero de huespedes</b></label>
+            <!--Coger el max segun la BBDD-->
+            <input type="number" min="1" max="10" step="1" value="1" size="1" name="huespedes" required>
+            <button type="submit" class="registerbtn">Crear</button>
+        </div>
+        </div>
+    </form>
+</body>
+
+</html>
+
+
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: black;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    /* Add padding to containers */
+    .container {
+        padding: 16px;
+        background-color: white;
+    }
+
+    /* Full-width input fields */
+    input[type=text],
+    input[type=password] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        display: inline-block;
+        border: none;
+        background: #f1f1f1;
+    }
+
+    input[type=text]:focus,
+    input[type=password]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+
+    /* Overwrite default styles of hr */
+    hr {
+        border: 1px solid #f1f1f1;
+        margin-bottom: 25px;
+    }
+
+    /* Set a style for the submit button */
+    .registerbtn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 16px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
+    }
+
+    .registerbtn:hover {
+        opacity: 1;
+    }
+
+    /* Add a blue text color to links */
+    a {
+        color: dodgerblue;
+    }
+
+    /* Set a grey background color and center the text of the "sign in" section */
+    .signin {
+        background-color: #f1f1f1;
+        text-align: center;
+    }
+</style>

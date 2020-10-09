@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.utils import timezone
 
 class Instruction(models.Model):
     task = models.ForeignKey('Task', models.DO_NOTHING)
@@ -89,9 +89,13 @@ class Flat(models.Model):
     door = models.CharField(max_length=255, unique=False, null=True, db_index=True)
     city = models.CharField(max_length=255, unique=False, null=True, db_index=True)
     postal_code = models.PositiveIntegerField(blank=True, null=True)
+    
 
 
 class FlatOwner(models.Model):
-    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
-    flat = models.ForeignKey(Flat, models.DO_NOTHING, db_index=True)
-    iot_user_id = models.PositiveIntegerField(blank=True, null=True, db_index=True)
+    owner_user = models.ForeignKey(User,models.DO_NOTHING, db_index=True)
+    flat= models.ForeignKey(Flat, models.DO_NOTHING, db_index=True)
+    class Meta:
+        unique_together = (('flat', 'owner_user'),)
+
+

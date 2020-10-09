@@ -20,6 +20,7 @@ from django.http import HttpResponse, Http404
 from security.authorization import InstructionAuthorization
 
 # ------------------------------------------------------------------------
+#Request contiene enlaces GET de urls de origen o destino
 def index(request):
     context = {}
     context['msg'] = ''
@@ -97,7 +98,8 @@ def log_molino(request):
     template = loader.get_template('telapi/molino.html')
     return HttpResponse(template.render(context, request))
 
-
+#Genera la peticion para la apertura de portal y coloca en un "JSON" la informacion para la BBDD (Molina)
+#Realmente es una inserccion que se almacena en la tabla instruction las fechas se hacen de forma automatica
 def main_door_iot2(request):
     context = {}
     context['msg'] = ''
@@ -141,7 +143,7 @@ def building_door_iot2(request):
     template = loader.get_template('telapi/index.html')
     return HttpResponse(template.render(context, request))
 
-
+# iot_3 = Cerradura oficina
 def main_door_iot3(request):
     context = {}
     context['msg'] = ''
@@ -246,11 +248,11 @@ class Payload(APIView):
 
         return Response(response)
 
-
+#Apiview rellena request con items e informacion de la propia pagina
 class ActivateAccessCode(APIView):
     authentication_classes = []
     permission_classes = []
-
+#Metodo envia en POST la peticion de abrir puerta
     def post(self, request, format=None):
         user = request.user
 
@@ -267,7 +269,7 @@ class ActivateAccessCode(APIView):
         email = validate_clientemail(post['email'])
         if email is None:
             raise APIException("Invalid email")
-
+        #Coge los access_code y elimina todo los huecos en blanco
         access_code = post['access_code'].replace(" ", "")  # remove spaces for injection prevention
 
         if not Grant.objects.filter(access_code=access_code, email=email, active=True).exists():
@@ -277,7 +279,7 @@ class ActivateAccessCode(APIView):
 
         # Generates Access Token
         access_token = binascii.hexlify(os.urandom(30)).decode()
-
+        #genera el json con el access_token
         access_token_model = Access(
             grant=grant,
             token=access_token
