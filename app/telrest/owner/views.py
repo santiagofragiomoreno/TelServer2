@@ -22,13 +22,12 @@ from security.authorization import InstructionAuthorization
 from django.db import DatabaseError
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
-from login.views import owner_object
 
 # -------show mainpage of owner-----------------
 
 
 def owner_panel(request):
-    owner= owner_object
+    owner = request.session['user']
     context = {}
     context['msg'] = owner
     template = loader.get_template('owner/navbar.html')

@@ -24,7 +24,6 @@ from django.db import DatabaseError
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
 
-owner_object= None
 
 def owner_log(request):
     context = {}
@@ -42,28 +41,28 @@ def consulting(request):
         'super': False,
         'staff': False
     }
-    global owner, owner_object
-
-
     if request.POST["email"] and request.POST["password"]:
         username = request.POST["email"]
         password = request.POST["password"]
         # filter search in list if exists user with username and password equals at the form
         usuario = User.objects.filter(
         username__icontains=username, password__icontains=password)
-        owner_object = User.objects.get(username__icontains=username)
-        
+
+        user = User.objects.get(username__icontains=username)
+
+        request.session['user']=user.username
+        request.session['userid']=user.id
+
         if usuario:
-            if owner_object.is_superuser:
+            if user.is_superuser:
                 template = loader.get_template('admin/home.html')
                 return HttpResponse(template.render(context, request))
         
             else:
-                context ['msg'] = owner_object
-                template = loader.get_template('owner/home.html')
+                context['msg'] = request.session['user']
+                template = loader.get_template('owner/navbar.html')
                 return HttpResponse(template.render(context, request))
         else:
             return HttpResponseRedirect('panel.ehlock.test/')
     else:
         return HttpResponseRedirect('panel.ehlock.test/')
-
