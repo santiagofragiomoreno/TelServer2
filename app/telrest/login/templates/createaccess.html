@@ -1,24 +1,17 @@
 <html>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-    <!----------------------------------------------------------navbar---------------------------------------------------------------------->
-{% extends "navbar.html" %}
-  {% block content %}
-    <!------------------------------------------------Form------------------------------------------------------------------------------------>
+<!----------------------------------------------------------navbar---------------------------------------------------------------------->
+{% extends "navbar.html" %} {% block content %}
+<!------------------------------------------------Form------------------------------------------------------------------------------------>
+
 <body>
     <form action="/newreservation" method="POST">
         {% csrf_token %}
@@ -42,8 +35,7 @@
             <label><b>Fecha de nacimiento</b></label>
             <input type="date" name="birthdate" id="birthdate" min="1940-01-01" max="2000-10-29" required><br><br>
             <label><b>Telefono</b></label>
-            <input type="tel" placeholder="656666222" name="telefono_usuario" id="telefono_usuario" pattern="[0-9]{9}"
-                required><br>
+            <input type="tel" placeholder="656666222" name="telefono_usuario" id="telefono_usuario" pattern="[0-9]{9}" required><br>
             <br>
             <label><b>Pisos</b></label>
             <select name="flats_list">
@@ -55,7 +47,6 @@
             <br>
             <label><b>Fecha inicio</b></label>
             <input type="date" id="datePickerInit" name="fecha_inicio" required/>
-            <!--<input type="date" min="Today" name="fecha_inicio" id="fecha_inicio" required>-->
             <br>
             <br>
             <label><b>Fecha fin</b></label>
@@ -73,8 +64,8 @@
 
 </html>
 <script>
-datePickerInit.min = new Date().toISOString().split("T")[0];
-datePickerFin.min = new Date().toISOString().split("T")[0];
+    datePickerInit.min = new Date().toISOString().split("T")[0];
+    datePickerFin.min = new Date().toISOString().split("T")[0];
 </script>
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
@@ -83,18 +74,18 @@ datePickerFin.min = new Date().toISOString().split("T")[0];
         font-family: Arial, Helvetica, sans-serif;
         background-color: black;
     }
-
+    
     * {
         box-sizing: border-box;
     }
-
     /* Add padding to containers */
+    
     .container {
         padding: 16px;
         background-color: white;
     }
-
     /* Full-width input fields */
+    
     input[type=text],
     input[type=password] {
         width: 100%;
@@ -104,20 +95,20 @@ datePickerFin.min = new Date().toISOString().split("T")[0];
         border: none;
         background: #f1f1f1;
     }
-
+    
     input[type=text]:focus,
     input[type=password]:focus {
         background-color: #ddd;
         outline: none;
     }
-
     /* Overwrite default styles of hr */
+    
     hr {
         border: 1px solid #f1f1f1;
         margin-bottom: 25px;
     }
-
     /* Set a style for the submit button */
+    
     .registerbtn {
         background-color: #4CAF50;
         color: white;
@@ -128,21 +119,21 @@ datePickerFin.min = new Date().toISOString().split("T")[0];
         width: 100%;
         opacity: 0.9;
     }
-
+    
     .registerbtn:hover {
         opacity: 1;
     }
-
     /* Add a blue text color to links */
+    
     a {
         color: dodgerblue;
     }
-
     /* Set a grey background color and center the text of the "sign in" section */
+    
     .signin {
         background-color: #f1f1f1;
         text-align: center;
     }
 </style>
 
-    {% endblock content%}
+{% endblock content%}

@@ -42,11 +42,6 @@ def owner_log(request):
 
 
 def owner_log_info(request):
-    context = {}
-    context['msg'] = ''
-    context['user'] = False
-    context['super'] = False
-    context['staff'] = False
     context = {
         'ms': '',
         'user': False,
@@ -77,7 +72,7 @@ def owner_log_info(request):
 # -------show mainpage of owner-----------------
 
 
-@login_required
+
 def owner_panel(request):
     context = {}
     context['msg'] = owner
