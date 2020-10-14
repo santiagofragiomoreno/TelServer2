@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData, SensorType,FlatOwner,Flat
+from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData, SensorType, FlatOwner, Flat
 from django.utils import timezone
+
 
 class User_App(models.Model):
     owner = models.ManyToManyField(User, through='Reservation')
@@ -11,11 +12,11 @@ class User_App(models.Model):
     date = models.DateTimeField(default=timezone.now)
     lastname = models.CharField(max_length=255, unique=False, null=False, db_index=True)
     email = models.CharField(max_length=255, unique=False, null=False, db_index=True)
-    nif = models.CharField(max_length=255, unique=False,null=False, db_index=True)
+    nif = models.CharField(max_length=255, unique=False, null=False, db_index=True)
     phone = models.IntegerField(max_length=40, unique=False, null=False, db_index=True)
-    city = models.CharField(max_length=255, unique=False,null=False, db_index=True)
+    city = models.CharField(max_length=255, unique=False, null=False, db_index=True)
     country = models.CharField(max_length=255, unique=False, null=False, db_index=True)
-    cp = models.CharField(max_length=255, unique=False,null=False, db_index=True)
+    cp = models.CharField(max_length=255, unique=False, null=False, db_index=True)
 
     class Meta:
         managed = True
@@ -24,7 +25,7 @@ class User_App(models.Model):
 
 class Rols(models.Model):
     id_rol = models.IntegerField(max_length=40, unique=False, null=False, db_index=True)
-    rol = models.CharField(max_length=40, unique=False,null=False, db_index=True)
+    rol = models.CharField(max_length=40, unique=False, null=False, db_index=True)
 
     class Meta:
         managed = True
@@ -41,7 +42,7 @@ class User_Rols(models.Model):
 
 
 class Reservation(models.Model):
-    id_reseve= models.AutoField(auto_created=True, primary_key=True, serialize=False)
+    id_reseve = models.AutoField(auto_created=True, primary_key=True, serialize=False)
     owner_id = models.ForeignKey(User, on_delete=models.PROTECT)
     user_id = models.ForeignKey(User_App, on_delete=models.PROTECT)
     flat_id = models.IntegerField(max_length=40, unique=False, null=False, db_index=True)
@@ -52,3 +53,20 @@ class Reservation(models.Model):
     class Meta:
         managed = True
         db_table = 'reservation'
+
+
+'''class AuthUsers(models.Model):
+    """Class used for creating auth user objects"""
+
+    # HAY QUE CAMBIAR TODO ESTO POR LOS VALORES DE LA DB
+
+    username = models.CharField(max_length=40, unique=False, null=False, db_index=True)
+    password = models.CharField(max_length=255, unique=False, null=False, db_index=True)
+    last_login = models.DateTimeField(default=None)
+    is_superuser = active = models.BooleanField(default=True, db_index=True)
+
+
+
+    class Mea:
+        managed = True
+        db_table = 'auth_user'''

@@ -169,3 +169,6 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 #         'PORT': '3306',
 #     }
 # }
+
+LOGIN_REDIRECT_URL = 'panel'
+LOGIN_URL = 'login'
