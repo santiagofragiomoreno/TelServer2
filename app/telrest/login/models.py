@@ -55,18 +55,3 @@ class Reservation(models.Model):
         db_table = 'reservation'
 
 
-'''class AuthUsers(models.Model):
-    """Class used for creating auth user objects"""
-
-    # HAY QUE CAMBIAR TODO ESTO POR LOS VALORES DE LA DB
-
-    username = models.CharField(max_length=40, unique=False, null=False, db_index=True)
-    password = models.CharField(max_length=255, unique=False, null=False, db_index=True)
-    last_login = models.DateTimeField(default=None)
-    is_superuser = active = models.BooleanField(default=True, db_index=True)
-
-
-
-    class Mea:
-        managed = True
-        db_table = 'auth_user'''
