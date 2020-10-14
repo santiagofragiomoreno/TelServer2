@@ -9,7 +9,7 @@
             <h4 class="my-0 font-weight-normal">Login</h4>
           </div>
           <br>
-          <form action="/buscar" method="POST">
+          <form action="buscar" method="POST">
             {% csrf_token %}
             <p><input type="text" name="email" value="" placeholder="Username or Email" required></p>
             <p><input type="password" name="password" value="" placeholder="Password" required></p>
