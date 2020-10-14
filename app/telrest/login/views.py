@@ -44,6 +44,7 @@ def consulting(request):
     }
     global owner, owner_object
 
+
     if request.POST["email"] and request.POST["password"]:
         username = request.POST["email"]
         password = request.POST["password"]
