@@ -1,49 +1,48 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-  integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <div class="div_contenedor">
-  <div class="div_centrado">
-    <div class="card" align="center" style="width: 18rem;">
-      <div class="card-body">
-        <div class="card mb-6 box-shadow">
-          <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Login</h4>
-          </div>
-          <br>
-          <form action="/buscar" method="POST">
-            {% csrf_token %}
-            <p><input type="text" name="email" value="" placeholder="Username or Email" required></p>
-            <p><input type="password" name="password" value="" placeholder="Password" required></p>
-            <button type="Submit" class="btn btn-lg btn-block btn-outline-primary">Submit</button>
-          </form>
+    <div class="div_centrado">
+        <div class="card" align="center" style="width: 18rem;">
+            <div class="card-body">
+                <div class="card mb-6 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Login</h4>
+                    </div>
+                    <br>
+                    <form action="/buscar" method="POST">
+                        {% csrf_token %}
+                        <p><input type="text" name="email" value="" placeholder="Username or Email" required></p>
+                        <p><input type="password" name="password" value="" placeholder="Password" required></p>
+                        <button type="Submit" class="btn btn-lg btn-block btn-outline-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 </div>
 
 
 <style>
-  .div_contenedor {
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    background-color: rebeccapurple;
-  }
-
-  .div_contenedor::before {
-    content: '';
-    display: inline-block;
-    vertical-align: middle;
-    height: 100%;
-  }
-
-  .div_centrado {
-    width: 200px;
-    height: 200px;
-    background: red;
-    display: inline-block;
-    vertical-align: middle;
-  }
+    .div_contenedor {
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        background-color: rebeccapurple;
+    }
+    
+    .div_contenedor::before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+    }
+    
+    .div_centrado {
+        width: 200px;
+        height: 200px;
+        background: red;
+        display: inline-block;
+        vertical-align: middle;
+    }
 </style>
 <!--<p class="submit"><input type="submit" name="commit" value="Login"></p>-->

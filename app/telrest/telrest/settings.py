@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'oauth2_provider',
     'login',
+    'owner',
 ]
 
 MIDDLEWARE = [

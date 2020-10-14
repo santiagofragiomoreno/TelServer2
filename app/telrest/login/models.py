@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData, SensorType, FlatOwner, Flat
 from django.utils import timezone
 
-
 class User_App(models.Model):
     owner = models.ManyToManyField(User, through='Reservation')
     username = models.CharField(max_length=40, unique=False, null=False, db_index=True)
@@ -21,7 +20,6 @@ class User_App(models.Model):
     class Meta:
         managed = True
         db_table = 'users'
-
 
 class Rols(models.Model):
     id_rol = models.IntegerField(max_length=40, unique=False, null=False, db_index=True)
