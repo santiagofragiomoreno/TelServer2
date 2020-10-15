@@ -1,9 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 
+@login_required
 def home(request):
     user = request.session['user']
     context = {
@@ -12,6 +15,7 @@ def home(request):
     return render(request, 'superadmin/home.html', context)
 
 
+@login_required
 def alta_cliente(request):
     user = request.session['user']
     context = {
@@ -20,6 +24,7 @@ def alta_cliente(request):
     return render(request, 'superadmin/altacliente.html', context)
 
 
+@login_required
 def alta_pisos(request):
     user = request.session['user']
     context = {
@@ -28,6 +33,7 @@ def alta_pisos(request):
     return render(request, 'superadmin/altapisos.html', context)
 
 
+@login_required
 def errores(request):
     user = request.session['user']
     context = {
@@ -36,6 +42,7 @@ def errores(request):
     return render(request, 'superadmin/errores.html', context)
 
 
+@login_required
 def bdowners(request):
     user = request.session['user']
     context = {
@@ -44,6 +51,7 @@ def bdowners(request):
     return render(request, 'superadmin/historial.html', context)
 
 
+@login_required
 def historial(request):
     user = request.session['user']
     context = {
@@ -52,9 +60,8 @@ def historial(request):
     return render(request, 'superadmin/altacliente.html', context)
 
 
-def logout(request):
-    user = request.session['user']
-    context = {
-        'msg': user
-    }
-    return render(request, 'ownerlog.html', context)
+@login_required
+def logout_view(request):
+    context = {}
+    logout(request)
+    return render(request, 'superadmin/logout.html', context)
