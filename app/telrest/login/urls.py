@@ -6,6 +6,5 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('ownerlog/', auth_views.LoginView.as_view(template_name='ownerlog.html'), name='owner_log'),  # Panel.ehlock.com
     path('', auth_views.LoginView.as_view(template_name='ownerlog.html'), name='login'),  # main page?
-    path('buscar', views.owner_log_info, name="buscar"),
-
+    path('buscar', views.consulting, name="buscar"),
 ]
