@@ -55,7 +55,7 @@ def consulting(request):
 
         if usuario:
             if user.is_superuser:
-                template = loader.get_template('admin/home.html')
+                template = loader.get_template('superadmin/home.html')
                 return HttpResponse(template.render(context, request))
         
             else:
