@@ -25,39 +25,34 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required
 
 
-def owner_log(request):
-    context = {}
-    template = loader.get_template('ownerlog.html')
-    return HttpResponse(template.render(context, request))
-
-
-# ---------use for login in BBDD-------------------
-
-
-def owner_log_info(request):
+def consulting(request):
     context = {
         'ms': '',
         'user': False,
         'super': False,
         'staff': False
     }
-    global owner, owner_object
-
     if request.POST["email"] and request.POST["password"]:
         username = request.POST["email"]
         password = request.POST["password"]
         # filter search in list if exists user with username and password equals at the form
         usuario = User.objects.filter(
             username__icontains=username, password__icontains=password)
-        owner_object = User.objects.get(username__icontains=username)
+
+        user = User.objects.get(username__icontains=username)
+
+        request.session['user'] = user.username
+        request.session['userid'] = user.id
 
         if usuario:
-            if owner_object.is_superuser:
+            if user.is_superuser:
+                context['msg'] = request.session['user']
                 template = loader.get_template('superadmin/home.html')
                 return HttpResponse(template.render(context, request))
 
             else:
-                template = loader.get_template('owner/home.html')
+                context['msg'] = request.session['user']
+                template = loader.get_template('owner/navbar.html')
                 return HttpResponse(template.render(context, request))
         else:
             return HttpResponseRedirect('panel.ehlock.test/')
