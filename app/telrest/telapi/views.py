@@ -195,7 +195,6 @@ class Payload(APIView):
 
     def post(self, request, format=None):
         user = request.user
-
         post = request.POST
 
         # --- POST PAYLOAD ---

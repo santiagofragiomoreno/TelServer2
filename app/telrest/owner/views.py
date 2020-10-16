@@ -26,6 +26,14 @@ from django.contrib.auth.decorators import login_required
 # -------show mainpage of owner-----------------
 
 
+@login_required
+def owner_panel(request):
+    context = {}
+    context['msg'] = ''
+    #template = loader.get_template('owner/ownerpanel.html')
+    return HttpResponse(template.render(context, request))
+
+"""
 def owner_panel(request):
 
     context = {}
@@ -69,11 +77,11 @@ def owner_panel(request):
     context['msg'] = user.username
 
     template = loader.get_template('owner/ownerpanel.html')
-    return HttpResponse(template.render(context, request))
+    return HttpResponse(template.render(context, request))"""
 
 
 # -------show page of the form of owner-----------------
-
+"""
 def create_access(request):
     context = {}
     owner = request.session['user']
@@ -92,7 +100,7 @@ def create_access(request):
     context['flats'] = flats
     context['msg'] = owner_object
     template = loader.get_template('owner/createaccess.html')
-    return HttpResponse(template.render(context, request))
+    return HttpResponse(template.render(context, request))"""
 
 
 # -------createa new access in BBDD-----------------
