@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'login',
     'superadmin',
+    'owner',
 ]
 
 MIDDLEWARE = [
@@ -105,7 +106,7 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'telfiregate_dump',
+        'NAME': 'telfiregate',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
