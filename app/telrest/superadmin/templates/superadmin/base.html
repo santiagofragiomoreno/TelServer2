@@ -1,3 +1,4 @@
+{% load static %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
   integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -34,7 +35,7 @@
     </ul>
     <div class="login-container">
       <li>
-        <label>{{ msg }}</label>
+        <label>{{ user.username }}</label>
         <a class="nav-link" href="{% url 'logout' %}">Logout</a>
       </li>
     </div>

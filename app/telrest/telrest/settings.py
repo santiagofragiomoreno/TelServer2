@@ -105,7 +105,7 @@ REST_FRAMEWORK = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'telfiregate',
+#         'NAME': 'telfiregate_dump',
 #         'USER': 'root',
 #         'PASSWORD': '',
 #         'HOST': 'localhost',
@@ -173,3 +173,5 @@ DATABASES = {
 
 # LOGIN_REDIRECT_URL = 'panel'
 LOGIN_URL = 'login'
+
+AUTHENTICATION_BACKENDS = ('login.loginv2.EmailBackend',)

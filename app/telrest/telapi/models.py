@@ -1,6 +1,7 @@
 from django.db import models
+
 from django.contrib.auth.models import User
-from django.utils import timezone
+
 
 class Instruction(models.Model):
     task = models.ForeignKey('Task', models.DO_NOTHING)
@@ -15,7 +16,7 @@ class Instruction(models.Model):
         db_table = 'instruction'
 
     def __str__(self):
-        return self.user.username + ' - '+str(self.task.name) + " - " + str(self.issued_date)
+        return self.user.username + ' - ' + str(self.task.name) + " - " + str(self.issued_date)
 
 
 class Task(models.Model):
@@ -89,11 +90,9 @@ class Flat(models.Model):
     door = models.CharField(max_length=255, unique=False, null=True, db_index=True)
     city = models.CharField(max_length=255, unique=False, null=True, db_index=True)
     postal_code = models.PositiveIntegerField(blank=True, null=True)
-    
 
 
 class FlatOwner(models.Model):
-    owner_user = models.ForeignKey(User,models.DO_NOTHING, db_index=True)
-    flat= models.ForeignKey(Flat, models.DO_NOTHING, db_index=True)
-
-
+    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
+    flat = models.ForeignKey(Flat, models.DO_NOTHING, db_index=True)
+    iot_user_id = models.PositiveIntegerField(blank=True, null=True, db_index=True)

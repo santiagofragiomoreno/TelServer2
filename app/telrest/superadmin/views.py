@@ -8,55 +8,37 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def home(request):
-    user = request.session['user']
-    context = {
-        'msg': user
-    }
+    context = {}
     return render(request, 'superadmin/home.html', context)
 
 
 @login_required
 def alta_cliente(request):
-    user = request.session['user']
-    context = {
-        'msg': user
-    }
+    context = {}
     return render(request, 'superadmin/altacliente.html', context)
 
 
 @login_required
 def alta_pisos(request):
-    user = request.session['user']
-    context = {
-        'msg': user
-    }
+    context = {}
     return render(request, 'superadmin/altapisos.html', context)
 
 
 @login_required
 def errores(request):
-    user = request.session['user']
-    context = {
-        'msg': user
-    }
+    context = {}
     return render(request, 'superadmin/errores.html', context)
 
 
 @login_required
 def bdowners(request):
-    user = request.session['user']
-    context = {
-        'msg': user
-    }
+    context = {}
     return render(request, 'superadmin/historial.html', context)
 
 
 @login_required
 def historial(request):
-    user = request.session['user']
-    context = {
-        'msg': user
-    }
+    context = {}
     return render(request, 'superadmin/altacliente.html', context)
 
 

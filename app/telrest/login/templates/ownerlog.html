@@ -11,7 +11,10 @@
           <br>
           <form method="POST">
           {% csrf_token %}
-          {{form.as_p}}
+            <label><b>Email</b></label>
+            <input type="text" name="email" id="email" required>
+            <label><b>Contraseña</b></label>
+            <input type="password" name="password" id="password" required>
             <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Login</button>
           </form>
         </div>
