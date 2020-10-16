@@ -25,76 +25,30 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required
 
 
-def owner_log(request):
-    context = {}
-    template = loader.get_template('ownerlog.html')
-    return HttpResponse(template.render(context, request))
+def login_view(request):
+    """ Custom login to redirect users to the superadmins or owners platform.
+        django checks for the auth_user table from the database specified at the settings.DATABASES
+        the values needed for the login saved during the session are username and password"""
 
-
-# ---------use for login in BBDD-------------------
-
-
-def consulting(request):
-    context = {
-        'ms': '',
-        'user': False,
-        'super': False,
-        'staff': False
-    }
-    if request.POST["email"] and request.POST["password"]:
-        username = request.POST["email"]
-        password = request.POST["password"]
-        # filter search in list if exists user with username and password equals at the form
-        usuario = User.objects.filter(
-        username__icontains=username, password__icontains=password)
-
-        user = User.objects.get(username__icontains=username)
-
-        request.session['user']=user.username
-        request.session['userid']=user.id
-
-        if usuario:
-            if user.is_superuser:
-                template = loader.get_template('admin/home.html')
-                return HttpResponse(template.render(context, request))
-        
+    if request.method == 'POST':
+        form = AuthenticationForm(request=request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                request.session['user'] = user.username
+                request.session['userid'] = user.id
+                login(request, user)
+                messages.success(request, 'Sesión iniciada')
+                if user.is_superuser:
+                    return redirect('/superadmin/')
+                else:
+                    return redirect('/owner/')
             else:
-
-                id_flats = []
-                flats = []
-                sensor_flats = []
-                sensor=[]
-                open_flat= None
-                piso_owner = ''
-
-                for e in FlatOwner.objects.all():
-                    if e.owner_user.id == user.id:
-                        id_flats.insert(0, e.flat.id)
-
-                for e in Flat.objects.all():
-                    if e.id in id_flats:
-                        flats.insert(0, e)
-
-                for e in SensorData.objects.all()[:50]:
-                    if e.flat.id in id_flats:
-                        sensor.insert(0, e)        
-
-                for e in FlatSensor.objects.all():
-                    if e.flat.id in id_flats:
-                        sensor_flats.insert(0, e)
-
-                for e in Instruction.objects.all():
-                    if e.flat.id in id_flats:
-                        open_flat=e.__str__     
-
-                context['open_flat'] = open_flat 
-                context['sensor_flats'] = sensor_flats  
-                context['sensor'] = sensor
-                context['flats'] = flats
-                context['msg'] = user.username
-                template = loader.get_template('owner/ownerpanel.html')
-                return HttpResponse(template.render(context, request))
+                messages.error(request, 'Usuario o contraseña inválidos')
         else:
-            return HttpResponseRedirect('panel.ehlock.test/')
-    else:
-        return HttpResponseRedirect('panel.ehlock.test/')
+            messages.error(request, 'Usuario o contraseña inválidos')
+
+    form = AuthenticationForm()
+    return render(request, 'ownerlog.html', context={'form': form})
