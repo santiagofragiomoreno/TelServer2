@@ -6,7 +6,7 @@ from telapi.validations import validate_date, validate_datetime, validate_client
 import binascii
 import os
 from django.contrib.auth.models import User
-from telapi.models import Instruction, Task, Ownership, Grant, FlatOwner, Flat
+from telapi.models import Instruction, Task, Ownership, Grant, Access, FlatOwner, Flat
 from django.core.mail import send_mail
 from django.forms.models import model_to_dict
 from datetime import datetime

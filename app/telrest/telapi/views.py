@@ -100,7 +100,6 @@ def log_molino(request):
 
 #Genera la peticion para la apertura de portal y coloca en un "JSON" la informacion para la BBDD (Molina)
 #Realmente es una inserccion que se almacena en la tabla instruction las fechas se hacen de forma automatica
-
 def main_door_iot2(request):
     context = {}
     context['msg'] = ''
@@ -195,6 +194,7 @@ class Payload(APIView):
 
     def post(self, request, format=None):
         user = request.user
+
         post = request.POST
 
         # --- POST PAYLOAD ---

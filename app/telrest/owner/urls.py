@@ -5,7 +5,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('Panel.ehlock.com/home', views.owner_panel, name='home'),
-    path('Panel.ehlock.com/access', views.create_access, name='access'),  
+    #path('Panel.ehlock.com/access', views.create_access, name='access'),  
 ]
 
 #

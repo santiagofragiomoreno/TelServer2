@@ -26,65 +26,19 @@ from django.contrib.auth.decorators import login_required
 # -------show mainpage of owner-----------------
 
 
-@login_required
 def owner_panel(request):
-    context = {}
-    context['msg'] = ''
-    #template = loader.get_template('owner/ownerpanel.html')
-    return HttpResponse(template.render(context, request))
-
-"""
-def owner_panel(request):
-
-    context = {}
     owner = request.session['user']
-    owner_id=request.session['userid']
-
-    user = User.objects.get(
-        username__icontains=owner,id__icontains=owner_id)
-        
-    id_flats = []
-    flats = []
-    sensor_flats = []
-    sensor=[]
-    open_flat= None
-
-    piso_owner = ''
-    for e in FlatOwner.objects.all():
-        if e.owner_user.id == user.id:
-            id_flats.insert(0, e.flat.id)
-
-    for e in Flat.objects.all():
-        if e.id in id_flats:
-            flats.insert(0, e)
-
-    for e in SensorData.objects.all()[:50]:
-        if e.flat.id in id_flats:
-            sensor.insert(0, e)        
-
-    for e in FlatSensor.objects.all():
-        if e.flat.id in id_flats:
-            sensor_flats.insert(0, e)
-
-    for e in Instruction.objects.all():
-        if e.flat.id in id_flats:
-            open_flat=e.__str__     
-
-    context['open_flat'] = open_flat 
-    context['sensor_flats'] = sensor_flats  
-    context['sensor'] = sensor
-    context['flats'] = flats
-    context['msg'] = user.username
-
-    template = loader.get_template('owner/ownerpanel.html')
-    return HttpResponse(template.render(context, request))"""
+    context = {}
+    context['msg'] = owner
+    template = loader.get_template('owner/navbar.html')
+    return HttpResponse(template.render(context, request))
 
 
 # -------show page of the form of owner-----------------
-"""
+
+
 def create_access(request):
     context = {}
-    owner = request.session['user']
     owner_object = User.objects.get(username__icontains=owner)
     id_flats = []
     flats = []
@@ -99,8 +53,8 @@ def create_access(request):
 
     context['flats'] = flats
     context['msg'] = owner_object
-    template = loader.get_template('owner/createaccess.html')
-    return HttpResponse(template.render(context, request))"""
+    template = loader.get_template('createaccess.html')
+    return HttpResponse(template.render(context, request))
 
 
 # -------createa new access in BBDD-----------------

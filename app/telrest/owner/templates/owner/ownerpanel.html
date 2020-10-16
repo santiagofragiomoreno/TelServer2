@@ -64,65 +64,10 @@
         <p>Mantenimiento</p>
     </div>
     </div>
+    <p>{{msg}}</p>
 
 
-    <!-- <table>
-        <tr>
-            <td><strong>Name</strong></td>
-            <td><strong>Address</strong></td>
-            <td><strong>Floor</strong></td>
-            <td><strong>Door</strong></td>
-            <td><strong>City</strong></td>
-            <td><strong>Postal Code</strong></td>
-        </tr>
-        {% for flat in flats %}
-        <tr>
-            <td>{{flat.name}}</td>
-            <td>{{flat.address}}</td>
-            <td>{{flat.floor}}</td>
-            <td>{{flat.door}}</td>
-            <td>{{flat.city}}</td>
-            <td>{{flat.postal_code}}</td>
-        </tr>
-        {% endfor %}
-
-    </table>
-    <div style="overflow-y: scroll; height:400px; ">
-        <table>
-            {% for sens in sensor %}
-            <tr>
-                <td>{{sens.created}}</td>
-                <td>{{sens.iot_user.id}}</td>
-                <td>{{sens.flat.id}}</td>
-                <td>{{sens.sensor_type_id}}</td>
-                <td>{{sens.value}}</td>
-            </tr>
-            {% endfor %}
-
-        </table>
-    </div>
-
-    <table>
-        {% for test in sensor_flats %}
-        <tr>
-            <td>{{test.sensor.id}}</td>
-            <td>{{test.flat.id}}</td>
-        </tr>
-        {% endfor %}
-
-    </table>-->
+    <script>
+    </script>
 </body>
-
-
-
-
-
-
-
-
-
-
-
-
-
 {% endblock content%}
