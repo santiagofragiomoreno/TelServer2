@@ -5,10 +5,10 @@ from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 from security.jwt_gen import JWTEncoder
 import time
-from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData, SensorType, FlatOwner, Flat
+from telapi.models import Instruction, Task, Ownership, Grant, SensorData, SensorType, FlatOwner, Flat
 from security.permissions import IsIot, IsClient, IsSuperuser, IsOwner
 import datetime
-from .models import User_App, Reservation
+#from .models import User_App, Reservation
 from telapi.validations import validate_date, validate_datetime, validate_clientemail, validate_integer
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -59,8 +59,40 @@ def consulting(request):
                 return HttpResponse(template.render(context, request))
         
             else:
-                context['msg'] = request.session['user']
-                template = loader.get_template('owner/navbar.html')
+
+                id_flats = []
+                flats = []
+                sensor_flats = []
+                sensor=[]
+                open_flat= None
+                piso_owner = ''
+
+                for e in FlatOwner.objects.all():
+                    if e.owner_user.id == user.id:
+                        id_flats.insert(0, e.flat.id)
+
+                for e in Flat.objects.all():
+                    if e.id in id_flats:
+                        flats.insert(0, e)
+
+                for e in SensorData.objects.all()[:50]:
+                    if e.flat.id in id_flats:
+                        sensor.insert(0, e)        
+
+                for e in FlatSensor.objects.all():
+                    if e.flat.id in id_flats:
+                        sensor_flats.insert(0, e)
+
+                for e in Instruction.objects.all():
+                    if e.flat.id in id_flats:
+                        open_flat=e.__str__     
+
+                context['open_flat'] = open_flat 
+                context['sensor_flats'] = sensor_flats  
+                context['sensor'] = sensor
+                context['flats'] = flats
+                context['msg'] = user.username
+                template = loader.get_template('owner/ownerpanel.html')
                 return HttpResponse(template.render(context, request))
         else:
             return HttpResponseRedirect('panel.ehlock.test/')
