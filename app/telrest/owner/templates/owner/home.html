@@ -7,12 +7,13 @@
                 <option value="{{flat.id}} ">{{flat.name}}</option>
                 {% endfor %}
     </select>
+    <!--
     <div>
         <div class="page-header ">
             <h1>Piso seleccionado</h1>
-        </div>
-        <!------------------------------------------------------------------------------->
-        <div style="margin-left:300px;">
+        </div>-->
+    <!------------------------------------------------------------------------------->
+    <!--<div style="margin-left:300px;">
             <h2 style="margin-left:-150px;">Accesso: </h2>
             <p>Abrir portal</p>
             <form method="post" action="/abrirpuerta">
@@ -26,33 +27,33 @@
                 <button type="submit" class="btn">Open</button>
             </form>
             </button>
-        </div>
-        <!------------------------------------------------------------------------------->
-        <div style="float: left; margin-left:300px;">
-            <h2 style="margin-left:-150px;">Ultimos Accesos: </h2>
-            <div style="overflow-y: scroll; height:300px; ">
-                <table>
-                    {% for sens in sensor %}
-                    <tr>
-                        <td>{{sens.created}}</td>
-                        <td>{{sens.iot_user.id}}</td>
-                        <td>{{sens.flat.id}}</td>
-                        <td>{{sens.sensor_type_id}}</td>
-                        <td>{{sens.value}}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
-        <div style="float: right;margin-right:300px;">
-            <h2>Solicitudes:</h2>
+        </div>-->
+    <!------------------------------------------------------------------------------->
+    <!---<div style="float: left; margin-left:300px;">
+        <h2 style="margin-left:-150px;">Ultimos Accesos: </h2>
+        <div style="overflow-y: scroll; height:300px; ">
+            <table>
+                {% for sens in sensor %}
+                <tr>
+                    <td>{{sens.created}}</td>
+                    <td>{{sens.iot_user.id}}</td>
+                    <td>{{sens.flat.id}}</td>
+                    <td>{{sens.sensor_type_id}}</td>
+                    <td>{{sens.value}}</td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
+    <div style="float: right;margin-right:300px;">
+        <h2>Solicitudes:</h2>
+    </div>
+    </div>-->
 
     <!---------------------------------------------------------------------------------------------------->
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <!---------------------------------------------------------------------------------------------------->
-    <div style="float: left; margin-left:300px;">
+    <!---<div style="float: left; margin-left:300px;">
         <h2 style="margin-left:-150px;">Control:</h2>
         <p>Ultimo acceso</p>
         <p>{{open_flat}}</p>
@@ -68,6 +69,7 @@
 
 
     <script>
-    </script>
+    </script>-->
+
 </body>
 {% endblock content%}

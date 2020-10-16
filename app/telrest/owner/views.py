@@ -16,6 +16,7 @@ from django import forms
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
+from django.contrib.auth.backends import ModelBackend, UserModel
 from django.template import loader
 from django.http import HttpResponse, Http404
 from security.authorization import InstructionAuthorization
@@ -30,27 +31,18 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def home(request):
     context = {}
-    context['msg'] = get_user(request)
+    context['msg'] = request.user
+
+    id_flats = FlatOwner.objects.all().filter(owner_user__gt=request.user.id)
+    context['flats'] = id_flats
+
     template = loader.get_template('owner/home.html')
     return HttpResponse(template.render(context, request))
+        
+
 
 
 """
-def owner_panel(request):
-
-    context = {}
-    owner = request.session['user']
-    owner_id=request.session['userid']
-
-    user = User.objects.get(
-        username__icontains=owner,id__icontains=owner_id)
-        
-    id_flats = []
-    flats = []
-    sensor_flats = []
-    sensor=[]
-    open_flat= None
-
     piso_owner = ''
     for e in FlatOwner.objects.all():
         if e.owner_user.id == user.id:
