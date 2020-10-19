@@ -23,14 +23,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'yuo)pqhs$8q0wa^r@@9n_3x&av$^a+%-*sb+^=#5@0bn4w9wd='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.1.33', 'telgate.test', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['192.168.1.33', 'telgate.test', 'localhost', '127.0.0.1',
+                 'telfiregate.com', 'api.openityourself.com', 'ehlock.com']
+
 
 # Mail Service
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'noreply@ehlock.com'
 EMAIL_HOST_PASSWORD = 'sDWTOF3TWV3A5SPzc6PQ'
@@ -138,7 +141,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/Madrid'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
