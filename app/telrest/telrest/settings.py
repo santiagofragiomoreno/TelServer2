@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'login',
     'superadmin',
+    'owner',
 ]
 
 MIDDLEWARE = [
@@ -163,6 +164,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 # user: TELFIREGATEDB
 # pass: lfycx8ot40y4cl684uv8
 # ----------------
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
