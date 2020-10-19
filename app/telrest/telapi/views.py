@@ -20,6 +20,10 @@ from django.http import HttpResponse, Http404
 from security.authorization import InstructionAuthorization
 
 # ------------------------------------------------------------------------
+<<<<<<< HEAD
+=======
+#Request contiene enlaces GET de urls de origen o destino
+>>>>>>> f0ed1edc668afa5294c2e0d94fde9d841c3b0e28
 def index(request):
     context = {}
     context['msg'] = ''
@@ -97,7 +101,12 @@ def log_molino(request):
     template = loader.get_template('telapi/molino.html')
     return HttpResponse(template.render(context, request))
 
+<<<<<<< HEAD
 
+=======
+#Genera la peticion para la apertura de portal y coloca en un "JSON" la informacion para la BBDD (Molina)
+#Realmente es una inserccion que se almacena en la tabla instruction las fechas se hacen de forma automatica
+>>>>>>> f0ed1edc668afa5294c2e0d94fde9d841c3b0e28
 def main_door_iot2(request):
     context = {}
     context['msg'] = ''
@@ -141,7 +150,11 @@ def building_door_iot2(request):
     template = loader.get_template('telapi/index.html')
     return HttpResponse(template.render(context, request))
 
+<<<<<<< HEAD
 
+=======
+# iot_3 = Cerradura oficina
+>>>>>>> f0ed1edc668afa5294c2e0d94fde9d841c3b0e28
 def main_door_iot3(request):
     context = {}
     context['msg'] = ''
@@ -246,11 +259,19 @@ class Payload(APIView):
 
         return Response(response)
 
+<<<<<<< HEAD
 
 class ActivateAccessCode(APIView):
     authentication_classes = []
     permission_classes = []
 
+=======
+#Apiview rellena request con items e informacion de la propia pagina
+class ActivateAccessCode(APIView):
+    authentication_classes = []
+    permission_classes = []
+#Metodo envia en POST la peticion de abrir puerta
+>>>>>>> f0ed1edc668afa5294c2e0d94fde9d841c3b0e28
     def post(self, request, format=None):
         user = request.user
 
@@ -267,7 +288,11 @@ class ActivateAccessCode(APIView):
         email = validate_clientemail(post['email'])
         if email is None:
             raise APIException("Invalid email")
+<<<<<<< HEAD
 
+=======
+        #Coge los access_code y elimina todo los huecos en blanco
+>>>>>>> f0ed1edc668afa5294c2e0d94fde9d841c3b0e28
         access_code = post['access_code'].replace(" ", "")  # remove spaces for injection prevention
 
         if not Grant.objects.filter(access_code=access_code, email=email, active=True).exists():
@@ -277,7 +302,11 @@ class ActivateAccessCode(APIView):
 
         # Generates Access Token
         access_token = binascii.hexlify(os.urandom(30)).decode()
+<<<<<<< HEAD
 
+=======
+        #genera el json con el access_token
+>>>>>>> f0ed1edc668afa5294c2e0d94fde9d841c3b0e28
         access_token_model = Access(
             grant=grant,
             token=access_token

@@ -1,4 +1,8 @@
 from django.db import models
+<<<<<<< HEAD
+=======
+
+>>>>>>> f0ed1edc668afa5294c2e0d94fde9d841c3b0e28
 from django.contrib.auth.models import User
 
 
@@ -15,7 +19,11 @@ class Instruction(models.Model):
         db_table = 'instruction'
 
     def __str__(self):
+<<<<<<< HEAD
         return self.user.username + ' - '+str(self.task.name) + " - " + str(self.issued_date)
+=======
+        return self.user.username + ' - ' + str(self.task.name) + " - " + str(self.issued_date)
+>>>>>>> f0ed1edc668afa5294c2e0d94fde9d841c3b0e28
 
 
 class Task(models.Model):
@@ -94,3 +102,7 @@ class Flat(models.Model):
 class FlatOwner(models.Model):
     owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
     flat = models.ForeignKey(Flat, models.DO_NOTHING, db_index=True)
+<<<<<<< HEAD
+=======
+    iot_user_id = models.PositiveIntegerField(blank=True, null=True, db_index=True)
+>>>>>>> f0ed1edc668afa5294c2e0d94fde9d841c3b0e28

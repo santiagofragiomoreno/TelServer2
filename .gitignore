@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
@@ -44,3 +45,9 @@ coverage.*
 /app/telrest/telrest/static
 
 app/telrest/telrest/settings.py
+=======
+/.idea/
+/.git/
+**/__pycache__/
+/app/telrest/login/__pycache__/
+>>>>>>> f0ed1edc668afa5294c2e0d94fde9d841c3b0e28

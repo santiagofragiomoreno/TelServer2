@@ -15,8 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+<<<<<<< HEAD
+=======
+from superadmin import views as admin_views
+>>>>>>> f0ed1edc668afa5294c2e0d94fde9d841c3b0e28
 
 urlpatterns = [
     path('mjxmyz5lpbd66gpte5d4/', admin.site.urls),
     path('', include('telapi.urls')),
+<<<<<<< HEAD
+=======
+    path('', include('login.urls')),
+    path('superadmin/', include('superadmin.urls')),
+>>>>>>> f0ed1edc668afa5294c2e0d94fde9d841c3b0e28
 ]
