@@ -43,6 +43,12 @@ def historial(request):
 
 
 @login_required
+def alta_dispositivo(request):
+    context = {}
+    return render(request, 'superadmin/altadispositivo.html', context)
+
+
+@login_required
 def logout_view(request):
     context = {}
     logout(request)
