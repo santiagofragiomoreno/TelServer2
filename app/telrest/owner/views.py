@@ -34,13 +34,19 @@ def home(request):
     context['msg'] = request.user
 
     id_flats = FlatOwner.objects.all().filter(owner_user__gt=request.user.id)
-    context['flats'] = id_flats
+    context['flats'] = FlatOwner.objects.all().filter(id__gt=id_flats)
 
     template = loader.get_template('owner/home.html')
     return HttpResponse(template.render(context, request))
         
 
+@login_required
+def home(request):
+    context = {}
+    context['msg'] = request.user
 
+    template = loader.get_template('owner/settings.html')
+    return HttpResponse(template.render(context, request))
 
 """
     piso_owner = ''
