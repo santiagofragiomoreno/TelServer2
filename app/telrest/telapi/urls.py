@@ -25,14 +25,11 @@ urlpatterns = [
 
     # ------------------- Owner -------------------
     path('request-client-access', views_owner.RequestClientAccess.as_view(), name='request-client-access'),
-<<<<<<< HEAD
-=======
     path('flats', views_owner.MyFlats.as_view(), name='flats'),
     path('accesses', views_owner.Accesses.as_view(), name='accesses'),
     # Accesos activos ahora
     # Accesos con pag y search
     # Datos sensores
->>>>>>> f0ed1edc668afa5294c2e0d94fde9d841c3b0e28
 
     # ------------------- Oauth -------------------
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
