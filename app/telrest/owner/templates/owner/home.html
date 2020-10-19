@@ -1,12 +1,14 @@
 {% extends "owner/navbar.html" %} {% block content %}
 
 <body>
-    <label><b>Mis pisos</b></label>
-    <select>
+    <div class="container_info">
+        <label><b>Mis pisos</b></label>
+        <select>
                 {% for flat in flats %}
                 <option value="{{flat.id}} ">{{flat.name}}</option>
                 {% endfor %}
     </select>
+    </div>
     <!--
     <div>
         <div class="page-header ">
