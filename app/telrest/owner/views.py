@@ -26,7 +26,7 @@ from django.contrib.auth.decorators import login_required
 # -------show mainpage of owner-----------------
 
 
-def owner_panel(request):
+def home(request):
     owner = request.session['user']
     context = {}
     context['msg'] = request.user
