@@ -29,9 +29,46 @@ from django.contrib.auth.decorators import login_required
 def owner_panel(request):
     owner = request.session['user']
     context = {}
-    context['msg'] = owner
-    template = loader.get_template('owner/navbar.html')
+    context['msg'] = request.user
+
+    id_flats = []
+    flats = []
+
+    for e in FlatOwner.objects.all():
+        if e.owner_user.id == request.user.id:
+            id_flats.insert(0, e.flat.id)
+
+    for e in Flat.objects.all():
+        if e.id in id_flats:
+            flats.insert(0, e)
+
+    context['flats'] = flats
+
+    template = loader.get_template('owner/home.html')
     return HttpResponse(template.render(context, request))
+    
+@login_required
+def settings(request):
+    context = {}
+    template = loader.get_template('owner/settings.html')
+    return HttpResponse(template.render(context, request))
+        
+
+
+"""
+    piso_owner = ''
+
+    for e in SensorData.objects.all()[:50]:
+        if e.flat.id in id_flats:
+            sensor.insert(0, e)        
+
+    for e in FlatSensor.objects.all():
+        if e.flat.id in id_flats:
+            sensor_flats.insert(0, e)
+
+    for e in Instruction.objects.all():
+        if e.flat.id in id_flats:
+            open_flat=e.__str__     
 
 
 # -------show page of the form of owner-----------------
@@ -59,7 +96,6 @@ def create_access(request):
 
 # -------createa new access in BBDD-----------------
 
-"""
 def new_reservation(request):
     context = {}
     owner = User(owner_object)
