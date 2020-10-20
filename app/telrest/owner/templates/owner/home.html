@@ -1,6 +1,92 @@
-{% extends "owner/navbar.html" %} {% block content %}
+ {% extends "owner/navbar.html" %} {% load static %} {% block content %}
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="container">
+    <h2>Pisos</h2>
+    <ul class="nav nav-tabs">
+        {% for flat in flats %}
+        <li><a data-toggle="tab" href="#{{flat.id}}">{{flat.name}}</option>
+        {% endfor %}
+    </ul>
 
-<body>
+    <div class="tab-content">
+        {% for flat in flats %}
+        <div id="{{flat.id}}" class="tab-pane fade in active">
+            <div style="text-decoration: none;color: black;">
+                <h3>Abrir portal o puerta</h3>
+            <img src="https://www.pngfind.com/pngs/m/365-3658172_open-door-door-opening-door-open-door-vector.png" style="position:relative;float: left;" height="100" width="100" alt="fondo"> 
+            <!--PORTAL-->
+            <form method="POST"  style="position:relative;margin-left: 150px;margin-top: 20px;">
+                <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit"><img src="https://www.flaticon.es/svg/static/icons/svg/39/39734.svg"  height="50" width="50" alt="fondo"></button>
+            </form>  
+            <img src="https://www.pngfind.com/pngs/m/365-3658172_open-door-door-opening-door-open-door-vector.png" style="position:relative;float: left; margin-left: 200px;" height="100" width="100" alt="fondo"> 
+            <!--PUERTA-->
+            <form method="POST"  style="position:relative;margin-left: 150px;margin-top: 20px;">
+                <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit"><img src="https://www.flaticon.es/svg/static/icons/svg/39/39734.svg"  height="50" width="50" alt="fondo"></button>
+            </form>  
+            </div>
+            <br>
+            <hr>
+            <div>
+                
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<body>
     <div class="container_info">
         <label><b>Mis pisos</b></label>
         <select>
@@ -9,13 +95,12 @@
                 {% endfor %}
     </select>
     </div>
-    <!--
     <div>
         <div class="page-header ">
             <h1>Piso seleccionado</h1>
         </div>-->
-    <!------------------------------------------------------------------------------->
-    <!--<div style="margin-left:300px;">
+<!------------------------------------------------------------------------------->
+<!--<div style="margin-left:300px;">
             <h2 style="margin-left:-150px;">Accesso: </h2>
             <p>Abrir portal</p>
             <form method="post" action="/abrirpuerta">
@@ -30,8 +115,8 @@
             </form>
             </button>
         </div>-->
-    <!------------------------------------------------------------------------------->
-    <!---<div style="float: left; margin-left:300px;">
+<!------------------------------------------------------------------------------->
+<!---<div style="float: left; margin-left:300px;">
         <h2 style="margin-left:-150px;">Ultimos Accesos: </h2>
         <div style="overflow-y: scroll; height:300px; ">
             <table>
@@ -52,10 +137,10 @@
     </div>
     </div>-->
 
-    <!---------------------------------------------------------------------------------------------------->
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <!---------------------------------------------------------------------------------------------------->
-    <!---<div style="float: left; margin-left:300px;">
+<!---------------------------------------------------------------------------------------------------->
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<!---------------------------------------------------------------------------------------------------->
+<!---<div style="float: left; margin-left:300px;">
         <h2 style="margin-left:-150px;">Control:</h2>
         <p>Ultimo acceso</p>
         <p>{{open_flat}}</p>
@@ -74,4 +159,4 @@
     </script>-->
 
 </body>
-{% endblock content %}
+{% endblock content%}
