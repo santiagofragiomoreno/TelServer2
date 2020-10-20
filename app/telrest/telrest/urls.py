@@ -19,8 +19,14 @@ from superadmin import views as admin_views
 
 urlpatterns = [
     path('mjxmyz5lpbd66gpte5d4/', admin.site.urls),
+<<<<<<< HEAD
     path('', include('telapi.urls')),
     path('', include('login.urls')),
+=======
+    path('telapi/', include('telapi.urls')),
+    path('', include('login.urls')),
+    #path('', include('home.urls')),
+>>>>>>> home
     path('superadmin/', include('superadmin.urls')),
     path('owner/', include('owner.urls')),
 ]
