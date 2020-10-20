@@ -18,23 +18,23 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'altacliente' %}">Alta cliente</a>
+        <a class="nav-link" href="{% url 'altacliente' %}">Alta clientes</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'altapisos' %}">Alta piso</a>
+        <a class="nav-link" href="{% url 'altapisos' %}">Alta pisos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'errores' %}">Errores</a>
+        <a class="nav-link" href="{% url 'errores' %}">Control</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'bdowners' %}">BBDD</a>
+        <a class="nav-link" href="{% url 'bdowners' %}">Base de datos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'historial' %}">Historial</a>
+        <a class="nav-link" href="{% url 'ajustes' %}">Ajustes</a>
       </li>
-      <li class="nav-item">
+      <!--<li class="nav-item">
         <a class="nav-link" href="{% url 'altadispositivo' %}">Alta dispositivo</a>
-      </li>
+      </li>-->
     </ul>
     <div class="login-container">
       <li>
@@ -44,5 +44,16 @@
     </div>
   </div>
 </nav>
+<div class="row">
+  <div class="col-md-8">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
 
 {% block content %}{% endblock %}

@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from .custom_forms import OwnerForm
+from django.contrib import messages
 
 
 # Create your views here.
@@ -16,16 +18,19 @@ def home(request):
 def alta_cliente(request):
     context = {}
     if request.method == 'POST':
-        form = request.POST
-
-        owner_form = {
-            'first_name': form.get('firstname'),
-            'last_nanme': form.get('lastname'),
-
+        form = OwnerForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('email')
+            password = User.objects.make_random_password()
+            new_user = User.objects.create_user(username, username, password)
+            new_user.save()
+            messages.success(request, 'Usuario registrado')
+            return redirect('/superadmin/')
+    else:
+        context = {
+            'owner': OwnerForm()
         }
-
-        password = User.objects.make_random_password()
-        new_user = User.objects.create_user()
+        pass
     return render(request, 'superadmin/altacliente.html', context)
 
 
@@ -44,13 +49,13 @@ def errores(request):
 @login_required
 def bdowners(request):
     context = {}
-    return render(request, 'superadmin/historial.html', context)
+    return render(request, 'superadmin/bdowners.html', context)
 
 
 @login_required
-def historial(request):
+def ajustes(request):
     context = {}
-    return render(request, 'superadmin/altacliente.html', context)
+    return render(request, 'superadmin/ajustes.html', context)
 
 
 @login_required

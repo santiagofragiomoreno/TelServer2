@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'superadmin',
     'owner',
     'home',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [

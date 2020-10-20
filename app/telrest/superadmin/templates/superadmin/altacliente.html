@@ -1,20 +1,15 @@
 {% extends "superadmin/base.html" %}
+{% load crispy_forms_tags %}
   {% block content %}
     <body>
-    <form action="altacliente/" method="POST">
+    <h2>Dar de alta nuevo owner</h2>
+    <br>
+    <form method="POST">
         {% csrf_token %}
         <div>
-            <label><b>Nombre</b></label>
-            <input type="text" name="firstname" id="firstname" required>
+            {{ owner|crispy }}
             <br>
-            <label><b>Apellidos</b></label>
-            <input type="text" name="lastname" id="lastname" required>
-            <br>
-            <label><b>Email</b></label>
-            <input type="email" name="email" id="email" required>
-            <br>
-            <br>
-            <button type="submit" class="">Crear</button>
+            <button type="submit" action="altacliente/" class="">Crear</button>
         </div>
     </form>
     </body>

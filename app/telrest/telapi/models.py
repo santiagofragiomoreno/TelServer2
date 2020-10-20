@@ -96,3 +96,4 @@ class FlatOwner(models.Model):
     owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
     flat = models.ForeignKey(Flat, models.DO_NOTHING, db_index=True)
     iot_user_id = models.PositiveIntegerField(blank=True, null=True, db_index=True)
+
