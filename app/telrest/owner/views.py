@@ -42,6 +42,8 @@ def home(request):
         if e.id in id_flats:
             flats.insert(0, e)
 
+    context['accesos']=Instruction.objects.order_by('-recieved_date')[:2]
+
     context['flats'] = flats
 
     template = loader.get_template('owner/home.html')
@@ -56,9 +58,8 @@ def settings(request):
 
 
 """
-    piso_owner = ''
 
-    for e in SensorData.objects.all()[:50]:
+    for e in SensorData.objects.all()[:2].order_by('recieved_date'):
         if e.flat.id in id_flats:
             sensor.insert(0, e)        
 
