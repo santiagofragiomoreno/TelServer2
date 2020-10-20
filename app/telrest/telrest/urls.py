@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('telapi.urls')),
     path('', include('login.urls')),
     path('superadmin/', include('superadmin.urls')),
+    path('owner/', include('owner.urls')),
 ]
