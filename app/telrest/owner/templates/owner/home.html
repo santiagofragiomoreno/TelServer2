@@ -1,4 +1,7 @@
- {% extends "owner/navbar.html" %} {% block content %} {% load static %}
+ {% extends "owner/navbar.html" %} {% load static %} {% block content %}
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <div class="container">
     <h2>Pisos</h2>
     <ul class="nav nav-tabs">
@@ -10,7 +13,24 @@
     <div class="tab-content">
         {% for flat in flats %}
         <div id="{{flat.id}}" class="tab-pane fade in active">
-        <img src="{% static 'Candado.jpg' %}" alt="fondo">
+            <div style="text-decoration: none;color: black;">
+                <h3>Abrir portal o puerta</h3>
+            <img src="https://www.pngfind.com/pngs/m/365-3658172_open-door-door-opening-door-open-door-vector.png" style="position:relative;float: left;" height="100" width="100" alt="fondo"> 
+            <!--PORTAL-->
+            <form method="POST"  style="position:relative;margin-left: 150px;margin-top: 20px;">
+                <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit"><img src="https://www.flaticon.es/svg/static/icons/svg/39/39734.svg"  height="50" width="50" alt="fondo"></button>
+            </form>  
+            <img src="https://www.pngfind.com/pngs/m/365-3658172_open-door-door-opening-door-open-door-vector.png" style="position:relative;float: left; margin-left: 200px;" height="100" width="100" alt="fondo"> 
+            <!--PUERTA-->
+            <form method="POST"  style="position:relative;margin-left: 150px;margin-top: 20px;">
+                <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit"><img src="https://www.flaticon.es/svg/static/icons/svg/39/39734.svg"  height="50" width="50" alt="fondo"></button>
+            </form>  
+            </div>
+            <br>
+            <hr>
+            <div>
+                
+            </div>
         </div>
         {% endfor %}
     </div>
