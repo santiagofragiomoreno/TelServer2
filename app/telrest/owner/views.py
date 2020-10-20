@@ -33,24 +33,32 @@ def home(request):
     context = {}
     context['msg'] = request.user
 
-    id_flats = FlatOwner.objects.all().filter(owner_user__gt=request.user.id)
-    context['flats'] = id_flats
+    id_flats = []
+    flats = []
 
-    template = loader.get_template('owner/home.html')
-    return HttpResponse(template.render(context, request))
-        
-
-
-
-"""
-    piso_owner = ''
     for e in FlatOwner.objects.all():
-        if e.owner_user.id == user.id:
+        if e.owner_user.id == request.user.id:
             id_flats.insert(0, e.flat.id)
 
     for e in Flat.objects.all():
         if e.id in id_flats:
             flats.insert(0, e)
+
+    context['flats'] = flats
+
+    template = loader.get_template('owner/home.html')
+    return HttpResponse(template.render(context, request))
+    
+@login_required
+def settings(request):
+    context = {}
+    template = loader.get_template('owner/settings.html')
+    return HttpResponse(template.render(context, request))
+        
+
+
+"""
+    piso_owner = ''
 
     for e in SensorData.objects.all()[:50]:
         if e.flat.id in id_flats:
