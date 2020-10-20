@@ -15,6 +15,17 @@ def home(request):
 @login_required
 def alta_cliente(request):
     context = {}
+    if request.method == 'POST':
+        form = request.POST
+
+        owner_form = {
+            'first_name': form.get('firstname'),
+            'last_nanme': form.get('lastname'),
+
+        }
+
+        password = User.objects.make_random_password()
+        new_user = User.objects.create_user()
     return render(request, 'superadmin/altacliente.html', context)
 
 
