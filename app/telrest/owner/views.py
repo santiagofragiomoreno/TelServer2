@@ -26,8 +26,6 @@ from django.contrib.auth.decorators import login_required
 
 # -------show mainpage of owner-----------------
 
-
-
 @login_required
 def home(request):
     context = {}
