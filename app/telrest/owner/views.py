@@ -26,8 +26,8 @@ from django.contrib.auth.decorators import login_required
 # -------show mainpage of owner-----------------
 
 
+@login_required
 def home(request):
-    owner = request.session['user']
     context = {}
     context['msg'] = request.user
 
@@ -70,12 +70,21 @@ def settings(request):
         if e.flat.id in id_flats:
             open_flat=e.__str__     
 
+    context['open_flat'] = open_flat 
+    context['sensor_flats'] = sensor_flats  
+    context['sensor'] = sensor
+    context['flats'] = flats
+    context['msg'] = user.username
+
+    template = loader.get_template('owner/ownerpanel.html')
+    return HttpResponse(template.render(context, request))"""
+
 
 # -------show page of the form of owner-----------------
-
-
+"""
 def create_access(request):
     context = {}
+    owner = request.session['user']
     owner_object = User.objects.get(username__icontains=owner)
     id_flats = []
     flats = []
@@ -90,12 +99,13 @@ def create_access(request):
 
     context['flats'] = flats
     context['msg'] = owner_object
-    template = loader.get_template('createaccess.html')
-    return HttpResponse(template.render(context, request))
+    template = loader.get_template('owner/createaccess.html')
+    return HttpResponse(template.render(context, request))"""
 
 
 # -------createa new access in BBDD-----------------
 
+"""
 def new_reservation(request):
     context = {}
     owner = User(owner_object)
