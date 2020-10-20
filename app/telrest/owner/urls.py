@@ -6,6 +6,8 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', views.home, name='home'),
     path('settings/', views.settings, name='settings'),
+    path('logout/', views.logout, name='logout'),
+    path('reservation/', views.reservation, name='reservation'),
     #path('Panel.ehlock.com/access', views.create_access, name='access'),  
 ]
 

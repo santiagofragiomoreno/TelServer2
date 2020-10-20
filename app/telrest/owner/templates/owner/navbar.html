@@ -12,13 +12,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#">Crear reserva</a>
+                <a class="nav-link" href="{% url 'reservation' %}">Crear reserva</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Crear acceso</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Historial de Accesos</a>
+                <a class="nav-link" href="#">Accesos</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'settings' %}">Ajustes</a>
@@ -26,10 +23,10 @@
         </ul>
         {% if msg != '' %} {% if msg != 'No se pudo realizar esa insercion en la BBDD' %}
         <div class="login-container">
-            <form method="POST" action="/logout">
+            <form method="POST" action="/">
                 {% csrf_token %}
                 <label>{{ msg }}</label>
-                <button href="/logout">Logout</button>
+                <button href="{% url 'login' %}">Logout</button>
             </form>
         </div>
         {% endif %} {% endif %}

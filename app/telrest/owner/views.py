@@ -14,6 +14,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django import forms
 from django.shortcuts import render
+from django.contrib.auth import logout as logout
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
 from django.contrib.auth.backends import ModelBackend, UserModel
@@ -54,7 +55,35 @@ def settings(request):
     context = {}
     template = loader.get_template('owner/settings.html')
     return HttpResponse(template.render(context, request))
+
+@login_required
+def reservation(request):
+
+    """id_flats = []
+    flats = []
+
+    for e in FlatOwner.objects.all():
+        if e.owner_user.id == request.user.id:
+            id_flats.insert(0, e.flat.id)
+
+    for e in Flat.objects.all():
+        if e.id in id_flats:
+            flats.insert(0, e)"""
+
+    context = {}
+
+    #context['flats'] = flats
+
+    template = loader.get_template('owner/reservation.html')
+    return HttpResponse(template.render(context, request))
         
+
+@login_required
+def logout(request):
+    context = {}
+    logout(request)
+    request.close()
+    return render(request, 'owner/logout.html', context)
 
 
 """
