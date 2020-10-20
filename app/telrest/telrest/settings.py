@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'login',
     'superadmin',
     'owner',
+    'home',
 ]
 
 MIDDLEWARE = [
