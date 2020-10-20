@@ -21,5 +21,5 @@ from security.authorization import InstructionAuthorization
 
 def home(request):
     context = {}
-    template = loader.get_template('home.html')
+    template = loader.get_template('home/home.html')
     return HttpResponse(template.render(context, request))
