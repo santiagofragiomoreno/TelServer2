@@ -1,4 +1,27 @@
 {% extends "superadmin/base.html" %}
+{% load crispy_forms_tags %}
   {% block content %}
-    <body>ALTA DE LOS PISOS</body>
+    <body>
+    <h2>Dar de alta un piso de un owner</h2>
+    <br>
+    <form method="POST">
+      {% csrf_token %}
+
+      <label><b>Owner</b></label>
+      <select name="owners">
+          <option selected="selected" disabled>--selecciona un owner--</option>
+        {% for o in owners %}
+          <option value="{{o}}">{{o}}</option>
+        {% endfor %}
+      </select>
+
+      <div id="flatform">
+        <br>
+        {{ form|crispy }}
+
+        <br>
+        <button type="submit" action="altapisos/" class="">Crear</button>
+      </div>
+    </form>
+    </body>
   {% endblock content%}

@@ -2,6 +2,8 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
+from superadmin.models import OwnersData
+
 
 class Instruction(models.Model):
     task = models.ForeignKey('Task', models.DO_NOTHING)
@@ -90,10 +92,16 @@ class Flat(models.Model):
     door = models.CharField(max_length=255, unique=False, null=True, db_index=True)
     city = models.CharField(max_length=255, unique=False, null=True, db_index=True)
     postal_code = models.PositiveIntegerField(blank=True, null=True)
+    #  nuevos campos de pisos
+    guests = models.PositiveIntegerField(blank=True, unique=False, null=True, db_index=True)  # huespedes
+    rooms = models.PositiveIntegerField(blank=True, unique=False, null=True, db_index=True)  # habitaciones
+    baths = models.PositiveIntegerField(blank=True, unique=False, null=True, db_index=True)  # baños
+    reference = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # referencia catastral
+    meters = models.PositiveIntegerField(blank=True, unique=False, null=True, db_index=True)  # metros del piso
+    owners_data = models.ForeignKey(OwnersData, models.DO_NOTHING, db_index=True)  # fk de owners_data
 
 
 class FlatOwner(models.Model):
     owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
     flat = models.ForeignKey(Flat, models.DO_NOTHING, db_index=True)
     iot_user_id = models.PositiveIntegerField(blank=True, null=True, db_index=True)
-

@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from .custom_forms import OwnerForm, JuridicaForm
+from .custom_forms import OwnerForm, JuridicaForm, FlatForm
 from django.contrib import messages
-from .models import OwnersData, FlatData
+from .models import OwnersData
+from telapi.models import Flat
 
 
 # Create your views here.
@@ -50,11 +51,11 @@ def alta_cliente(request):
                 email=form.cleaned_data.get('email'),
                 owner_user=new_user,
                 address=form.cleaned_data.get('direccion'),
-                floor=abs(form.cleaned_data.get('piso')),
+                floor=form.cleaned_data.get('piso'),
                 door=form.cleaned_data.get('puerta'),
                 city=form.cleaned_data.get('ciudad'),
-                postal_code=abs(form.cleaned_data.get('cp')),
-                phone=abs(form.cleaned_data.get('tlf'))
+                postal_code=form.cleaned_data.get('cp'),
+                phone=form.cleaned_data.get('tlf')
             )
 
             owner.save()
@@ -75,9 +76,39 @@ def alta_cliente(request):
 def alta_pisos(request):
     context = {}
     if request.method == 'POST':
-        pass
+        form = FlatForm(request.POST)
+        if form.is_valid():
+            # obtengo el owners_data object atraves del email y creo el objeto
+            # owners_email = request.POST['owners']
+            owner_object = OwnersData.objects.get(email=request.POST['owners'])
+
+            flat_object = Flat(
+                name=form.cleaned_data.get('name'),
+                address=form.cleaned_data.get('address'),
+                floor=form.cleaned_data.get('floor'),
+                door=form.cleaned_data.get('door'),
+                city=form.cleaned_data.get('city'),
+                postal_code=form.cleaned_data.get('postal_code'),
+                guests=form.cleaned_data.get('guests'),
+                rooms=form.cleaned_data.get('rooms'),
+                baths=form.cleaned_data.get('baths'),
+                reference=form.cleaned_data.get('reference'),
+                meters=form.cleaned_data.get('meters'),
+                owners_data=owner_object,
+            )
+
+            flat_object.save()
+
+            messages.success(request, 'Piso registrado')
+            return redirect('/superadmin/')
     else:
-        pass
+        owners_email = OwnersData.objects.values_list('email', flat=True)
+        flat_form = FlatForm()
+        context = {
+            'owners': owners_email,
+            'form': flat_form,
+        }
+        print(owners_email)
     return render(request, 'superadmin/altapisos.html', context)
 
 
