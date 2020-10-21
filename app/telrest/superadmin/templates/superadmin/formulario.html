@@ -9,53 +9,41 @@
 </head>
 
 <!----------------------------------------------------------navbar---------------------------------------------------------------------->
-{% extends "navbar.html" %} {% block content %}
+{% extends "superadmin/base.html" %} {% block content %}
 <!------------------------------------------------Form------------------------------------------------------------------------------------>
 
 <body>
-    <form action="/newreservation" method="POST">
+    <form action="" method="POST">
         {% csrf_token %}
         <div class="container">
             <h1>Crear Reservas</h1>
             <hr>
+            <label><b>Tipo de persona</b></label>
+            <select name="persona">
+                <option value="fisica">Física</option>
+                <option value="juridica">Jurídica</option>
+            </select>
+            <br><br>
             <label><b>Nombre</b></label>
-            <input type="text" name="nombre_usuario" id="nombre_usuario" required>
+            <input type="text" name="nombre" id="nombre" required>
             <label><b>Apellidos</b></label>
-            <input type="text" name="apellidos_usuario" id="apellidos_usuario" required>
+            <input type="text" name="apellidos" id="apellidos" required>
             <label><b>DNI</b></label>
-            <input type="text" name="dni_usuario" id="dni_usuario" required>
-            <label><b>Ciudad</b></label>
-            <input type="text" name="city" id="city" required>
-            <label><b>Codigo Postal</b></label>
-            <input type="text" name="cp" id="cp" required>
-            <label><b>Pais</b></label>
-            <input type="text" name="country" id="country" required>
+            <input type="text" name="dni" id="dni" required>
+            <label><b>Telefono</b></label>
+            <input type="tel" placeholder="telf" name="telefono_usuario" id="telefono_usuario" pattern="[0-9]{9}" required><br>
             <label><b>Email</b></label>
             <input type="email" name="email" id="email" required><br><br>
-            <label><b>Fecha de nacimiento</b></label>
-            <input type="date" name="birthdate" id="birthdate" min="1940-01-01" max="2000-10-29" required><br><br>
-            <label><b>Telefono</b></label>
-            <input type="tel" placeholder="656666222" name="telefono_usuario" id="telefono_usuario" pattern="[0-9]{9}" required><br>
-            <br>
-            <label><b>Pisos</b></label>
-            <select name="flats_list">
-                {% for flat in flats %}
-                <option value="{{flat.id}}">{{flat.name}}</option>
-                {% endfor %}
-            </select>
+            <label><b>Ciudad</b></label>
+            <input type="text" name="city" id="city" required>
+            <label><b>País</b></label>
+            <input type="text" name="country" id="country" required>
+            <label><b>Codigo Postal</b></label>
+            <input type="text" name="cp" id="cp" required>
+            <label><b>Dirección</b></label>
+            <input type="text" name="direccion" id="direccion" required>
             <br>
             <br>
-            <label><b>Fecha inicio</b></label>
-            <input type="date" id="datePickerInit" name="fecha_inicio" required/>
-            <br>
-            <br>
-            <label><b>Fecha fin</b></label>
-            <input type="date" id="datePickerFin" name="fecha_fin" required/>
-            <br>
-            <br>
-            <label><b>Nº numero de huespedes</b></label>
-            <!--Coger el max segun la BBDD-->
-            <input type="number" min="1" max="10" step="1" value="1" size="1" name="huespedes" required>
             <button type="submit" class="registerbtn">Crear</button>
         </div>
         </div>
@@ -63,10 +51,6 @@
 </body>
 
 </html>
-<script>
-    datePickerInit.min = new Date().toISOString().split("T")[0];
-    datePickerFin.min = new Date().toISOString().split("T")[0];
-</script>
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
 <style>
@@ -74,18 +58,18 @@
         font-family: Arial, Helvetica, sans-serif;
         background-color: black;
     }
-    
+
     * {
         box-sizing: border-box;
     }
     /* Add padding to containers */
-    
+
     .container {
         padding: 16px;
         background-color: white;
     }
     /* Full-width input fields */
-    
+
     input[type=text],
     input[type=password] {
         width: 100%;
@@ -95,20 +79,20 @@
         border: none;
         background: #f1f1f1;
     }
-    
+
     input[type=text]:focus,
     input[type=password]:focus {
         background-color: #ddd;
         outline: none;
     }
     /* Overwrite default styles of hr */
-    
+
     hr {
         border: 1px solid #f1f1f1;
         margin-bottom: 25px;
     }
     /* Set a style for the submit button */
-    
+
     .registerbtn {
         background-color: #4CAF50;
         color: white;
@@ -119,17 +103,17 @@
         width: 100%;
         opacity: 0.9;
     }
-    
+
     .registerbtn:hover {
         opacity: 1;
     }
     /* Add a blue text color to links */
-    
+
     a {
         color: dodgerblue;
     }
     /* Set a grey background color and center the text of the "sign in" section */
-    
+
     .signin {
         background-color: #f1f1f1;
         text-align: center;

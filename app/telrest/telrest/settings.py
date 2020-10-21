@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'login',
     'superadmin',
+    'crispy_forms',
     'owner',
 ]
 

@@ -6,11 +6,14 @@ from rest_framework.exceptions import APIException
 from security.jwt_gen import JWTEncoder
 import time
 from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData, SensorType, FlatOwner, Flat
-from .models import Settings_alerts,Settings_forms
+from .models import Settings_alerts,Settings_forms,Payments
 from security.permissions import IsIot, IsClient, IsSuperuser, IsOwner
 import datetime
 from telapi.validations import validate_date, validate_datetime, validate_clientemail, validate_integer
 from django.contrib.auth.models import User
+from .fomrs import Settings_alerts as alerts
+from .fomrs import Settings_forms as form_form
+from .fomrs import Settings_checkout as ck
 from django.core.mail import send_mail
 from django.conf import settings
 from django import forms
@@ -54,29 +57,38 @@ def home(request):
 @login_required
 def settings(request):
     context = {}
+    context['msg'] = request.user
+    context = {
+                'settings': {
+                    'alerts': {'form': alerts},
+                    'forms': {'form': form_form},
+                    'checkout': {'form': ck},
+                }
+            }
     template = loader.get_template('owner/settings.html')
     return HttpResponse(template.render(context, request))
 
 @login_required
 def savesettings_alert(request):
     context = {}
-    context['msg'] = request.user
-    permission_classes = [IsOwner]
 
     if request.method == 'POST':
+        form=alerts(request.POST)            
+        if form.is_valid():
+            settings_alert = Settings_alerts(
+                owner_user=request.user,
+                max_temperature=form.cleaned_data.get('max_temperature'),
+                min_temperature=form.cleaned_data.get('min_temperature'),
+                start_time=form.cleaned_data.get('start_time'),
+                end_time=form.cleaned_data.get('end_time'),
+                max_capacity=form.cleaned_data.get('max_capacity'),
+                listening_time=form.cleaned_data.get('listening_time'),
+            )
+            settings_alert.save()
+    template = loader.get_template('owner/home.html')
+    return HttpResponse(template.render(context, request))
+    
         
-        settings_alert = Settings_alerts(
-        owner_user=request.user,
-        max_temperature=request.POST["max_temperature"],
-        min_temperature=request.POST["min_temperature"],
-        start_time=request.POST["start_time"],
-        end_time=request.POST["end_time"],
-        max_capacity=request.POST["max_capacity"],
-        listening_time=request.POST["listening_time"])
-        settings_alert.save()
-
-        template = loader.get_template('owner/settings.html')
-        return HttpResponse(template.render(context, request))
 
 @login_required
 def savesettings_form(request):
@@ -85,14 +97,44 @@ def savesettings_form(request):
     permission_classes = [IsOwner]
 
     if request.method == 'POST':
-        
-        settings_forms = Settings_forms(
-        owner_user=request.user,
-        
-        )
-        settings_alert.save()
+        form=form_form(request.POST)            
+        if form.is_valid():
+            settings_forms = Settings_forms(
+            owner_user=request.user,
+            is_lastname=form.cleaned_data.get('is_lastname'),
+            is_phone=form.cleaned_data.get('is_phone'),
+            is_city=form.cleaned_data.get('is_city'),
+            is_import=form.cleaned_data.get('is_import'),
+            is_origin=form.cleaned_data.get('is_origin'),
+            is_code=form.cleaned_data.get('is_code'),
+            #is_capacity=form.cleaned_data.get('is_capacity'),
+            is_cancelation=form.cleaned_data.get('is_cancelation'),
+            is_observation=form.cleaned_data.get('is_observation'),
+            is_pay=form.cleaned_data.get('is_pay'),
+            )
 
-        template = loader.get_template('owner/settings.html')
+        settings_forms.save()
+
+        template = loader.get_template('owner/home.html')
+        return HttpResponse(template.render(context, request))
+
+@login_required
+def savesettings_ck(request):
+    context = {}
+    context['msg'] = request.user
+    permission_classes = [IsOwner]
+
+    if request.method == 'POST':
+        form=ck(request.POST)            
+        if form.is_valid():
+            payments = Payments(
+            owner_user=request.user,
+            price_time=form.cleaned_data.get('price_time'),
+            time_price=form.cleaned_data.get('time_price'),
+            )
+        payments.save()
+
+        template = loader.get_template('owner/home.html')
         return HttpResponse(template.render(context, request))
 
 @login_required
@@ -115,7 +157,7 @@ def reservation(request):
 
     template = loader.get_template('owner/reservation.html')
     return HttpResponse(template.render(context, request))
-        
+
 
 @login_required
 def logout(request):

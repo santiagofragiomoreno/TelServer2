@@ -8,5 +8,6 @@ urlpatterns = [
     path('altapisos/', views.alta_pisos, name='altapisos'),
     path('errores/', views.errores, name='errores'),
     path('bdowners/', views.bdowners, name='bdowners'),
-    path('historial/', views.historial, name='historial'),
+    path('ajustes/', views.ajustes, name='ajustes'),
+    path('altadispositivo/', views.alta_dispositivo, name='altadispositivo'),
 ]

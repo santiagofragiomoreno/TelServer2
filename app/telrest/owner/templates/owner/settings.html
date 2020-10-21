@@ -1,4 +1,4 @@
-{% extends "owner/navbar.html" %} {% block content %}
+{% extends "owner/navbar.html" %} {% block content %}{% load crispy_forms_tags %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -21,80 +21,30 @@
                 <p></p>
             </div>
             <div id="menu1" class="tab-pane fade">
-                <br><br>
+                <br>
+                <h3>Opciones de las alertas</h3>
+                <hr>
                 <!--TODO Poner bordes y flotante a la izquierda en este div-->
                 <form action="../savesettings_alert/" method="POST">
-                    {% csrf_token %}
-                    <div>
-                        <h3>Opción alerta temperatura máxima y mínima</h3>
-                        <hr>
-                        <label><b>Temperatura máxima</b></label>
-                        <input type="number" min="1" max="40" step="1" value="20" size="1" name="max_temperature"><br><br>
-                        <label><b>Temperatura minima</b></label>
-                        <input type="number" min="1" max="40" step="1" value="16" size="1" name="min_temperature">
-                    </div>
-
-                    <div>
-                        <h3>Opción alerta aforo maximo y en que horario</h3>
-                        <hr>
-                        <label><b>Horario de inicio</b></label>
-                        <input type="number" min="0" max="24" step="1" value="12" size="1" name="start_time"><br><br>
-                        <label><b>Horario de fin</b></label>
-                        <input type="number" min="0" max="24" step="1" value="17" size="1" name="end_time"><br><br>
-                        <label><b>Aforo por encima del limite</b></label>
-                        <input type="number" min="0" max="5" step="1" value="0" size="1" name="max_capacity"><br>
-                        <small>Ej: si su piso tiene un aforo maximo de 5 personas, el numero de persona que permite por encima de este, por ejemplo 2, <b>5 + 2 = 7</b></small><br> </div>
-
-                    <h3>Opción sonido tiempo de escucha</h3>
-                    <hr>
-                    <label><b>Tiempo de escucha antes de alarma (en minutos)</b></label>
-                    <input type="number" min="0" max="15" step="1" value="5" size="1" name="listening_time"><br><br>
-                    <button type="submit" class="registerbtn">Guardar</button>
+                    {% csrf_token %} {{ settings.alerts.form|crispy }}
+                    <button type="submit" class="">Guardar</button>
                 </form>
             </div>
 
             <div id="menu2" class="tab-pane fade">
                 <br><br>
-                <form action="../savesettings_form/" method="POST">
-                    <div>
-                        <h3>Opciones let check out</h3>
-                        <hr>
-                        <label><b>Tiempo (min)</b></label>
-                        <input type="number" min="0" max="720" step="1" value="5" size="1" name="price_time">
-                        <label><b>Precio (€)</b></label>
-                        <input type="number" min="0" max="720" step="1" value="5" size="1" name="time_price">
-                    </div>
-                    <button type="submit" class="registerbtn">Guardar</button>
+                <form action="../savesettings_ck/" method="POST">
+                    {% csrf_token %} {{ settings.checkout.form|crispy }}
+                    <button type="submit" class="">Guardar</button>
                 </form>
             </div>
             <div id="menu3" class="tab-pane fade">
-                <form action="/setting_tab3" method="POST">
-                    <div>
-                        <h3>Seleccionar los datos requeridos para poder generar un acceso.</h3>
-                        <hr>
-                        <label><b>Apellidos</b></label>
-                        <input type="checkbox" name="last_name"><br><br>
-                        <label><b>Telefono</b></label>
-                        <input type="checkbox" name="phone"><br><br>
-                        <label><b>Dirección/Cuidad</b></label>
-                        <input type="checkbox" name="city"><br><br>
-                        <label><b>Importe de la reserva</b></label>
-                        <input type="checkbox" name="import_reservation"><br><br>
-                        <label><b>Origen de la reserva</b></label>
-                        <input type="checkbox" name="origin_reservation"><br><br>
-                        <label><b>Código de reserva</b></label>
-                        <input type="checkbox" name="code_reservation"><br><br>
-                        <label><b>Aforo (si no se introduce se pone el numero de aforo máximo del piso)</b></label>
-                        <input type="checkbox" name="capacity"><br><br>
-                        <label><b>Coste de cancelación</b></label>
-                        <input type="checkbox" name="cancelation"><br><br>
-                        <label><b>Observaciones</b></label>
-                        <input type="checkbox" name="obvs"><br><br>
-                        <label><b>Forma de pago (transferencia/tarjeta/efectivo)</b></label>
-                        <input type="checkbox" name="pay"><br><br>
-                    </div>
-                    <button type="submit" class="registerbtn">Guardar</button>
+                <br><br>
+                <form action="../savesettings_form/" method="POST">
+                    {% csrf_token %} {{ settings.forms.form|crispy }}
+                    <button type="submit" class="">Guardar</button>
                 </form>
+
             </div>
         </div>
     </div>

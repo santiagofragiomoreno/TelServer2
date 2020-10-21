@@ -5,7 +5,7 @@ from django.utils import timezone
 
 
 class Settings_forms(models.Model):
-    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
+    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True,unique=True)
     is_lastname = models.BooleanField(default=True, db_index=False,blank=False,null=True)
     is_phone = models.BooleanField(default=True, db_index=False,blank=False,null=True)
     is_city = models.BooleanField(default=True, db_index=False,blank=False,null=True)
@@ -26,7 +26,7 @@ class Settings_forms(models.Model):
         + " - Importe :" + self.is_import
 
 class Settings_alerts(models.Model):
-    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
+    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True,unique=True)
     max_temperature = models.PositiveIntegerField(blank=True, null=True, db_index=True)
     min_temperature = models.PositiveIntegerField(blank=True, null=True, db_index=True)
     start_time = models.PositiveIntegerField(blank=True, null=True, db_index=True)
@@ -42,13 +42,14 @@ class Settings_alerts(models.Model):
         return str(self.owner_user)
 
 class Payments(models.Model):
-    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
-    time = models.PositiveIntegerField(blank=True, null=True, db_index=True)
-    cash = models.PositiveIntegerField(blank=True, null=True, db_index=True)
+    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True,unique=True)
+    price_time = models.PositiveIntegerField(blank=True, null=True, db_index=True)
+    time_price = models.PositiveIntegerField(blank=True, null=True, db_index=True)
+    
 
     class Meta:
         managed = True
-        db_table = 'Payments'
+        db_table = 'payments'
 
     def __str__(self):
         return str(self.owner_user)

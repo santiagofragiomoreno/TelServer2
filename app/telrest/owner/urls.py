@@ -10,4 +10,5 @@ urlpatterns = [
     path('reservation/', views.reservation, name='reservation'),
     path('savesettings_alert/', views.savesettings_alert, name='savesettings_alert'),
     path('savesettings_form/', views.savesettings_form, name='savesettings_form'),
+    path('savesettings_ck/', views.savesettings_ck, name='savesettings_ck'),
 ]
