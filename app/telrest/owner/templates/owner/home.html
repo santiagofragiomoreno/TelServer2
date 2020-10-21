@@ -1,4 +1,4 @@
- {% extends "owner/navbar.html" %} {% load static %} {% block content %}
+{% extends "owner/navbar.html" %} {% load static %} {% block content %} {% include 'owner/button.html' %}
 <meta name="robots" content="noindex, nofollow">
 <meta name="googlebot" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -179,129 +179,8 @@
        height: 100px;
        width: 100px;
 }
+   
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<body>
-    <div class="container_info">
-        <label><b>Mis pisos</b></label>
-        <select>
-                {% for flat in flats %}
-                <option value="{{flat.id}} ">{{flat.name}}</option>
-                {% endfor %}
-    </select>
-    </div>
-    <div>
-        <div class="page-header ">
-            <h1>Piso seleccionado</h1>
-        </div>-->
-<!------------------------------------------------------------------------------->
-<!--<div style="margin-left:300px;">
-            <h2 style="margin-left:-150px;">Accesso: </h2>
-            <p>Abrir portal</p>
-            <form method="post" action="/abrirpuerta">
-                {% csrf_token %}
-                <button type="submit" class="btn">Open</button>
-            </form>
-
-            <p>Abrir puerta </p>
-            <form method="post" action="/abrirpuerta">
-                {% csrf_token %}
-                <button type="submit" class="btn">Open</button>
-            </form>
-            </button>
-        </div>-->
-<!------------------------------------------------------------------------------->
-<!---<div style="float: left; margin-left:300px;">
-        <h2 style="margin-left:-150px;">Ultimos Accesos: </h2>
-        <div style="overflow-y: scroll; height:300px; ">
-            <table>
-                {% for sens in sensor %}
-                <tr>
-                    <td>{{sens.created}}</td>
-                    <td>{{sens.iot_user.id}}</td>
-                    <td>{{sens.flat.id}}</td>
-                    <td>{{sens.sensor_type_id}}</td>
-                    <td>{{sens.value}}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
-    <div style="float: right;margin-right:300px;">
-        <h2>Solicitudes:</h2>
-    </div>
-    </div>-->
-
-<!---------------------------------------------------------------------------------------------------->
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<!---------------------------------------------------------------------------------------------------->
-<!---<div style="float: left; margin-left:300px;">
-        <h2 style="margin-left:-150px;">Control:</h2>
-        <p>Ultimo acceso</p>
-        <p>{{open_flat}}</p>
-        <p>Aforo a tiempo real</p>
-        <p>Antiocupa</p>
-        <p>Alertas</p>
-        <p>Temperatura</p>
-        <p>Piso limpio</p>
-        <p>Mantenimiento</p>
-    </div>
-    </div>
-    <p>{{msg}}</p>
-
-
-    <script>
-    </script>-->
 
 </body>
 {% endblock content%}

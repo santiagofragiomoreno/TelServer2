@@ -1,0 +1,45 @@
+{% extends "owner/navbar.html" %} {% load static %} {% block content %} {% include 'owner/button.html' %}
+<br><br><br>
+<form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
+    <i class="fas fa-search" aria-hidden="true"></i>
+    <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
+</form>
+<table>
+
+    <tr>
+        <th>Piso</th>
+        <th>Activo</th>
+        <th>Dirección</th>
+        <th>Planta</th>
+        <th>Puerta</th>
+        <th>Ciudad</th>
+        <th>Codigo Postal</th>
+        <th>Fecha de inicio</th>
+        <th>Hora de inicio</th>
+        <th>Hora de fin</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Telefono</th>
+    </tr>
+    <!--Recorrer tabla de resevas e incluir todos esos campos-->
+    {% for flat in flats %}
+    <tr>
+        <td>{{flat.name}}</td>
+        <td>Si</td>
+        <td>{{flat.address}}</td>
+        <td>{{flat.floor}}</td>
+        <td>{{flat.door}}</td>
+        <td>{{flat.city}}</td>
+        <td>{{flat.postal_code}}</td>
+        <td>sin info</td>
+        <td>sin info</td>
+        <td>sin info</td>
+        <td>sin info</td>
+        <td>sin info</td>
+        <td>sin info</td>
+
+    </tr>
+    {% endfor %}
+</table>
+<p>{{flat.name}}</p>
+{% endblock content%}

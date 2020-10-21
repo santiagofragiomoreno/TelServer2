@@ -12,10 +12,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'reservation' %}">Crear reserva</a>
+                <a class="nav-link" href="{% url 'historic_access' %}">Accesos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Accesos</a>
+                <a class="nav-link" href="{% url 'clean_master' %}">Limpieza</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Propiedades</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'settings' %}">Ajustes</a>
@@ -42,4 +45,30 @@
         </div>
     </div>
 </div>
+
+
+
+<style>
+    .div_contenedor {
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        background-color: rebeccapurple;
+    }
+    
+    .div_contenedor::before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+    }
+    
+    .div_centrado {
+        width: 200px;
+        height: 200px;
+        background: red;
+        display: inline-block;
+        vertical-align: middle;
+    }
+</style>
 {% endif %} {% endif %} {% block content %}{% endblock %}

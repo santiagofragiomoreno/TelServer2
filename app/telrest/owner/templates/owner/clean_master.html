@@ -1,0 +1,20 @@
+{% extends "owner/navbar.html" %} {% load static %} {% block content %} {% include 'owner/button.html' %}
+<br><br><br>
+<table>
+    <tr>
+        <th>Piso</th>
+        <th>Fecha de entrada</th>
+        <th>Fecha de salida</th>
+        <th>Nombre</th>
+        <th>Duracion</th>
+    </tr>
+    <tr>
+        <td>{{flats.1.name}}</td>
+        <td>{{accesos.1.recieved_date}}</td>
+        <td>{{accesos.2.issued_date}}</td>
+        <td>{{accesos.1.user.username}}</td>
+        <td>{{tiempo}}</td>
+
+    </tr>
+</table>
+{% endblock content%}

@@ -22,3 +22,18 @@ class Settings_alerts(forms.Form):
 class Settings_checkout(forms.Form):
     price_time = forms.IntegerField(label='Tiempo (min)', max_value=30, required=False)
     time_price = forms.IntegerField(label='Precio (€)', max_value=15, required=False)
+
+class reservation(forms.Form):
+    name = forms.CharField(label='Nombre', max_length=100)
+    lastname = forms.CharField(label='Apellidos', max_length=100)
+    birthdate = forms.DateTimeField(label='Fecha de nacimiento')
+    email = forms.EmailField(label='Email', max_length=100)
+    dni = forms.CharField(label='DNI', max_length=20, required=False)
+    tlf = forms.FloatField(label='Teléfono', max_value=999999999, required=False)
+    direction = forms.CharField(label='Calle', max_length=100, required=False)
+    city = forms.CharField(label='Ciudad', max_length=30, required=False)
+    country = forms.CharField(label='Pais', max_length=30, required=False)
+    cp = forms.IntegerField(label='CP', max_value=99999, required=False)
+    date_start = forms.DateTimeField(label='Dia de inicio', required=True)
+    date_end = forms.DateTimeField(label='Dia de fin', required=True)
+    guest = forms.IntegerField(label='Huespedes', max_value=10, required=False)

@@ -31,6 +31,7 @@ from django.contrib.auth.decorators import login_required
 
 # -------show mainpage of owner-----------------
 
+#-----TODO terminar con tablas que hacen falta y darle un poco de estilo-----------
 @login_required
 def home(request):
     context = {}
@@ -53,7 +54,55 @@ def home(request):
 
     template = loader.get_template('owner/home.html')
     return HttpResponse(template.render(context, request))
-    
+
+#------------formularios seguros
+
+@login_required
+def historic_access(request):
+    context = {}
+    context['msg'] = request.user
+
+    id_flats = []
+    flats = []
+
+    for e in FlatOwner.objects.all():
+        if e.owner_user.id == request.user.id:
+            id_flats.insert(0, e.flat.id)
+
+    for e in Flat.objects.all():
+        if e.id in id_flats:
+            flats.insert(0, e)
+
+    context['accesos']=Instruction.objects.order_by('-recieved_date')
+
+    context['flats'] = flats
+    template = loader.get_template('owner/historic_access.html')
+    return HttpResponse(template.render(context, request))
+
+@login_required
+def clean_master(request):
+    context = {}
+    context['msg'] = request.user
+    accesos={}
+    accesos=Instruction.objects.order_by('-recieved_date')[:2]
+
+    id_flats = []
+    flats = []
+    for e in FlatOwner.objects.all():
+        if e.owner_user.id == request.user.id:
+            id_flats.insert(0, e.flat.id)
+
+    for e in Flat.objects.all():
+        if e.id in id_flats:
+            flats.insert(0, e)
+
+    context['flats'] = flats
+    context['accesos']=accesos
+    context['tiempo']= accesos[0].recieved_date - accesos[1].recieved_date 
+
+    template = loader.get_template('owner/clean_master.html')
+    return HttpResponse(template.render(context, request))
+
 @login_required
 def settings(request):
     context = {}
@@ -87,8 +136,6 @@ def savesettings_alert(request):
             settings_alert.save()
     template = loader.get_template('owner/home.html')
     return HttpResponse(template.render(context, request))
-    
-        
 
 @login_required
 def savesettings_form(request):
@@ -158,6 +205,20 @@ def reservation(request):
     template = loader.get_template('owner/reservation.html')
     return HttpResponse(template.render(context, request))
 
+@login_required
+def save_reservation(request):
+    context = {}
+    context['msg'] = request.user
+
+    if request.method == 'POST':
+        form=ck(request.POST)            
+        if form.is_valid():
+            access = Access(
+            )
+            access.save()
+
+        template = loader.get_template('owner/home.html')
+        return HttpResponse(template.render(context, request))
 
 @login_required
 def logout(request):
@@ -166,79 +227,3 @@ def logout(request):
     request.close()
     return render(request, 'owner/logout.html', context)
 
-
-"""
-
-    for e in SensorData.objects.all()[:2].order_by('recieved_date'):
-        if e.flat.id in id_flats:
-            sensor.insert(0, e)        
-
-    for e in FlatSensor.objects.all():
-        if e.flat.id in id_flats:
-            sensor_flats.insert(0, e)
-
-    for e in Instruction.objects.all():
-        if e.flat.id in id_flats:
-            open_flat=e.__str__     
-
-    context['open_flat'] = open_flat 
-    context['sensor_flats'] = sensor_flats  
-    context['sensor'] = sensor
-    context['flats'] = flats
-    context['msg'] = user.username
-
-    template = loader.get_template('owner/ownerpanel.html')
-    return HttpResponse(template.render(context, request))"""
-
-
-# -------show page of the form of owner-----------------
-"""
-def create_access(request):
-    context = {}
-    owner = request.session['user']
-    owner_object = User.objects.get(username__icontains=owner)
-    id_flats = []
-    flats = []
-    piso_owner = ''
-    for e in FlatOwner.objects.all():
-        if e.owner_user.id == owner_object.id:
-            id_flats.insert(0, e.flat.id)
-
-    for e in Flat.objects.all():
-        if e.id in id_flats:
-            flats.insert(0, e)
-
-    context['flats'] = flats
-    context['msg'] = owner_object
-    template = loader.get_template('owner/createaccess.html')
-    return HttpResponse(template.render(context, request))"""
-
-
-# -------createa new access in BBDD-----------------
-
-"""
-def new_reservation(request):
-    context = {}
-    owner = User(owner_object)
-    # try:
-    usuario = User_App(
-        username=request.POST["nombre_usuario"],
-        lastname=request.POST["apellidos_usuario"],
-        city=request.POST["city"],
-        country=request.POST["country"],
-        email=request.POST["email"],
-        birthdate=request.POST["birthdate"],
-        cp=request.POST["cp"],
-        nif=request.POST["dni_usuario"],
-        phone=request.POST["telefono_usuario"])
-    usuario.save()
-
-    newreservation = Reservation(
-        owner_id=owner.id,
-        user_id=usuario,
-        flat_id=request.POST["flats_list"],
-        fecha_inicio=request.POST["fecha_inicio"],
-        fecha_fin=request.POST["fecha_fin"],
-        huespedes_reserva=request.POST["huespedes"])
-    newreservation.save()
-    return HttpResponseRedirect('panel')"""
