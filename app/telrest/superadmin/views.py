@@ -32,11 +32,14 @@ def alta_cliente(request):
             persona = False
 
         if form.is_valid():
-            # registro el nuevo usuario en auth_user
+            # creo los objetos de auth user y owners data
             username = form.cleaned_data.get('email')
             password = User.objects.make_random_password()
+
             # enviar pass por email o algo
             print('la password es: ' + password)
+
+            # guardo el objeto de auth user
             new_user = User.objects.create_user(username, username, password)
             new_user.save()
 
@@ -58,6 +61,7 @@ def alta_cliente(request):
                 phone=form.cleaned_data.get('tlf')
             )
 
+            # guardo el objeto owner data en la bbdd y redirijo
             owner.save()
 
             messages.success(request, 'Usuario registrado')
@@ -74,12 +78,15 @@ def alta_cliente(request):
 
 @login_required
 def alta_pisos(request):
+    """New flat registration. The method alters the
+    telapi.flat table in orther to add information about
+    a new flag using an id from owners_data"""
+
     context = {}
     if request.method == 'POST':
         form = FlatForm(request.POST)
         if form.is_valid():
-            # obtengo el owners_data object atraves del email y creo el objeto
-            # owners_email = request.POST['owners']
+            # obtengo el owners_data object atraves del email y creo el objeto flat
             owner_object = OwnersData.objects.get(email=request.POST['owners'])
 
             flat_object = Flat(
@@ -97,6 +104,7 @@ def alta_pisos(request):
                 owners_data=owner_object,
             )
 
+            # guardo objeto flat en la bbdd y redirijo
             flat_object.save()
 
             messages.success(request, 'Piso registrado')
