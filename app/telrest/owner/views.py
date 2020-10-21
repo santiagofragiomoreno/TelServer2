@@ -6,6 +6,7 @@ from rest_framework.exceptions import APIException
 from security.jwt_gen import JWTEncoder
 import time
 from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData, SensorType, FlatOwner, Flat
+from .models import Settings_alerts,Settings_forms
 from security.permissions import IsIot, IsClient, IsSuperuser, IsOwner
 import datetime
 from telapi.validations import validate_date, validate_datetime, validate_clientemail, validate_integer
@@ -57,9 +58,47 @@ def settings(request):
     return HttpResponse(template.render(context, request))
 
 @login_required
+def savesettings_alert(request):
+    context = {}
+    context['msg'] = request.user
+    permission_classes = [IsOwner]
+
+    if request.method == 'POST':
+        
+        settings_alert = Settings_alerts(
+        owner_user=request.user,
+        max_temperature=request.POST["max_temperature"],
+        min_temperature=request.POST["min_temperature"],
+        start_time=request.POST["start_time"],
+        end_time=request.POST["end_time"],
+        max_capacity=request.POST["max_capacity"],
+        listening_time=request.POST["listening_time"])
+        settings_alert.save()
+
+        template = loader.get_template('owner/settings.html')
+        return HttpResponse(template.render(context, request))
+
+@login_required
+def savesettings_form(request):
+    context = {}
+    context['msg'] = request.user
+    permission_classes = [IsOwner]
+
+    if request.method == 'POST':
+        
+        settings_forms = Settings_forms(
+        owner_user=request.user,
+        
+        )
+        settings_alert.save()
+
+        template = loader.get_template('owner/settings.html')
+        return HttpResponse(template.render(context, request))
+
+@login_required
 def reservation(request):
 
-    """id_flats = []
+    id_flats = []
     flats = []
 
     for e in FlatOwner.objects.all():
@@ -68,11 +107,11 @@ def reservation(request):
 
     for e in Flat.objects.all():
         if e.id in id_flats:
-            flats.insert(0, e)"""
+            flats.insert(0, e)
 
     context = {}
 
-    #context['flats'] = flats
+    context['flats'] = flats
 
     template = loader.get_template('owner/reservation.html')
     return HttpResponse(template.render(context, request))

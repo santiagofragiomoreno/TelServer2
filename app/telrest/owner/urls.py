@@ -8,11 +8,6 @@ urlpatterns = [
     path('settings/', views.settings, name='settings'),
     path('logout/', views.logout, name='logout'),
     path('reservation/', views.reservation, name='reservation'),
-    #path('Panel.ehlock.com/access', views.create_access, name='access'),  
+    path('savesettings_alert/', views.savesettings_alert, name='savesettings_alert'),
+    path('savesettings_form/', views.savesettings_form, name='savesettings_form'),
 ]
-
-#
-#
-#path('newreservation', views.new_reservation, name='newreservation'),
-# path('logout', auth_views.LogoutView.as_view(template_name='ownerlog.html'), name='logout'),  # logout
-#path('administrar', views.administrar, name='administrar'),
