@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from .custom_forms import OwnerForm
+from .custom_forms import OwnerForm, JuridicaForm
 from django.contrib import messages
+from .models import OwnersData, FlatData
 
 
 # Create your views here.
@@ -16,27 +17,67 @@ def home(request):
 
 @login_required
 def alta_cliente(request):
+    """New owner registration. The method alters both
+    auth_user and owner_data tables in order to generate
+    new user credentials and save the owner's data"""
+
     context = {}
     if request.method == 'POST':
-        form = OwnerForm(request.POST)
+        if request.POST.get('name') is not None:
+            form = OwnerForm(request.POST)
+            persona = True
+        else:
+            form = JuridicaForm(request.POST)
+            persona = False
+
         if form.is_valid():
+            # registro el nuevo usuario en auth_user
             username = form.cleaned_data.get('email')
             password = User.objects.make_random_password()
+            # enviar pass por email o algo
+            print('la password es: ' + password)
             new_user = User.objects.create_user(username, username, password)
             new_user.save()
+
+            # registro los datos del owner en owners_data
+            owner = OwnersData(
+                person_type=persona,
+                name=form.cleaned_data.get('name'),
+                last_name=form.cleaned_data.get('lastname'),
+                denomination=form.cleaned_data.get('denominacion'),
+                manager=form.cleaned_data.get('responsable'),
+                cif=form.cleaned_data.get('cif'),
+                email=form.cleaned_data.get('email'),
+                owner_user=new_user,
+                address=form.cleaned_data.get('direccion'),
+                floor=abs(form.cleaned_data.get('piso')),
+                door=form.cleaned_data.get('puerta'),
+                city=form.cleaned_data.get('ciudad'),
+                postal_code=abs(form.cleaned_data.get('cp')),
+                phone=abs(form.cleaned_data.get('tlf'))
+            )
+
+            owner.save()
+
             messages.success(request, 'Usuario registrado')
             return redirect('/superadmin/')
     else:
         context = {
-            'owner': OwnerForm()
+            'personas': {
+                'fisica': {'form': OwnerForm},
+                'juridica': {'form': JuridicaForm}
+            }
         }
-        pass
     return render(request, 'superadmin/altacliente.html', context)
 
 
 @login_required
 def alta_pisos(request):
     context = {}
+    if request.method == 'POST':
+        pass
+    else:
+        pass
     return render(request, 'superadmin/altapisos.html', context)
 
 

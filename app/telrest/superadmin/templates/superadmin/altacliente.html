@@ -1,16 +1,54 @@
 {% extends "superadmin/base.html" %}
 {% load crispy_forms_tags %}
   {% block content %}
+
+    <script>
+        $(document).ready(function(){
+          $(".fisica").click(function(){
+            $("#jform").hide();
+            $("#fform").show();
+          });
+          $(".juridica").click(function(){
+            $("#fform").hide();
+            $("#jform").show();
+          });
+        });
+    </script>
+
     <body>
     <h2>Dar de alta nuevo owner</h2>
     <br>
-    <form method="POST">
-        {% csrf_token %}
-        <div>
-            {{ owner|crispy }}
-            <br>
-            <button type="submit" action="altacliente/" class="">Crear</button>
-        </div>
-    </form>
+    <div>
+        <label><b>Tipo de persona</b></label>
+        <button class="fisica">Física</button>
+        <button class="juridica">Jurídica</button>
+    </div>
+    <div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div id="fform">
+                <br>
+                <label><b>Persona Física</b></label>
+                <br>
+                {{ personas.fisica.form|crispy }}
+                <br>
+                <button type="submit" action="altacliente/" class="">Crear</button>
+            </div>
+        </form>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div id="jform" style="display: none">
+                <label><b>Persona Jurídica</b></label>
+                <br>
+                {{ personas.juridica.form|crispy }}
+                <br>
+                <button type="submit" action="altacliente/" class="">Crear</button>
+            </div>
+        </form>
+
+    </div>
     </body>
+
   {% endblock content%}
