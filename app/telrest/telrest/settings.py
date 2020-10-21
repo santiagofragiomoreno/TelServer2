@@ -25,7 +25,7 @@ SECRET_KEY = 'yuo)pqhs$8q0wa^r@@9n_3x&av$^a+%-*sb+^=#5@0bn4w9wd='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.33', 'telgate.test', 'localhost', '127.0.0.1'
+ALLOWED_HOSTS = ['192.168.1.33', 'telgate.test', 'localhost', '127.0.0.1',
                  'telfiregate.com', 'api.openityourself.com', 'ehlock.com']
 
 # Mail Service
