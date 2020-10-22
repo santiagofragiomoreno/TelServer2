@@ -4,7 +4,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from .custom_forms import OwnerForm, JuridicaForm, FlatForm
 from django.contrib import messages
-from .models import OwnersData
+from telapi.models import OwnersData
 from telapi.models import Flat
 
 

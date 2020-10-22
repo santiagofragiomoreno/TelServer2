@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class OwnersData(models.Model):
+'''class OwnersData(models.Model):
     person_type = models.BooleanField(default=True, db_index=True)  # true si es persona, false si es empresa
     name = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si persona
     last_name = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si persona
@@ -21,7 +21,7 @@ class OwnersData(models.Model):
 
     class Meta:
         managed = True
-        db_table = 'owners_data'
+        db_table = 'owners_data'''
 
     # añado sobre el flat:
     # guests = models.PositiveIntegerField(blank=True, null=True, db_index=True)  # huespedes
