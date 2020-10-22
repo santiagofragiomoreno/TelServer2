@@ -11,8 +11,9 @@ class Settings_forms(models.Model):
     is_city = models.BooleanField(default=True, db_index=False,blank=False,null=True)
     is_import = models.BooleanField(default=True, db_index=False,blank=False,null=True)
     is_origin = models.BooleanField(default=True, db_index=False,blank=False,null=True)
+    is_capacity = models.BooleanField(default=True, db_index=False,blank=False,null=True)
     is_code = models.BooleanField(default=True, db_index=False,blank=False,null=True)
-    is_guest = models.BooleanField(default=True, db_index=False,blank=False,null=True)
+    is_capacity = models.BooleanField(default=True, db_index=False,blank=False,null=True)
     is_cancelation = models.BooleanField(default=True,db_index=False,blank=False,null=True)
     is_observation = models.BooleanField(default=True, db_index=False,blank=False,null=True)
     is_pay = models.BooleanField(default=True, db_index=False,blank=False,null=True)
@@ -54,80 +55,38 @@ class Payments(models.Model):
     def __str__(self):
         return str(self.owner_user)
 
-
-class Views(models.Model):
-    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
+class Client (models.Model):
+    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True,unique=True,null=False)
+    name = models.CharField(max_length=255, unique=True, null=False, db_index=True)
+    lastname = models.CharField(max_length=1024, unique=False, null=True)
+    birthdate = models.DateTimeField(unique=True, null=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    email = models.EmailField(blank=True, null=False)
+    dni = models.CharField(max_length=1024, unique=False, null=True)
+    tlf = models.PositiveIntegerField(max_length=1024, unique=False, null=True)
+    direction = models.CharField(max_length=1024, unique=False, null=True)
+    city = models.CharField(max_length=1024, unique=False, null=True)
+    country = models.CharField(max_length=1024, unique=False, null=True)
+    cp = models.CharField(max_length=1024, unique=False, null=True)
 
     class Meta:
         managed = True
-        db_table = 'views'
+        db_table = 'client'
 
     def __str__(self):
         return str(self.owner_user)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""class User_App(models.Model):
-    owner = models.ManyToManyField(User, through='Reservation')
-    username = models.CharField(max_length=40, unique=False, null=False, db_index=True)
-    password = models.CharField(max_length=255, unique=False, null=False, db_index=True)
-    birthdate = models.CharField(max_length=40, unique=False, null=False, db_index=True)
-    #date
-    #date = models.DateTimeField(default=timezone.now)
-    lastname = models.CharField(max_length=255, unique=False, null=False, db_index=True)
-    email = models.CharField(max_length=255, unique=False, null=False, db_index=True)
-    nif = models.CharField(max_length=255, unique=False, null=False, db_index=True)
-    phone = models.IntegerField(max_length=40, unique=False, null=False, db_index=True)
-    country = models.CharField(max_length=255, unique=False, null=False, db_index=True)
-
-    class Meta:
-        managed = True
-        db_table = 'users'
-
-
 class Reservation(models.Model):
-    id_reseve = models.AutoField(auto_created=True, primary_key=True, serialize=False)
-    owner_id = models.ForeignKey(User, on_delete=models.PROTECT)
-    user_id = models.ForeignKey(User_App, on_delete=models.PROTECT)
-    flat_id = models.IntegerField(max_length=40, unique=False, null=False, db_index=True)
-    #EN INGLES
-    #fecha_inicio = models.CharField(max_length=255, default=True, db_index=True)
-    #fecha_fin = models.CharField(max_length=255, default=True, db_index=True)
-
-    #guest
-
-    #huespedes_reserva = models.IntegerField(max_length=40, unique=False, null=False, db_index=True)
+    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True,unique=True,null=False)
+    client = models.ForeignKey(Client, models.DO_NOTHING, db_index=True,unique=True,null=False)
+    flat = models.ForeignKey(Flat, models.DO_NOTHING, db_index=True,unique=True,null=False)
+    start_time = models.DateTimeField( unique=True, null=False)
+    end_time = models.DateTimeField( unique=False, null=False)
+    guest = models.PositiveIntegerField(max_length=1024, unique=False, null=True)
 
     class Meta:
         managed = True
-        db_table = 'reservation'"""
+        db_table = 'reservation'
+
+    def __str__(self):
+        return str(self.owner_user)

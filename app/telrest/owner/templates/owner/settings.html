@@ -1,18 +1,14 @@
 {% extends "owner/navbar.html" %} {% block content %}{% load crispy_forms_tags %}{% include 'owner/button.html' %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 
 <body>
     <div class="container">
+        <br><br>
         <h2>Ajustes</h2>
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#home">Opciones de visualización</a></li>
-            <li><a data-toggle="tab" href="#menu1">Opciones de alertas</a></li>
-            <li><a data-toggle="tab" href="#menu2">Opciones let check out</a></li>
-            <li><a data-toggle="tab" href="#menu3">Opciones de accesos</a></li>
+        <ul class="nav nav-pills" role="tablist">
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">Opciones de visualización</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu1">Opciones de alertas</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu2">Opciones let check out</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu3">Opciones de accesos</a></li>
         </ul>
 
         <div class="tab-content">
@@ -24,10 +20,9 @@
                 <br>
                 <h3>Opciones de las alertas</h3>
                 <hr>
-                <!--TODO Poner bordes y flotante a la izquierda en este div-->
                 <form action="../savesettings_alert/" method="POST">
                     {% csrf_token %} {{ settings.alerts.form|crispy }}
-                    <button type="submit" class="">Guardar</button>
+                    <button type="submit" class="registerbtn">Guardar</button>
                 </form>
             </div>
 
@@ -35,14 +30,14 @@
                 <br><br>
                 <form action="../savesettings_ck/" method="POST">
                     {% csrf_token %} {{ settings.checkout.form|crispy }}
-                    <button type="submit" class="">Guardar</button>
+                    <button type="submit" class="registerbtn">Guardar</button>
                 </form>
             </div>
             <div id="menu3" class="tab-pane fade">
                 <br><br>
                 <form action="../savesettings_form/" method="POST">
                     {% csrf_token %} {{ settings.forms.form|crispy }}
-                    <button type="submit" class="">Guardar</button>
+                    <button type="submit" class="registerbtn">Guardar</button>
                 </form>
 
             </div>
@@ -52,47 +47,8 @@
     {% endblock content%}
 </body>
 <style>
-    body {
-        font-family: Arial, Helvetica, sans-serif;
-        background-color: black;
-    }
-    
-    * {
-        box-sizing: border-box;
-    }
-    /* Add padding to containers */
-    
-    .container {
-        padding: 16px;
-        background-color: white;
-    }
-    /* Full-width input fields */
-    
-    input[type=text],
-    input[type=password] {
-        width: 100%;
-        padding: 15px;
-        margin: 5px 0 22px 0;
-        display: inline-block;
-        border: none;
-        background: #f1f1f1;
-    }
-    
-    input[type=text]:focus,
-    input[type=password]:focus {
-        background-color: #ddd;
-        outline: none;
-    }
-    /* Overwrite default styles of hr */
-    
-    hr {
-        border: 1px solid #f1f1f1;
-        margin-bottom: 25px;
-    }
-    /* Set a style for the submit button */
-    
     .registerbtn {
-        background-color: #4CAF50;
+        background-color: #00a4a9;
         color: white;
         padding: 16px 20px;
         margin: 8px 0;
@@ -102,18 +58,51 @@
         opacity: 0.9;
     }
     
-    .registerbtn:hover {
-        opacity: 1;
+    body {
+        background: #16a085;
     }
-    /* Add a blue text color to links */
     
-    a {
-        color: dodgerblue;
+    .nav-pills {
+        width: 450px;
     }
-    /* Set a grey background color and center the text of the "sign in" section */
     
-    .signin {
-        background-color: #f1f1f1;
+    .nav-item {
+        width: 50%;
+    }
+    
+    .nav-pills .nav-link {
+        font-weight: bold;
+        padding-top: 13px;
         text-align: center;
+        background: #343436;
+        color: #fff;
+        border-radius: 30px;
+        height: 100px;
+    }
+    
+    .nav-pills .nav-link.active {
+        background: #fff;
+        color: #000;
+    }
+    
+    .tab-content {
+        position: absolute;
+        width: 450px;
+        height: auto;
+        margin-top: -50px;
+        background: #fff;
+        color: #000;
+        border-radius: 30px;
+        z-index: 1000;
+        box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.4);
+        padding: 30px;
+        margin-bottom: 50px;
+    }
+    
+    .tab-content button {
+        border-radius: 15px;
+        width: 100px;
+        margin: 0 auto;
+        float: right;
     }
 </style>

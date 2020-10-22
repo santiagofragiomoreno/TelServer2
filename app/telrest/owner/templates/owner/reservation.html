@@ -1,23 +1,26 @@
-{% extends "owner/navbar.html" %} {% load static %} {% block content %}
+{% extends "owner/navbar.html" %} {% block content %}{% load crispy_forms_tags %}
 <!------------------------------------------------Form------------------------------------------------------------------------------------>
 
 <body>
-    <form action="/newreservation" method="POST">
-        {% csrf_token %}
-        <div class="container">
-            <h1>Crear Reserva</h1>
-            <hr>
-            <label><b>Pisos</b></label>
+
+    <div class="container">
+        <h1>Crear Reserva</h1>
+        <hr>
+        <form action="../save_reservation/" method="POST">
+            {{ reservation.client.form|crispy }} {% csrf_token %} {{ reservation.reserv.form|crispy }}
+            <br><br>
+            <label>Pisos</label>
+            <br>
             <select name="flats_list">
                 {% for flat in flats %}
                 <option value="{{flat.id}}">{{flat.name}}</option>
                 {% endfor %}
             </select>
-            <br>
-            <br>
-            <button type="submit" class="registerbtn">Crear</button>
-        </div>
-    </form>
+            <br><br><br>
+            <button type="submit" class="registerbtn">Guardar</button>
+        </form>
+    </div>
+
 </body>
 
 </html>
@@ -26,7 +29,7 @@
 <style>
     body {
         font-family: Arial, Helvetica, sans-serif;
-        background-color: black;
+        background-color: #00a4a9;
     }
     
     * {
@@ -64,7 +67,7 @@
     /* Set a style for the submit button */
     
     .registerbtn {
-        background-color: #4CAF50;
+        background-color: #00a4a9;
         color: white;
         padding: 16px 20px;
         margin: 8px 0;

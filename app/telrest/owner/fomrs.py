@@ -12,19 +12,19 @@ class Settings_forms(forms.Form):
     is_pay = forms.BooleanField(label='Pasarela de pago', required=False)
 
 class Settings_alerts(forms.Form):
-    max_temperature = forms.IntegerField(label='Temperatura maxima', max_value=30, required=False)
-    min_temperature = forms.IntegerField(label='Temperatura minima', max_value=15, required=False)
-    start_time = forms.IntegerField(label='Hora de inicio', max_value=24, required=False)
-    end_time = forms.IntegerField(label='Hora de fin', max_value=24, required=False)
-    max_capacity = forms.IntegerField(label='Aforo maximo permitido', max_value=10, required=False)
-    listening_time = forms.IntegerField(label='Tiempo de escucha para la alarma', max_value=15, required=False)
+    max_temperature = forms.IntegerField(label='Temperatura maxima', max_value=30, min_value=0,required=False)
+    min_temperature = forms.IntegerField(label='Temperatura minima', max_value=15,min_value=0, required=False)
+    start_time = forms.IntegerField(label='Hora de inicio', max_value=24, min_value=0,required=False)
+    end_time = forms.IntegerField(label='Hora de fin', max_value=24,min_value=0, required=False)
+    max_capacity = forms.IntegerField(label='Aforo maximo permitido', max_value=10,min_value=0, required=False)
+    listening_time = forms.IntegerField(label='Tiempo de escucha para la alarma', max_value=15,min_value=0, required=False)
 
 class Settings_checkout(forms.Form):
-    price_time = forms.IntegerField(label='Tiempo (min)', max_value=30, required=False)
-    time_price = forms.IntegerField(label='Precio (€)', max_value=15, required=False)
+    price_time = forms.IntegerField(label='Tiempo (min)', max_value=30, required=False,min_value=0)
+    time_price = forms.IntegerField(label='Precio (€)', max_value=15, required=False,min_value=0)
 
-class reservation(forms.Form):
-    name = forms.CharField(label='Nombre', max_length=100)
+class Client(forms.Form):
+    name = forms.CharField(label='Nombre', max_length=100,required=False)
     lastname = forms.CharField(label='Apellidos', max_length=100)
     birthdate = forms.DateTimeField(label='Fecha de nacimiento')
     email = forms.EmailField(label='Email', max_length=100)
@@ -34,6 +34,8 @@ class reservation(forms.Form):
     city = forms.CharField(label='Ciudad', max_length=30, required=False)
     country = forms.CharField(label='Pais', max_length=30, required=False)
     cp = forms.IntegerField(label='CP', max_value=99999, required=False)
+
+class Reservation(forms.Form):
     date_start = forms.DateTimeField(label='Dia de inicio', required=True)
     date_end = forms.DateTimeField(label='Dia de fin', required=True)
-    guest = forms.IntegerField(label='Huespedes', max_value=10, required=False)
+    guest = forms.IntegerField(label='Huespedes', max_value=10, required=False,min_value=0)
