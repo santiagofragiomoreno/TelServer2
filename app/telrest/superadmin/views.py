@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from .custom_forms import OwnerForm, JuridicaForm, FlatForm
@@ -42,6 +42,10 @@ def alta_cliente(request):
             # guardo el objeto de auth user
             new_user = User.objects.create_user(username, username, password)
             new_user.save()
+
+            # añado el usuario al grupo de owners
+            iot_group = Group.objects.get(name='Owner')
+            iot_group.user_set.add(new_user)
 
             # registro los datos del owner en owners_data
             owner = OwnersData(
@@ -106,6 +110,21 @@ def alta_pisos(request):
 
             # guardo objeto flat en la bbdd y redirijo
             flat_object.save()
+
+            # creo y guardo objeto user
+            username = 'iotf_' + str(flat_object.id)
+            password = User.objects.make_random_password()
+
+            # pass para el arduino
+            print('la password de iot es: ' + password)
+
+            # guardo el objeto de auth user
+            iot_user = User.objects.create_user(username, username, password)
+            iot_user.save()
+
+            # añado el usuario al grupo de IoT
+            iot_group = Group.objects.get(name='IoT')
+            iot_group.user_set.add(iot_user)
 
             messages.success(request, 'Piso registrado')
             return redirect('/superadmin/')
