@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+#from superadmin.models import OwnersData
+
 
 class Instruction(models.Model):
     task = models.ForeignKey('Task', models.DO_NOTHING)
@@ -82,6 +84,28 @@ class SensorType(models.Model):
     name = models.CharField(max_length=255, unique=True, null=True, db_index=True)
 
 
+class OwnersData(models.Model):
+    person_type = models.BooleanField(default=True, db_index=True)  # true si es persona, false si es empresa
+    name = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si persona
+    last_name = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si persona
+    dni = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si persona
+    denomination = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si empresa
+    manager = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si empresa
+    cif = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si empresa
+    email = models.EmailField(blank=True, db_index=True)
+    owner_user = models.ForeignKey(User, models.DO_NOTHING)  # fk de auth_user
+    address = models.CharField(max_length=1024, unique=False, null=True)
+    floor = models.PositiveIntegerField(blank=True, null=True)
+    door = models.CharField(max_length=255, unique=False, null=True, db_index=True)
+    city = models.CharField(max_length=255, unique=False, null=True, db_index=True)
+    postal_code = models.PositiveIntegerField(blank=True, null=True)
+    phone = models.PositiveIntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'owners_data'
+
+
 class Flat(models.Model):
     name = models.CharField(max_length=255, unique=True, null=True, db_index=True)
     address = models.CharField(max_length=1024, unique=False, null=True)
@@ -89,9 +113,17 @@ class Flat(models.Model):
     door = models.CharField(max_length=255, unique=False, null=True, db_index=True)
     city = models.CharField(max_length=255, unique=False, null=True, db_index=True)
     postal_code = models.PositiveIntegerField(blank=True, null=True)
+    #  nuevos campos de pisos
+    guests = models.PositiveIntegerField(blank=True, unique=False, null=True, db_index=True)  # huespedes
+    rooms = models.PositiveIntegerField(blank=True, unique=False, null=True, db_index=True)  # habitaciones
+    baths = models.PositiveIntegerField(blank=True, unique=False, null=True, db_index=True)  # baños
+    reference = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # referencia catastral
+    meters = models.PositiveIntegerField(blank=True, unique=False, null=True, db_index=True)  # metros del piso
+    owners_data = models.ForeignKey('OwnersData', models.DO_NOTHING, db_index=True)  # fk de owners_data
 
 
 class FlatOwner(models.Model):
     owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
     flat = models.ForeignKey(Flat, models.DO_NOTHING, db_index=True)
     iot_user_id = models.PositiveIntegerField(blank=True, null=True, db_index=True)
+

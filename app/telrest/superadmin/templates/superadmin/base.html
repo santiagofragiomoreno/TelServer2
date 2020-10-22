@@ -1,4 +1,8 @@
 {% load static %}
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
   integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -18,22 +22,16 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'altacliente' %}">Alta cliente</a>
+        <a class="nav-link" href="{% url 'altacliente' %}">Alta clientes</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'altapisos' %}">Alta piso</a>
+        <a class="nav-link" href="{% url 'altapisos' %}">Alta pisos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'errores' %}">Errores</a>
+        <a class="nav-link" href="{% url 'errores' %}">Control</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'bdowners' %}">BBDD</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'historial' %}">Historial</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'altadispositivo' %}">Alta dispositivo</a>
+        <a class="nav-link" href="{% url 'bdowners' %}">Base de datos</a>
       </li>
     </ul>
     <div class="login-container">
@@ -44,5 +42,16 @@
     </div>
   </div>
 </nav>
+<div class="row">
+  <div class="col-md-8">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
 
 {% block content %}{% endblock %}
