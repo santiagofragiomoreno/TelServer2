@@ -7,16 +7,7 @@
         <h1>Crear Reserva</h1>
         <hr>
         <form action="../save_reservation/" method="POST">
-            {{ reservation.client.form|crispy }} {% csrf_token %} {{ reservation.reserv.form|crispy }}
-            <br><br>
-            <label>Pisos</label>
-            <br>
-            <select name="flats_list">
-                {% for flat in flats %}
-                <option value="{{flat.id}}">{{flat.name}}</option>
-                {% endfor %}
-            </select>
-            <br><br><br>
+            {% csrf_token %} {{ reservation.client.form|crispy }}
             <button type="submit" class="registerbtn">Guardar</button>
         </form>
     </div>

@@ -260,8 +260,7 @@ def save_reservation(request):
             form=form_client(request.POST)            
             if form.is_valid():
                 client = Client(
-                    owner_user=request.user,
-                    username = form.cleaned_data.get('name'),
+                    name = form.cleaned_data.get('name'),
                     lastname = form.cleaned_data.get('lastname'),
                     email = form.cleaned_data.get('email'),
                     dni = form.cleaned_data.get('dni'),

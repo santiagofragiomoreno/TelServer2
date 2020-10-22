@@ -29,7 +29,7 @@ class Client(forms.Form):
     birthdate = forms.DateTimeField(label='Fecha de nacimiento')
     email = forms.EmailField(label='Email', max_length=100)
     dni = forms.CharField(label='DNI', max_length=20, required=False)
-    tlf = forms.FloatField(label='Teléfono', max_value=999999999, required=False)
+    tlf = forms.IntegerField(label='Teléfono', max_value=999999999, required=False)
     direction = forms.CharField(label='Calle', max_length=100, required=False)
     city = forms.CharField(label='Ciudad', max_length=30, required=False)
     country = forms.CharField(label='Pais', max_length=30, required=False)

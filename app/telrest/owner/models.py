@@ -56,11 +56,10 @@ class Payments(models.Model):
         return str(self.owner_user)
 
 class Client (models.Model):
-    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True,unique=True,null=False)
     name = models.CharField(max_length=255, unique=True, null=False, db_index=True)
     lastname = models.CharField(max_length=1024, unique=False, null=True)
     birthdate = models.DateTimeField(unique=True, null=True)
-    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    #created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     email = models.EmailField(blank=True, null=False)
     dni = models.CharField(max_length=1024, unique=False, null=True)
     tlf = models.PositiveIntegerField(max_length=1024, unique=False, null=True)
