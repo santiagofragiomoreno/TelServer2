@@ -181,8 +181,6 @@ DATABASES = {
     }
 }
 
-DATABASES['default']['OPTIONS'] = {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"}
-
 # LOGIN_REDIRECT_URL = 'panel'
 LOGIN_URL = 'login'
 
