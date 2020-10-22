@@ -34,7 +34,8 @@ def alta_cliente(request):
         if form.is_valid():
             # creo los objetos de auth user y owners data
             username = form.cleaned_data.get('email')
-            password = User.objects.make_random_password()
+            # password = User.objects.make_random_password()
+            password = 'iballes'
 
             # enviar pass por email o algo
             print('la password es: ' + password)
@@ -113,7 +114,8 @@ def alta_pisos(request):
 
             # creo y guardo objeto user
             username = 'iotf_' + str(flat_object.id)
-            password = User.objects.make_random_password()
+            # password = User.objects.make_random_password()
+            password = 'iballes'
 
             # pass para el arduino
             print('la password de iot es: ' + password)
