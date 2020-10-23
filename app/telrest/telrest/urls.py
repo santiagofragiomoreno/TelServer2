@@ -19,7 +19,7 @@ from superadmin import views as admin_views
 
 urlpatterns = [
     path('mjxmyz5lpbd66gpte5d4/', admin.site.urls),
-    path('telapi/', include('telapi.urls')),
+    path('', include('telapi.urls')),
     path('', include('login.urls')),
     # path('', include('home.urls')), comentada para adminpanel development
     path('superadmin/', include('superadmin.urls')),
