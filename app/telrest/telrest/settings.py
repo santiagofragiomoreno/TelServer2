@@ -111,7 +111,7 @@ REST_FRAMEWORK = {
 DATABASES = {
    'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'telfiregate_dump2',
+        'NAME': 'telfiregate',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
