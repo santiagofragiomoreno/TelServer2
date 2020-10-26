@@ -21,7 +21,7 @@ urlpatterns = [
     path('mjxmyz5lpbd66gpte5d4/', admin.site.urls),
     path('', include('telapi.urls')),
     path('', include('login.urls')),
-    # path('', include('home.urls')), comentada para adminpanel development
+    path('', include('home.urls')),
     path('superadmin/', include('superadmin.urls')),
     path('owner/', include('owner.urls')),
 ]
