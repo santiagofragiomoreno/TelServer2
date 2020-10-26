@@ -101,7 +101,8 @@ class FlatOwner(models.Model):
 class Flat_Owner_Access(models.Model):
     auth_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True, null=False,)
     flat = models.ForeignKey(Flat, models.DO_NOTHING, db_index=True, null=False,)
-    date_access=models.CharField(max_length=255, null=False, db_index=True)
+    date_access_start=models.CharField(max_length=255, null=False, db_index=True,default='')
+    date_access_end=models.CharField(max_length=255, null=False, db_index=True,default='')
 
     class Meta:
         managed = True

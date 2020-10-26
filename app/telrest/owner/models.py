@@ -56,17 +56,19 @@ class Payments(models.Model):
         return str(self.owner_user)
 
 class Client (models.Model):
-    name = models.CharField(max_length=255, unique=True, null=False, db_index=True)
+    auth = models.ForeignKey(User, models.DO_NOTHING, db_index=True,unique=True,null=True,default='')
+    name = models.CharField(max_length=255, unique=True, null=True, db_index=True)
     lastname = models.CharField(max_length=1024, unique=False, null=True)
     birthdate = models.CharField(max_length=1024, unique=False, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    email = models.EmailField(blank=True, null=False)
+    email = models.EmailField(blank=True, null=True)
     dni = models.CharField(max_length=1024, unique=False, null=True)
     tlf = models.PositiveIntegerField(max_length=1024, unique=False, null=True)
     direction = models.CharField(max_length=1024, unique=False, null=True)
     city = models.CharField(max_length=1024, unique=False, null=True)
     country = models.CharField(max_length=1024, unique=False, null=True)
     cp = models.CharField(max_length=1024, unique=False, null=True)
+    
 
     class Meta:
         managed = True

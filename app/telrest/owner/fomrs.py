@@ -46,3 +46,16 @@ class Reservation(forms.Form):
     #is_pay = forms.BooleanField(label='Pasarela de pago', required=False)
     #TODO Preguntar a marc como va a ser la pasarela de pago y que opciones ponemos, ira seguramente con un select o radiobutton
     # que segun la opcion seleccionada te habra con js un submenu o algo asi para rellenar datos 
+
+NUMS= [
+    ('flat.name', 'PISO'),
+    ('state', 'ESTADO'),
+    ('date_access_start', 'FECHA DE INICIO'),
+    ('date_access_end', 'FECHA DE FIN'),
+    ('auth_user.username', 'NOMBRE'),
+    ('auth_user.last_name', 'APELLIDOS'),
+    ('auth_user.tlf', 'TELEFONO'),
+
+    ]
+class Filter(forms.Form):
+    NUMS = forms.ChoiceField(choices=NUMS, widget=forms.RadioSelect)

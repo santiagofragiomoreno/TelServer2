@@ -7,13 +7,13 @@ from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 from security.jwt_gen import JWTEncoder
 import time
-from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData, SensorType, FlatOwner, Flat
+from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData, SensorType, FlatOwner, Flat, Flat_Owner_Access
 from .models import Settings_alerts,Settings_forms,Payments,Client
 from .models import Reservation as model_reservation
 from security.permissions import IsIot, IsClient, IsSuperuser, IsOwner
 import datetime
 from telapi.validations import validate_date, validate_datetime, validate_clientemail, validate_integer
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 from .fomrs import Settings_alerts as alerts
 from django.db import transaction
 from django.contrib import messages
@@ -21,6 +21,7 @@ from .fomrs import Settings_forms as form_form
 from .fomrs import Settings_checkout as ck
 from .fomrs import Reservation as form_reservation
 from .fomrs import Client as form_client
+from .fomrs import Filter
 from django.core.mail import send_mail
 from django.conf import settings
 from django import forms
@@ -37,6 +38,7 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
+from django.utils.datastructures import MultiValueDictKeyError
 from django.core.mail import EmailMessage
 
 # -------show mainpage of owner-----------------
@@ -66,28 +68,6 @@ def home(request):
     return HttpResponse(template.render(context, request))
 
 #------------formularios seguros
-
-@login_required
-def historic_access(request):
-    context = {}
-    context['msg'] = request.user
-
-    id_flats = []
-    flats = []
-
-    for e in FlatOwner.objects.all():
-        if e.owner_user.id == request.user.id:
-            id_flats.insert(0, e.flat.id)
-
-    for e in Flat.objects.all():
-        if e.id in id_flats:
-            flats.insert(0, e)
-
-    context['accesos']=Instruction.objects.order_by('-recieved_date')
-
-    context['flats'] = flats
-    template = loader.get_template('owner/historic_access.html')
-    return HttpResponse(template.render(context, request))
 
 @login_required
 def clean_master(request):
@@ -290,28 +270,29 @@ def save_reservation(request):
         if request.method == 'POST':
             form=form_client(request.POST)            
             if form.is_valid():
-                new_client = User.objects.create_user(form.cleaned_data.get('name'), form.cleaned_data.get('name'), 'default')
+                new_client = User.objects.create_user(form.cleaned_data.get('name'), form.cleaned_data.get('email'), 'default')
                 new_client.save()
 
-            # añado el cliente al grupo de clientes
-            group_client = Group.objects.get(name='Client')
-            group_client.user_set.add(new_client)
-                
-            """client = Client(
-                    name = form.cleaned_data.get('name'),
-                    lastname = form.cleaned_data.get('lastname'),
-                    email = form.cleaned_data.get('email'),
-                    dni = form.cleaned_data.get('dni'),
-                    birthdate = request.POST["birthdate"],
-                    tlf = form.cleaned_data.get('tlf'),
-                    direction = form.cleaned_data.get('direction'),
-                    city = form.cleaned_data.get('city'),
-                    country = form.cleaned_data.get('country'),
-                    cp = form.cleaned_data.get('cp'),
-                )
+                # añado el cliente al grupo de clientes
+                group_client = Group.objects.get(name='Client')
+                group_client.user_set.add(new_client)
+                    
+                client = Client(
+                        auth_id=new_client.id,
+                        name = form.cleaned_data.get('name'),
+                        lastname = form.cleaned_data.get('lastname'),
+                        email = form.cleaned_data.get('email'),
+                        dni = form.cleaned_data.get('dni'),
+                        birthdate = request.POST["birthdate"],
+                        tlf = form.cleaned_data.get('tlf'),
+                        direction = form.cleaned_data.get('direction'),
+                        city = form.cleaned_data.get('city'),
+                        country = form.cleaned_data.get('country'),
+                        cp = form.cleaned_data.get('cp'),
+                    )
                 client.save()
 
-                reservation = model_reservation(
+            reservation = model_reservation(
                 owner_user=request.user,
                 client=client,
                 flat_id = request.POST["flat_select"],
@@ -324,9 +305,9 @@ def save_reservation(request):
                 code = form.cleaned_data.get('code'),
                 observation = form.cleaned_data.get('observation'),
                 )                
-                reservation.save()
-            
-                subject="Nueva reserva por parte de " + request.user.username
+            reservation.save()
+            #TODO es necesario que cuando se suba el codigo se descomente y se configura para enviar correos
+            """subject="Nueva reserva por parte de " + request.user.username
                 messages="Se ha creado una reserva para " + form.cleaned_data.get('name') + " con fecha del " + request.POST["start_time"] + " al " + request.POST["end_time"]
 
                 msg = EmailMessage(subject,messages, to=['romanclementejurado@gmail.com'])
@@ -339,6 +320,45 @@ def save_reservation(request):
         payments.save()"""
 
     template = loader.get_template('owner/home.html')
+    return HttpResponse(template.render(context, request))
+
+
+@login_required
+def historic_access(request):
+    busqueda=[]
+    context = {}
+    context = {
+                'filter': {
+                    'flter': {'form': Filter},
+                }
+            }
+    if request.method == 'POST':
+        context['msg'] = request.user
+        try:
+            if request.POST["search"] is None:
+                form=Filter(request.POST) 
+                if form.is_valid():   
+                    selected = form.cleaned_data.get("NUMS")
+                    context['accesos']=Flat_Owner_Access.objects.order_by(selected)
+            else:
+                #or e.auth_user.phone == request.POST["search"]
+                for e in Flat_Owner_Access.objects.all():
+                    if e.flat.name.lower() == request.POST["search"].lower() or e.auth_user.username.lower() == request.POST["search"].lower() or e.auth_user.last_name.lower() == request.POST["search"].lower():
+                        busqueda.append(e)
+                context['accesos']=busqueda
+        except MultiValueDictKeyError:
+            form=Filter(request.POST) 
+            if form.is_valid():
+                for e in Flat_Owner_Access.objects.all():
+                    if e.auth_user.id == request.user.id:
+                        busqueda.append(e)
+                    selected = form.cleaned_data.get("NUMS")
+                    context['accesos']= busqueda
+    else:
+        context['msg'] = request.user
+        context['accesos']=Flat_Owner_Access.objects.all()
+
+    template = loader.get_template('owner/historic_access.html')
     return HttpResponse(template.render(context, request))
 
 @login_required
