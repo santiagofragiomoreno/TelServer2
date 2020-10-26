@@ -290,9 +290,14 @@ def save_reservation(request):
         if request.method == 'POST':
             form=form_client(request.POST)            
             if form.is_valid():
+                new_client = User.objects.create_user(form.cleaned_data.get('name'), form.cleaned_data.get('name'), 'default')
+                new_client.save()
+
+            # añado el cliente al grupo de clientes
+            group_client = Group.objects.get(name='Client')
+            group_client.user_set.add(new_client)
                 
-                
-                """client = Client(
+            """client = Client(
                     name = form.cleaned_data.get('name'),
                     lastname = form.cleaned_data.get('lastname'),
                     email = form.cleaned_data.get('email'),
