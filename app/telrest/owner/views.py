@@ -274,7 +274,7 @@ def save_reservation(request):
                     lastname = form.cleaned_data.get('lastname'),
                     email = form.cleaned_data.get('email'),
                     dni = form.cleaned_data.get('dni'),
-                    #birthdate = request.POST["birthdate"],
+                    birthdate = request.POST["birthdate"],
                     tlf = form.cleaned_data.get('tlf'),
                     direction = form.cleaned_data.get('direction'),
                     city = form.cleaned_data.get('city'),

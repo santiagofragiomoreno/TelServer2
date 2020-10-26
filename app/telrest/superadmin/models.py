@@ -5,7 +5,7 @@ from django.db import models
 from telapi.models import Flat
 
 
-class OwnersData(models.Model):
+"""class OwnersData(models.Model):
     person_type = models.BooleanField(default=True, db_index=True)  # true si es persona, false si es empresa
     name = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si persona
     last_name = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si persona
@@ -45,3 +45,4 @@ class FlatData(models.Model):
     class Meta:
         managed = True
         db_table = 'flat_data'
+        """
