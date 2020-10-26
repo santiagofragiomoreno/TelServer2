@@ -8,10 +8,10 @@ class Settings_forms(models.Model):
     owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True,unique=True)
     is_lastname = models.BooleanField(default=True, db_index=False,blank=False,null=True)
     is_phone = models.BooleanField(default=True, db_index=False,blank=False,null=True)
+    is_birthdate = models.BooleanField(default=True, db_index=False,blank=False,null=True)
     is_city = models.BooleanField(default=True, db_index=False,blank=False,null=True)
     is_import = models.BooleanField(default=True, db_index=False,blank=False,null=True)
     is_origin = models.BooleanField(default=True, db_index=False,blank=False,null=True)
-    is_capacity = models.BooleanField(default=True, db_index=False,blank=False,null=True)
     is_code = models.BooleanField(default=True, db_index=False,blank=False,null=True)
     is_capacity = models.BooleanField(default=True, db_index=False,blank=False,null=True)
     is_cancelation = models.BooleanField(default=True,db_index=False,blank=False,null=True)
@@ -58,8 +58,8 @@ class Payments(models.Model):
 class Client (models.Model):
     name = models.CharField(max_length=255, unique=True, null=False, db_index=True)
     lastname = models.CharField(max_length=1024, unique=False, null=True)
-    birthdate = models.DateTimeField(unique=True, null=True)
-    #created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    birthdate = models.CharField(max_length=1024, unique=False, null=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     email = models.EmailField(blank=True, null=False)
     dni = models.CharField(max_length=1024, unique=False, null=True)
     tlf = models.PositiveIntegerField(max_length=1024, unique=False, null=True)
@@ -77,11 +77,21 @@ class Client (models.Model):
 
 class Reservation(models.Model):
     owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True,unique=True,null=False)
-    client = models.ForeignKey(Client, models.DO_NOTHING, db_index=True,unique=True,null=False)
-    flat = models.ForeignKey(Flat, models.DO_NOTHING, db_index=True,unique=True,null=False)
-    start_time = models.DateTimeField( unique=True, null=False)
-    end_time = models.DateTimeField( unique=False, null=False)
+    client = models.ForeignKey(Client, models.DO_NOTHING, db_index=True,unique=True,null=True)
+    #TODO Este campo deberia ser runa fk de la tabla de precios pero mas de 2 relaciones da error
+    #es importe de la reserva
+    import_price = models.PositiveIntegerField(max_length=1024, unique=False, null=True)
+    #lo mismo para el campo de cancelacion debera cogerse automaticamente de la tabla ya creada de precios
+    cancelation = models.PositiveIntegerField(max_length=1024, unique=False, null=True)
+    flat_id = models.CharField(max_length=1024, unique=False, null=True)
+    start_time = models.CharField(max_length=1024, unique=False, null=True)
+    end_time = models.CharField(max_length=1024, unique=False, null=True)
     guest = models.PositiveIntegerField(max_length=1024, unique=False, null=True)
+    origin = models.CharField(max_length=1024, unique=False, null=True)
+    #TODO Preguntar a santiago si sera un campo autogenerado y si sera por mi desde app o desde server
+    code = models.CharField(max_length=1024, unique=False, null=True)
+    observation = models.TextField( unique=False, null=True)
+
 
     class Meta:
         managed = True

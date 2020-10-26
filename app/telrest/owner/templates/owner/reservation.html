@@ -7,7 +7,89 @@
         <h1>Crear Reserva</h1>
         <hr>
         <form action="../save_reservation/" method="POST">
-            {% csrf_token %} {{ reservation.client.form|crispy }}
+
+            <label>Piso</label>
+            <select name="flat_select">
+            {% for flat in flats %}
+                <option value={{flat.id}}>{{flat.name}}</option>            
+            {% endfor %}
+            
+            {% csrf_token %}
+            <br>
+            <br>
+
+            {{ reservation.client.form.name|as_crispy_field }}
+            {% if forms.is_lastname %}
+            {{ reservation.client.form.lastname|as_crispy_field }}
+            {% endif %}
+            {% if forms.is_dni %}
+            {{ reservation.client.form.dni|as_crispy_field }}
+            {% endif %}
+            {% if forms.is_birthdate %}
+            <p>Fecha Nacimiento</p>
+            <input type="date" name="birthdate" id="birthdate" min="1940-01-01" max="2000-10-29"><br><br>
+            {% endif %}
+            {{ reservation.client.form.email|as_crispy_field }}
+            <br>
+            {% if forms.is_phone %}
+            {{ reservation.client.form.tlf|as_crispy_field }}
+            <br>
+            {% endif %}
+            
+            {% if forms.is_direction %}
+            {{ reservation.client.form.direction|as_crispy_field }}
+            {% endif %}
+            {% if forms.is_.city %}
+            {{ reservation.client.form.city|as_crispy_field }}
+            {% endif %}
+            {% if forms.is_country %}
+            {{ reservation.client.form.country|as_crispy_field }}
+            {% endif %}
+            {% if forms.is_cp %}
+            {{ reservation.client.form.cp|as_crispy_field }}
+            <br>
+            {% endif %}
+            
+            {% if forms.is_capacity %}
+            {{ reservation.reserv.form.guest|as_crispy_field }}
+            <br>
+            {% endif %}
+            
+            {% if forms.is_import %}
+            {{ reservation.reserv.form.import_price|as_crispy_field }}
+            <br>
+            {% endif %}
+            
+            {% if forms.is_origin %}
+            {{ reservation.reserv.form.origin|as_crispy_field }}
+            <br>
+            {% endif %}
+            
+            {% if forms.is_code %}
+            {{ reservation.reserv.form.code|as_crispy_field }}
+            <br>
+            {% endif %}
+            
+            {% if forms.is_cancelation %}
+            {{ reservation.reserv.form.cancelation|as_crispy_field }}
+            <br>
+            {% endif %}
+            
+            {% if forms.is_observation %}
+            {{ reservation.reserv.form.observation|as_crispy_field }}
+            {% endif %}
+
+            </select>
+            <br>
+            <label>Fecha Inicio</label>
+            <input type="date" id="datePickerInit" name="start_time" required/>
+            <br>
+            <br>
+            <br>
+            <label>Fecha Fin</label>
+            <input type="date" id="datePickerFin" name="end_time" required/>
+            <br>
+            <br>
             <button type="submit" class="registerbtn">Guardar</button>
         </form>
     </div>
@@ -17,6 +99,10 @@
 </html>
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
+<script>
+    datePickerInit.min = new Date().toISOString().split("T")[0];
+    datePickerFin.min = new Date().toISOString().split("T")[0];
+</script>
 <style>
     body {
         font-family: Arial, Helvetica, sans-serif;

@@ -3,6 +3,7 @@ class Settings_forms(forms.Form):
     is_lastname = forms.BooleanField(label='Apellidos', required=False)
     is_phone = forms.BooleanField(label='Telefono', required=False)
     is_city = forms.BooleanField(label='Ciudad',  required=False)
+    is_birthdate = forms.BooleanField(label='Fecha de nacimiento',  required=False)
     is_import = forms.BooleanField(label='Importe de la reserva', required=False)
     is_origin = forms.BooleanField(label='Origen de la reserva', required=False)
     is_code = forms.BooleanField(label='Código de reserva', required=False)
@@ -24,9 +25,8 @@ class Settings_checkout(forms.Form):
     time_price = forms.IntegerField(label='Precio (€)', max_value=15, required=False,min_value=0)
 
 class Client(forms.Form):
-    name = forms.CharField(label='Nombre', max_length=100,required=False)
-    lastname = forms.CharField(label='Apellidos', max_length=100)
-    birthdate = forms.DateTimeField(label='Fecha de nacimiento')
+    name = forms.CharField(label='Nombre', max_length=100,required=True)
+    lastname = forms.CharField(label='Apellidos', max_length=100,required=False)
     email = forms.EmailField(label='Email', max_length=100)
     dni = forms.CharField(label='DNI', max_length=20, required=False)
     tlf = forms.IntegerField(label='Teléfono', max_value=999999999, required=False)
@@ -36,6 +36,13 @@ class Client(forms.Form):
     cp = forms.IntegerField(label='CP', max_value=99999, required=False)
 
 class Reservation(forms.Form):
-    date_start = forms.DateTimeField(label='Dia de inicio', required=True)
-    date_end = forms.DateTimeField(label='Dia de fin', required=True)
     guest = forms.IntegerField(label='Huespedes', max_value=10, required=False,min_value=0)
+    import_price = forms.IntegerField(label='Importe de la reserva', max_value=10, required=False,min_value=0)
+    origin = forms.CharField(label='Pais de origen de la reserva', max_length=30, required=False)
+    code = forms.CharField(label='Código de reserva', max_length=999999999, required=False)
+    cancelation = forms.IntegerField(label= 'Coste de cancecion', max_value=10, required=False,min_value=0)
+    observation = forms.CharField(label='Observaciones', max_length=65535, required=False)
+
+    #is_pay = forms.BooleanField(label='Pasarela de pago', required=False)
+    #TODO Preguntar a marc como va a ser la pasarela de pago y que opciones ponemos, ira seguramente con un select o radiobutton
+    # que segun la opcion seleccionada te habra con js un submenu o algo asi para rellenar datos 

@@ -14,6 +14,7 @@ import datetime
 from telapi.validations import validate_date, validate_datetime, validate_clientemail, validate_integer
 from django.contrib.auth.models import User
 from .fomrs import Settings_alerts as alerts
+from django.db import transaction
 from django.contrib import messages
 from .fomrs import Settings_forms as form_form
 from .fomrs import Settings_checkout as ck
@@ -33,6 +34,9 @@ from security.authorization import InstructionAuthorization
 from django.db import DatabaseError
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.conf import settings
+from django.core.mail import EmailMessage
 
 # -------show mainpage of owner-----------------
 
@@ -151,7 +155,7 @@ def savesettings_alert(request):
         settings_alert.listening_time=form.cleaned_data.get('listening_time')          
         settings_alert.save()
 
-    template = loader.get_template('owner/home.html')
+    template = loader.get_template('owner/settings.html')
     return HttpResponse(template.render(context, request))
 
 @login_required
@@ -169,6 +173,7 @@ def savesettings_form(request):
             is_lastname=form.cleaned_data.get('is_lastname'),
             is_phone=form.cleaned_data.get('is_phone'),
             is_city=form.cleaned_data.get('is_city'),
+            is_birthdate=form.cleaned_data.get('is_birthdate'),
             is_import=form.cleaned_data.get('is_import'),
             is_origin=form.cleaned_data.get('is_origin'),
             is_code=form.cleaned_data.get('is_code'),
@@ -184,6 +189,7 @@ def savesettings_form(request):
         settings_forms.is_lastname=form.cleaned_data.get('is_lastname')
         settings_forms.is_phone=form.cleaned_data.get('is_phone')
         settings_forms.is_city=form.cleaned_data.get('is_city')
+        settings_forms.is_birthdate=form.cleaned_data.get('is_birthdate')
         settings_forms.is_import=form.cleaned_data.get('is_import')
         settings_forms.is_origin=form.cleaned_data.get('is_origin')
         settings_forms.is_code=form.cleaned_data.get('is_code')
@@ -193,7 +199,7 @@ def savesettings_form(request):
         settings_forms.is_pay=form.cleaned_data.get('is_pay')          
         settings_forms.save()
     
-    template = loader.get_template('owner/home.html')
+    template = loader.get_template('owner/settings.html')
     return HttpResponse(template.render(context, request))
 
 @login_required
@@ -219,11 +225,13 @@ def savesettings_ck(request):
         payments.time_price=form.cleaned_data.get('time_price')
         payments.save()
 
-    template = loader.get_template('owner/home.html')
+    template = loader.get_template('owner/settings.html')
     return HttpResponse(template.render(context, request))
 
 @login_required
 def reservation(request):
+    settings_forms = Settings_forms.objects.get(owner_user=request.user)
+
     context = {}
     context['msg'] = request.user
 
@@ -246,6 +254,7 @@ def reservation(request):
             flats.insert(0, e)
 
     context['flats'] = flats
+    context['forms'] = settings_forms
 
     template = loader.get_template('owner/reservation.html')
     return HttpResponse(template.render(context, request))
@@ -253,6 +262,8 @@ def reservation(request):
 
 @login_required
 def save_reservation(request):
+
+    temp={}
     context = {}
     context['msg'] = request.user
     try:
@@ -264,28 +275,39 @@ def save_reservation(request):
                     lastname = form.cleaned_data.get('lastname'),
                     email = form.cleaned_data.get('email'),
                     dni = form.cleaned_data.get('dni'),
+                    #birthdate = request.POST["birthdate"],
                     tlf = form.cleaned_data.get('tlf'),
                     direction = form.cleaned_data.get('direction'),
+                    city = form.cleaned_data.get('city'),
                     country = form.cleaned_data.get('country'),
                     cp = form.cleaned_data.get('cp'),
-                    city = form.cleaned_data.get('city'),
                 )
                 client.save()
 
-                """reservation = Reservation(
+                reservation = model_reservation(
                 owner_user=request.user,
                 client=client,
-                flat = request.POST["flats_list"],
-                start_time = form.cleaned_data.get('start_time'),
-                end_time = form.cleaned_data.get('end_time'),
+                flat_id = request.POST["flat_select"],
+                start_time = request.POST["start_time"],
+                end_time = request.POST["end_time"],
                 guest = form.cleaned_data.get('guest'),
-                )
+                import_price = form.cleaned_data.get('import_price'),
+                cancelation = form.cleaned_data.get('cancelation'),
+                origin = form.cleaned_data.get('origin'),
+                code = form.cleaned_data.get('code'),
+                observation = form.cleaned_data.get('observation'),
+                )                
+                reservation.save()
+            
+                subject="Nueva reserva por parte de " + request.user.username
+                messages="Se ha creado una reserva para " + form.cleaned_data.get('name') + " con fecha del " + request.POST["start_time"] + " al " + request.POST["end_time"]
 
-                reservation.save()"""
+                msg = EmailMessage(subject,messages, to=['romanclementejurado@gmail.com'])
+                msg.send()
 
     except IntegrityError:
-        """payments = Payments.objects.get(owner_user=request.user)
-        payments.price_time=form.cleaned_data.get('price_time')
+        # """payments = Payments.objects.get(owner_user=request.user)
+        """payments.price_time=form.cleaned_data.get('price_time')
         payments.time_price=form.cleaned_data.get('time_price')
         payments.save()"""
 
