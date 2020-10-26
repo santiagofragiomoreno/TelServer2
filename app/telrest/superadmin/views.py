@@ -6,13 +6,29 @@ from .custom_forms import OwnerForm, JuridicaForm, FlatForm
 from django.contrib import messages
 from telapi.models import OwnersData
 from telapi.models import Flat
+from owner.models import Reservation
 
 
 # Create your views here.
 
 @login_required
 def home(request):
-    context = {}
+    owner = []
+    reservation = []
+
+    for user in User.objects.all():
+        if user.groups.filter(name='Owner').exists():
+            owner.append(user)
+
+    for reserv in Reservation.objects.all():
+        owner_reserva = User.objects.get(id=reserv.owner_user)
+        reservation.append(reserv)
+
+    context = {
+        'owners': owner,
+        'reservation': reservation
+    }
+
     return render(request, 'superadmin/home.html', context)
 
 
