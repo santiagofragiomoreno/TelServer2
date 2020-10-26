@@ -29,13 +29,14 @@ ALLOWED_HOSTS = ['192.168.1.33', 'telgate.test', 'localhost', '127.0.0.1', '172.
                  'telfiregate.com', 'api.openityourself.com', 'ehlock.com']
 
 # Mail Service
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+
+DEFAULT_FROM_EMAIL = 'info@ehlock.com'
+SERVER_EMAIL = 'info@ehlock.com'
 EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'noreply@ehlock.com'
-EMAIL_HOST_PASSWORD = 'sDWTOF3TWV3A5SPzc6PQ'
+EMAIL_HOST_USER = 'info@ehlock.com'
+EMAIL_HOST_PASSWORD = 'Cambiame2020'
 
 # Application definition
 
@@ -107,16 +108,16 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
+#DATABASES = {
 #    'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'telfiregate_dump2',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-#     }
-# }
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': 'telfiregate',
+#        'USER': 'root',
+#        'PASSWORD': '',
+#        'HOST': 'localhost',
+#        'PORT': '3306',
+#    }
+#}
 
 
 # Password validation

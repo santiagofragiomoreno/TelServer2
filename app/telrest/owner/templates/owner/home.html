@@ -1,18 +1,19 @@
- {% extends "owner/navbar.html" %} {% load static %} {% block content %}
+{% extends "owner/navbar.html" %} {% load static %} {% block content %} {% include 'owner/button.html' %}
 <meta name="robots" content="noindex, nofollow">
 <meta name="googlebot" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <div class="container">
     <h2>Pisos</h2>
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs" role="tablist">
         {% for flat in flats %}
-        <li><a data-toggle="tab" href="#{{flat.id}}">{{flat.name}}</option>
+        <li class="nav-item"><a a class="nav-link" data-toggle="tab" href="#{{flat.id}}">{{flat.name}}</option>
         {% endfor %}
     </ul>
 
     <div class="tab-content">
         {% for flat in flats %}
-        <div id="{{flat.id}}" class="tab-pane fade in active">
+        <div id="{{flat.id}}" class="tab-pane fade">
+
             <div style="text-decoration: none;color: black;">
                 <h3>Abrir portal o puerta</h3>
             <img src="https://www.pngfind.com/pngs/m/365-3658172_open-door-door-opening-door-open-door-vector.png" style="position:relative;float: left;" height="100" width="100" alt="fondo"> 
@@ -29,134 +30,221 @@
             <br>
             <hr>
             <div>
+                <div class="card">
+                    <div class="BrandContainer">
+                        <div class="BrandContainerTitle">
+                            <div>
+                                {% for ac in accesos %}
+                                <p>{{ac.task.name}} - {{ac.user.username}} - {{ac.recieved_date}}</p>
+                                {% endfor %}
+                            </div>   
+                        </div>
+                        <div class="BrandContainerImage">
+                            <img src="data:image/png;base64,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" eight="100" width="100">
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <!------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <div class="card">
+                    <div class="BrandContainer">
+                        <div class="BrandContainerTitle">
+                            <div>
+                                <p>{{accesos.0.task.name}} - {{accesos.0.user.username}} - {{accesos.0.recieved_date}}</p>
+                            </div>   
+                        </div>
+                        <div class="BrandContainerImage">
+                            <img src="https://www.pngfind.com/pngs/m/365-3658172_open-door-door-opening-door-open-door-vector.png" style="position:relative;float: left;" height="100" width="100" alt="fondo">
+                        </div>
+                    </div>
+                </div>
+                <!------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <br><br>
+                <div class="card">
+                    <div class="BrandContainer">
+                        <div class="BrandContainerTitle">
+                            <div>
+                                <p>0</p>
+                            </div>   
+                        </div>
+                        <div class="BrandContainerImage">
+                            <img src="https://img1.pnghut.com/6/10/8/XSPW1558EA/silhouette-user-windows-live-messenger-logo-msn.jpg" style="position:relative;float: left;" height="100" width="100" alt="fondo">                        </div>
+                    </div>
+                </div>
                 
+                <!------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <br><br>
+                <div class="card">
+                    <div class="BrandContainer">
+                        <div class="BrandContainerTitle">
+                            <div>
+                                <p>off</p>
+                            </div>   
+                        </div>
+                        <div class="BrandContainerImage">
+                            <img style="background-color:#6B6361;" class="btn btn-outline-info" src="https://png.pngtree.com/png-vector/20190411/ourlarge/pngtree-vector-bell-icon-png-image_925655.jpg" style="position:relative;float: left;" height="100" width="100" alt="fondo">                    
+                        </div>
+                    </div>
+                </div>
+                <!------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <br><br>
+                <div class="card">
+                    <div class="BrandContainer">
+                        <div class="BrandContainerTitle">
+                            <div>
+                                <p>Sin alertas</p>
+                            </div>   
+                        </div>
+                        <div class="BrandContainerImage">
+                            <img class="btn btn-outline-info" src="https://www.flaticon.es/svg/static/icons/svg/26/26706.svg" style="position:relative;float: left;" height="100" width="100" alt="fondo">                    
+                        </div>        
+                    </div>
+                </div>
+                <!------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <br><br>
+                <div class="card">
+                    <div class="BrandContainer">
+                        <div class="BrandContainerTitle">
+                            <div>
+                                <p>0ºC</p>
+                            </div>   
+                        </div>
+                        <div class="BrandContainerImage">
+                            <img class="btn btn-outline-info" src="https://img1.freepng.es/20180412/edq/kisspng-thermometer-computer-icons-clip-art-thermometer-5acf39f0c39eb8.4736705015235302248013.jpg" style="position:relative;float: left;" height="100" width="100" alt="fondo">                    
+                        </div>
+                    </div>
+                </div>
+                <!------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <br><br>
+                <div class="card">
+                    <div class="BrandContainer">
+                        <div class="BrandContainerTitle">
+                            <div>
+                                {% if accesos.0.id < 0 %}
+                                <p>Limpio</p>
+                                {% else %}
+                                <p>Aun sin limpiar</p>
+                                {% endif %}
+                            </div>   
+                        </div>
+                        <div class="BrandContainerImage">
+                            <img class="btn btn-outline-info" src="https://img2.freepng.es/20190615/xlb/kisspng-clip-art-broom-drawing-portable-network-graphics-c-broom-coloring-page-transparent-amp-png-clipart-5d05628bb3b6f3.6434697315606339957361.jpg" style="position:relative;float: left;" height="100" width="100" alt="fondo">                    
+                        </div>
+                    </div>
+                </div>
+                <!------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <br><br>
+                <div class="card">
+                    <div class="BrandContainer">
+                        <div class="BrandContainerTitle">
+                            <div>
+                                {% if accesos.0.id > 0 %}
+                                <p>En perfecto estado</p>
+                                {% else %}
+                                <p>Necesita mantenimiento</p>
+                                {% endif %}
+                            </div>   
+                        </div>
+                        <div class="BrandContainerImage">
+                            <img class="btn btn-outline-info" src="data:image/png;base64,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" style="position:relative;float: left;" height="100" width="100" alt="fondo">                    
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        
         {% endfor %}
     </div>
 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<body>
-    <div class="container_info">
-        <label><b>Mis pisos</b></label>
-        <select>
-                {% for flat in flats %}
-                <option value="{{flat.id}} ">{{flat.name}}</option>
-                {% endfor %}
-    </select>
-    </div>
-    <div>
-        <div class="page-header ">
-            <h1>Piso seleccionado</h1>
-        </div>-->
-<!------------------------------------------------------------------------------->
-<!--<div style="margin-left:300px;">
-            <h2 style="margin-left:-150px;">Accesso: </h2>
-            <p>Abrir portal</p>
-            <form method="post" action="/abrirpuerta">
-                {% csrf_token %}
-                <button type="submit" class="btn">Open</button>
-            </form>
-
-            <p>Abrir puerta </p>
-            <form method="post" action="/abrirpuerta">
-                {% csrf_token %}
-                <button type="submit" class="btn">Open</button>
-            </form>
-            </button>
-        </div>-->
-<!------------------------------------------------------------------------------->
-<!---<div style="float: left; margin-left:300px;">
-        <h2 style="margin-left:-150px;">Ultimos Accesos: </h2>
-        <div style="overflow-y: scroll; height:300px; ">
-            <table>
-                {% for sens in sensor %}
-                <tr>
-                    <td>{{sens.created}}</td>
-                    <td>{{sens.iot_user.id}}</td>
-                    <td>{{sens.flat.id}}</td>
-                    <td>{{sens.sensor_type_id}}</td>
-                    <td>{{sens.value}}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
-    <div style="float: right;margin-right:300px;">
-        <h2>Solicitudes:</h2>
-    </div>
-    </div>-->
-
-<!---------------------------------------------------------------------------------------------------->
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<!---------------------------------------------------------------------------------------------------->
-<!---<div style="float: left; margin-left:300px;">
-        <h2 style="margin-left:-150px;">Control:</h2>
-        <p>Ultimo acceso</p>
-        <p>{{open_flat}}</p>
-        <p>Aforo a tiempo real</p>
-        <p>Antiocupa</p>
-        <p>Alertas</p>
-        <p>Temperatura</p>
-        <p>Piso limpio</p>
-        <p>Mantenimiento</p>
-    </div>
-    </div>
-    <p>{{msg}}</p>
-
-
-    <script>
-    </script>-->
+<style>
+    
+        .BrandContainer
+{
+       width: 100%;
+}
+.BrandContainerTitle
+{
+       margin-top: 10px;
+       vertical-align: top;
+       float: right;
+}
+.BrandContainerImage
+{
+       vertical-align: top;
+       float: left;
+}
+.BrandContainerImage img
+{
+       height: 100px;
+       width: 100px;
+}
+body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #00a4a9;
+    }
+    
+    * {
+        box-sizing: border-box;
+    }
+    /* Add padding to containers */
+    
+    .container {
+        padding: 16px;
+        background-color: white;
+    }
+    /* Full-width input fields */
+    
+    input[type=text],
+    input[type=password] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        display: inline-block;
+        border: none;
+        background: #f1f1f1;
+    }
+    
+    input[type=text]:focus,
+    input[type=password]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+    /* Overwrite default styles of hr */
+    
+    hr {
+        border: 1px solid #f1f1f1;
+        margin-bottom: 25px;
+    }
+    /* Set a style for the submit button */
+    
+    .registerbtn {
+        background-color: #00a4a9;
+        color: white;
+        padding: 16px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
+    }
+    
+    .registerbtn:hover {
+        opacity: 1;
+    }
+    /* Add a blue text color to links */
+    
+    a {
+        color: dodgerblue;
+    }
+    /* Set a grey background color and center the text of the "sign in" section */
+    
+    .signin {
+        background-color: #f1f1f1;
+        text-align: center;
+    }
+</style>
 
 </body>
 {% endblock content%}

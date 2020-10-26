@@ -2,7 +2,9 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="nav-link" href="{% url 'home' %}">EHLOCK <span class="sr-only">(current)</span></a>
@@ -12,13 +14,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="createaccess">Crear reserva</a>
+                <a class="nav-link" href="{% url 'historic_access' %}">Accesos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Crear acceso</a>
+                <a class="nav-link" href="{% url 'clean_master' %}">Limpieza</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Historial de Accesos</a>
+                <a class="nav-link" href="#">Propiedades</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'settings' %}">Ajustes</a>
@@ -26,10 +28,10 @@
         </ul>
         {% if msg != '' %} {% if msg != 'No se pudo realizar esa insercion en la BBDD' %}
         <div class="login-container">
-            <form method="POST" action="/logout">
+            <form method="POST" action="/">
                 {% csrf_token %}
                 <label>{{ msg }}</label>
-                <button href="/logout">Logout</button>
+                <button href="{% url 'login' %}">Logout</button>
             </form>
         </div>
         {% endif %} {% endif %}
@@ -45,4 +47,95 @@
         </div>
     </div>
 </div>
+
+
+
+<style>
+    .div_contenedor {
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        background-color: #00a4a9;
+    }
+    
+    .div_contenedor::before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+    }
+    
+    .div_centrado {
+        width: 200px;
+        height: 200px;
+        background: red;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #00a4a9;
+    }
+    
+    * {
+        box-sizing: border-box;
+    }
+    /* Add padding to containers */
+    
+    .container {
+        padding: 16px;
+        background-color: white;
+    }
+    /* Full-width input fields */
+    
+    input[type=text],
+    input[type=password] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        display: inline-block;
+        border: none;
+        background: #f1f1f1;
+    }
+    
+    input[type=text]:focus,
+    input[type=password]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+    /* Overwrite default styles of hr */
+    
+    hr {
+        border: 1px solid #f1f1f1;
+        margin-bottom: 25px;
+    }
+    /* Set a style for the submit button */
+    
+    .registerbtn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 16px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
+    }
+    
+    .registerbtn:hover {
+        opacity: 1;
+    }
+    /* Add a blue text color to links */
+    
+    a {
+        color: dodgerblue;
+    }
+    /* Set a grey background color and center the text of the "sign in" section */
+    
+    .signin {
+        background-color: #f1f1f1;
+        text-align: center;
+    }
+</style>
 {% endif %} {% endif %} {% block content %}{% endblock %}

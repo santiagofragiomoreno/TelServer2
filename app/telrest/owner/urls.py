@@ -6,11 +6,12 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', views.home, name='home'),
     path('settings/', views.settings, name='settings'),
-    #path('Panel.ehlock.com/access', views.create_access, name='access'),  
+    path('logout/', views.logout, name='logout'),
+    path('historic_access/', views.historic_access, name='historic_access'),
+    path('clean_master/', views.clean_master, name='clean_master'),
+    path('reservation/', views.reservation, name='reservation'),
+    path('save_reservation/', views.save_reservation, name='save_reservation'),
+    path('savesettings_alert/', views.savesettings_alert, name='savesettings_alert'),
+    path('savesettings_form/', views.savesettings_form, name='savesettings_form'),
+    path('savesettings_ck/', views.savesettings_ck, name='savesettings_ck'),
 ]
-
-#
-#
-#path('newreservation', views.new_reservation, name='newreservation'),
-# path('logout', auth_views.LogoutView.as_view(template_name='ownerlog.html'), name='logout'),  # logout
-#path('administrar', views.administrar, name='administrar'),

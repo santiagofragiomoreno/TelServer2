@@ -1,19 +1,30 @@
 import binascii
 import os
 from rest_framework.views import APIView
+from django.db import IntegrityError, transaction
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 from security.jwt_gen import JWTEncoder
 import time
 from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData, SensorType, FlatOwner, Flat
+from .models import Settings_alerts,Settings_forms,Payments,Client
+from .models import Reservation as model_reservation
 from security.permissions import IsIot, IsClient, IsSuperuser, IsOwner
 import datetime
 from telapi.validations import validate_date, validate_datetime, validate_clientemail, validate_integer
 from django.contrib.auth.models import User
+from .fomrs import Settings_alerts as alerts
+from django.db import transaction
+from django.contrib import messages
+from .fomrs import Settings_forms as form_form
+from .fomrs import Settings_checkout as ck
+from .fomrs import Reservation as form_reservation
+from .fomrs import Client as form_client
 from django.core.mail import send_mail
 from django.conf import settings
 from django import forms
 from django.shortcuts import render
+from django.contrib.auth import logout as logout
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
 from django.template import loader
@@ -22,10 +33,13 @@ from security.authorization import InstructionAuthorization
 from django.db import DatabaseError
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.conf import settings
+from django.core.mail import EmailMessage
 
 # -------show mainpage of owner-----------------
 
-
+#-----TODO terminar con tablas que hacen falta y darle un poco de estilo-----------
 @login_required
 def home(request):
     context = {}
@@ -42,55 +56,48 @@ def home(request):
         if e.id in id_flats:
             flats.insert(0, e)
 
+    context['accesos']=Instruction.objects.order_by('-recieved_date')[:2]
+
     context['flats'] = flats
 
     template = loader.get_template('owner/home.html')
     return HttpResponse(template.render(context, request))
-    
+
+#------------formularios seguros
+
 @login_required
-def settings(request):
+def historic_access(request):
     context = {}
-    template = loader.get_template('owner/settings.html')
-    return HttpResponse(template.render(context, request))
-        
+    context['msg'] = request.user
 
-
-"""
-    piso_owner = ''
-
-    for e in SensorData.objects.all()[:50]:
-        if e.flat.id in id_flats:
-            sensor.insert(0, e)        
-
-    for e in FlatSensor.objects.all():
-        if e.flat.id in id_flats:
-            sensor_flats.insert(0, e)
-
-    for e in Instruction.objects.all():
-        if e.flat.id in id_flats:
-            open_flat=e.__str__     
-
-    context['open_flat'] = open_flat 
-    context['sensor_flats'] = sensor_flats  
-    context['sensor'] = sensor
-    context['flats'] = flats
-    context['msg'] = user.username
-
-    template = loader.get_template('owner/ownerpanel.html')
-    return HttpResponse(template.render(context, request))"""
-
-
-# -------show page of the form of owner-----------------
-"""
-def create_access(request):
-    context = {}
-    owner = request.session['user']
-    owner_object = User.objects.get(username__icontains=owner)
     id_flats = []
     flats = []
-    piso_owner = ''
+
     for e in FlatOwner.objects.all():
-        if e.owner_user.id == owner_object.id:
+        if e.owner_user.id == request.user.id:
+            id_flats.insert(0, e.flat.id)
+
+    for e in Flat.objects.all():
+        if e.id in id_flats:
+            flats.insert(0, e)
+
+    context['accesos']=Instruction.objects.order_by('-recieved_date')
+
+    context['flats'] = flats
+    template = loader.get_template('owner/historic_access.html')
+    return HttpResponse(template.render(context, request))
+
+@login_required
+def clean_master(request):
+    context = {}
+    context['msg'] = request.user
+    accesos={}
+    accesos=Instruction.objects.order_by('-recieved_date')[:2]
+
+    id_flats = []
+    flats = []
+    for e in FlatOwner.objects.all():
+        if e.owner_user.id == request.user.id:
             id_flats.insert(0, e.flat.id)
 
     for e in Flat.objects.all():
@@ -98,36 +105,218 @@ def create_access(request):
             flats.insert(0, e)
 
     context['flats'] = flats
-    context['msg'] = owner_object
-    template = loader.get_template('owner/createaccess.html')
-    return HttpResponse(template.render(context, request))"""
+    context['accesos']=accesos
+    context['tiempo']= accesos[0].recieved_date - accesos[1].recieved_date 
 
+    template = loader.get_template('owner/clean_master.html')
+    return HttpResponse(template.render(context, request))
 
-# -------createa new access in BBDD-----------------
-
-"""
-def new_reservation(request):
+@login_required
+def settings(request):
     context = {}
-    owner = User(owner_object)
-    # try:
-    usuario = User_App(
-        username=request.POST["nombre_usuario"],
-        lastname=request.POST["apellidos_usuario"],
-        city=request.POST["city"],
-        country=request.POST["country"],
-        email=request.POST["email"],
-        birthdate=request.POST["birthdate"],
-        cp=request.POST["cp"],
-        nif=request.POST["dni_usuario"],
-        phone=request.POST["telefono_usuario"])
-    usuario.save()
+    context['msg'] = request.user
+    context = {
+                'settings': {
+                    'alerts': {'form': alerts},
+                    'forms': {'form': form_form},
+                    'checkout': {'form': ck},
+                }
+            }
+    template = loader.get_template('owner/settings.html')
+    return HttpResponse(template.render(context, request))
 
-    newreservation = Reservation(
-        owner_id=owner.id,
-        user_id=usuario,
-        flat_id=request.POST["flats_list"],
-        fecha_inicio=request.POST["fecha_inicio"],
-        fecha_fin=request.POST["fecha_fin"],
-        huespedes_reserva=request.POST["huespedes"])
-    newreservation.save()
-    return HttpResponseRedirect('panel')"""
+@login_required
+#@transaction.atomic
+def savesettings_alert(request):
+    context = {}
+    context['msg'] = request.user
+    try:
+        if request.method == 'POST':
+            form=alerts(request.POST)            
+            if form.is_valid():
+                settings_alert = Settings_alerts(
+                    owner_user=request.user,
+                    max_temperature=form.cleaned_data.get('max_temperature'),
+                    min_temperature=form.cleaned_data.get('min_temperature'),
+                    start_time=form.cleaned_data.get('start_time'),
+                    end_time=form.cleaned_data.get('end_time'),
+                    max_capacity=form.cleaned_data.get('max_capacity'),
+                    listening_time=form.cleaned_data.get('listening_time'),
+                )
+                settings_alert.save()
+    except IntegrityError:
+        settings_alert = Settings_alerts.objects.get(owner_user=request.user)
+        settings_alert.max_temperature=form.cleaned_data.get('max_temperature')
+        settings_alert.min_temperature=form.cleaned_data.get('min_temperature')
+        settings_alert.start_time=form.cleaned_data.get('start_time')
+        settings_alert.end_time=form.cleaned_data.get('end_time')
+        settings_alert.max_capacity=form.cleaned_data.get('max_capacity')
+        settings_alert.listening_time=form.cleaned_data.get('listening_time')          
+        settings_alert.save()
+
+    template = loader.get_template('owner/settings.html')
+    return HttpResponse(template.render(context, request))
+
+@login_required
+
+def savesettings_form(request):
+    context = {}
+    context['msg'] = request.user
+
+    try:
+        if request.method == 'POST':
+            form=form_form(request.POST)            
+        if form.is_valid():
+            settings_forms = Settings_forms(
+            owner_user=request.user,
+            is_lastname=form.cleaned_data.get('is_lastname'),
+            is_phone=form.cleaned_data.get('is_phone'),
+            is_city=form.cleaned_data.get('is_city'),
+            is_birthdate=form.cleaned_data.get('is_birthdate'),
+            is_import=form.cleaned_data.get('is_import'),
+            is_origin=form.cleaned_data.get('is_origin'),
+            is_code=form.cleaned_data.get('is_code'),
+            is_capacity=form.cleaned_data.get('is_capacity'),
+            is_cancelation=form.cleaned_data.get('is_cancelation'),
+            is_observation=form.cleaned_data.get('is_observation'),
+            is_pay=form.cleaned_data.get('is_pay'),
+            )
+            settings_forms.save()
+
+    except IntegrityError:
+        settings_forms = Settings_forms.objects.get(owner_user=request.user)
+        settings_forms.is_lastname=form.cleaned_data.get('is_lastname')
+        settings_forms.is_phone=form.cleaned_data.get('is_phone')
+        settings_forms.is_city=form.cleaned_data.get('is_city')
+        settings_forms.is_birthdate=form.cleaned_data.get('is_birthdate')
+        settings_forms.is_import=form.cleaned_data.get('is_import')
+        settings_forms.is_origin=form.cleaned_data.get('is_origin')
+        settings_forms.is_code=form.cleaned_data.get('is_code')
+        settings_forms.is_capacity=form.cleaned_data.get('is_capacity')
+        settings_forms.is_cancelation=form.cleaned_data.get('is_cancelation')
+        settings_forms.is_observation=form.cleaned_data.get('is_observation')
+        settings_forms.is_pay=form.cleaned_data.get('is_pay')          
+        settings_forms.save()
+    
+    template = loader.get_template('owner/settings.html')
+    return HttpResponse(template.render(context, request))
+
+@login_required
+def savesettings_ck(request):
+    context = {}
+    context['msg'] = request.user
+    permission_classes = [IsOwner]
+
+    try:
+        if request.method == 'POST':
+            form=ck(request.POST)            
+            if form.is_valid():
+                payments = Payments(
+                owner_user=request.user,
+                price_time=form.cleaned_data.get('price_time'),
+                time_price=form.cleaned_data.get('time_price'),
+                )
+            payments.save()
+
+    except IntegrityError:
+        payments = Payments.objects.get(owner_user=request.user)
+        payments.price_time=form.cleaned_data.get('price_time')
+        payments.time_price=form.cleaned_data.get('time_price')
+        payments.save()
+
+    template = loader.get_template('owner/settings.html')
+    return HttpResponse(template.render(context, request))
+
+@login_required
+def reservation(request):
+    settings_forms = Settings_forms.objects.get(owner_user=request.user)
+
+    context = {}
+    context['msg'] = request.user
+
+    context = {
+                'reservation': {
+                    'reserv': {'form': form_reservation},
+                    'client': {'form': form_client},
+                }
+            }
+
+    id_flats = []
+    flats = []
+
+    for e in FlatOwner.objects.all():
+        if e.owner_user.id == request.user.id:
+            id_flats.insert(0, e.flat.id)
+
+    for e in Flat.objects.all():
+        if e.id in id_flats:
+            flats.insert(0, e)
+
+    context['flats'] = flats
+    context['forms'] = settings_forms
+
+    template = loader.get_template('owner/reservation.html')
+    return HttpResponse(template.render(context, request))
+
+
+@login_required
+def save_reservation(request):
+
+    temp={}
+    context = {}
+    context['msg'] = request.user
+    try:
+        if request.method == 'POST':
+            form=form_client(request.POST)            
+            if form.is_valid():
+                client = Client(
+                    name = form.cleaned_data.get('name'),
+                    lastname = form.cleaned_data.get('lastname'),
+                    email = form.cleaned_data.get('email'),
+                    dni = form.cleaned_data.get('dni'),
+                    #birthdate = request.POST["birthdate"],
+                    tlf = form.cleaned_data.get('tlf'),
+                    direction = form.cleaned_data.get('direction'),
+                    city = form.cleaned_data.get('city'),
+                    country = form.cleaned_data.get('country'),
+                    cp = form.cleaned_data.get('cp'),
+                )
+                client.save()
+
+                reservation = model_reservation(
+                owner_user=request.user,
+                client=client,
+                flat_id = request.POST["flat_select"],
+                start_time = request.POST["start_time"],
+                end_time = request.POST["end_time"],
+                guest = form.cleaned_data.get('guest'),
+                import_price = form.cleaned_data.get('import_price'),
+                cancelation = form.cleaned_data.get('cancelation'),
+                origin = form.cleaned_data.get('origin'),
+                code = form.cleaned_data.get('code'),
+                observation = form.cleaned_data.get('observation'),
+                )                
+                reservation.save()
+            
+                subject="Nueva reserva por parte de " + request.user.username
+                messages="Se ha creado una reserva para " + form.cleaned_data.get('name') + " con fecha del " + request.POST["start_time"] + " al " + request.POST["end_time"]
+
+                msg = EmailMessage(subject,messages, to=['romanclementejurado@gmail.com'])
+                msg.send()
+
+    except IntegrityError:
+        # """payments = Payments.objects.get(owner_user=request.user)
+        """payments.price_time=form.cleaned_data.get('price_time')
+        payments.time_price=form.cleaned_data.get('time_price')
+        payments.save()"""
+
+    template = loader.get_template('owner/home.html')
+    return HttpResponse(template.render(context, request))
+
+@login_required
+def logout(request):
+    context = {}
+    logout(request)
+    request.close()
+    return render(request, 'owner/logout.html', context)
+

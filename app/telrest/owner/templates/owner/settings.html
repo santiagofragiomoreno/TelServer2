@@ -1,14 +1,14 @@
-{% extends "owner/navbar.html" %} {% block content %}
-
+{% extends "owner/navbar.html" %} {% block content %}{% load crispy_forms_tags %}{% include 'owner/button.html' %}
 
 <body>
     <div class="container">
+        <br><br>
         <h2>Ajustes</h2>
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#home">Opciones de visualización</a></li>
-            <li><a data-toggle="tab" href="#menu1">Opciones de alertas</a></li>
-            <li><a data-toggle="tab" href="#menu2">Opciones let check out</a></li>
-            <li><a data-toggle="tab" href="#menu3">Opciones de accesos</a></li>
+        <ul class="nav nav-pills" role="tablist">
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">Opciones de visualización</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu1">Opciones de alertas</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu2">Opciones let check out</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu3">Opciones de accesos</a></li>
         </ul>
 
         <div class="tab-content">
@@ -17,71 +17,29 @@
                 <p></p>
             </div>
             <div id="menu1" class="tab-pane fade">
-                <br><br>
-                <!--TODO Poner bordes y flotante a la izquierda en este div-->
-                <div>
-                    <h3>Opción alerta temperatura máxima y mínima</h3>
-                    <hr>
-                    <label><b>Temperatura máxima</b></label>
-                    <input type="number" min="1" max="40" step="1" value="20" size="1" name="max_temperature"><br><br>
-                    <label><b>Temperatura minima</b></label>
-                    <input type="number" min="1" max="40" step="1" value="16" size="1" name="min_temperature">
-                </div>
-
-                <div>
-                    <h3>Opción alerta aforo maximo y en que horario</h3>
-                    <hr>
-                    <label><b>Horario de inicio</b></label>
-                    <input type="number" min="0" max="24" step="1" value="12" size="1" name="start_time"><br><br>
-                    <label><b>Horario de fin</b></label>
-                    <input type="number" min="0" max="24" step="1" value="17" size="1" name="end_time"><br><br>
-                    <label><b>Aforo por encima del limite</b></label>
-                    <input type="number" min="0" max="5" step="1" value="0" size="1" name="max_capacity"><br>
-                    <small>Ej: si su piso tiene un aforo maximo de 5 personas, el numero de persona que permite por encima de este, por ejemplo 2, <b>5 + 2 = 7</b></small><br> </div>
-
-                <h3>Opción sonido tiempo de escucha</h3>
+                <br>
+                <h3>Opciones de las alertas</h3>
                 <hr>
-                <label><b>Tiempo de escucha antes de alarma (en minutos)</b></label>
-                <input type="number" min="0" max="15" step="1" value="5" size="1" name="listening_time"><br><br>
-
+                <form action="../savesettings_alert/" method="POST">
+                    {% csrf_token %} {{ settings.alerts.form|crispy }}
+                    <button type="submit" class="registerbtn">Guardar</button>
+                </form>
             </div>
 
             <div id="menu2" class="tab-pane fade">
                 <br><br>
-                <div>
-                    <h3>Opciones let check out</h3>
-                    <hr>
-                    <label><b>Tiempo (min)</b></label>
-                    <input type="number" min="0" max="720" step="1" value="5" size="1" name="price_time">
-                    <label><b>Precio (€)</b></label>
-                    <input type="number" min="0" max="720" step="1" value="5" size="1" name="time_price">
-                </div>
+                <form action="../savesettings_ck/" method="POST">
+                    {% csrf_token %} {{ settings.checkout.form|crispy }}
+                    <button type="submit" class="registerbtn">Guardar</button>
+                </form>
             </div>
             <div id="menu3" class="tab-pane fade">
-                <div>
-                    <h3>Seleccionar los datos requeridos para poder generar un acceso.</h3>
-                    <hr>
-                    <label><b>Apellidos</b></label>
-                    <input type="checkbox" name="last_name"><br><br>
-                    <label><b>Telefono</b></label>
-                    <input type="checkbox" name="phone"><br><br>
-                    <label><b>Dirección/Cuidad</b></label>
-                    <input type="checkbox" name="city"><br><br>
-                    <label><b>Importe de la reserva</b></label>
-                    <input type="checkbox" name="import_reservation"><br><br>
-                    <label><b>Origen de la reserva</b></label>
-                    <input type="checkbox" name="origin_reservation"><br><br>
-                    <label><b>Código de reserva</b></label>
-                    <input type="checkbox" name="code_reservation"><br><br>
-                    <label><b>Aforo (si no se introduce se pone el numero de aforo máximo del piso)</b></label>
-                    <input type="checkbox" name="capacity"><br><br>
-                    <label><b>Coste de cancelación</b></label>
-                    <input type="checkbox" name="cancelation"><br><br>
-                    <label><b>Observaciones</b></label>
-                    <input type="checkbox" name="obvs"><br><br>
-                    <label><b>Forma de pago (transferencia/tarjeta/efectivo)</b></label>
-                    <input type="checkbox" name="pay"><br><br>
-                </div>
+                <br><br>
+                <form action="../savesettings_form/" method="POST">
+                    {% csrf_token %} {{ settings.forms.form|crispy }}
+                    <button type="submit" class="registerbtn">Guardar</button>
+                </form>
+
             </div>
         </div>
     </div>
@@ -89,10 +47,62 @@
     {% endblock content%}
 </body>
 <style>
-    .container_info {
-        margin: 1rem;
-        padding: 1rem;
-        border: 2px solid #ccc;
+    .registerbtn {
+        background-color: #00a4a9;
+        color: white;
+        padding: 16px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
+    }
+    
+    body {
+        background: #16a085;
+    }
+    
+    .nav-pills {
+        width: 450px;
+    }
+    
+    .nav-item {
+        width: 50%;
+    }
+    
+    .nav-pills .nav-link {
+        font-weight: bold;
+        padding-top: 13px;
         text-align: center;
+        background: #343436;
+        color: #fff;
+        border-radius: 30px;
+        height: 100px;
+    }
+    
+    .nav-pills .nav-link.active {
+        background: #fff;
+        color: #000;
+    }
+    
+    .tab-content {
+        position: absolute;
+        width: 450px;
+        height: auto;
+        margin-top: -50px;
+        background: #fff;
+        color: #000;
+        border-radius: 30px;
+        z-index: 1000;
+        box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.4);
+        padding: 30px;
+        margin-bottom: 50px;
+    }
+    
+    .tab-content button {
+        border-radius: 15px;
+        width: 100px;
+        margin: 0 auto;
+        float: right;
     }
 </style>

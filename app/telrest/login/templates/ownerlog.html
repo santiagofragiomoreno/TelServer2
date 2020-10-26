@@ -1,51 +1,116 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-  integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <div class="div_contenedor">
-  <div class="div_centrado">
-    <div class="card" align="center" style="width: 18rem;">
-      <div class="card-body">
-        <div class="card mb-6 box-shadow">
-          <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Login</h4>
-          </div>
-          <br>
-          <form method="POST">
-          {% csrf_token %}
-            <label><b>Email</b></label>
-            <input type="text" name="email" id="email" required>
-            <label><b>Contraseña</b></label>
-            <input type="password" name="password" id="password" required>
-            <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Login</button>
-          </form>
+    <div class="div_centrado">
+        <div class="card" align="center" style="width: 18rem;">
+            <div class="card-body">
+                <div class="card mb-6 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Login</h4>
+                    </div>
+                    <br>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <label><b>Email</b></label>
+                        <input type="text" name="email" id="email" required>
+                        <label><b>Contraseña</b></label>
+                        <br>
+                        <input type="password" name="password" id="password" required>
+                        <button class="registerbtn" type="submit">Login</button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 </div>
 
 
 <style>
-  .div_contenedor {
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    background-color: rebeccapurple;
-  }
-
-  .div_contenedor::before {
-    content: '';
-    display: inline-block;
-    vertical-align: middle;
-    height: 100%;
-  }
-
-  .div_centrado {
-    width: 200px;
-    height: 200px;
-    background: red;
-    display: inline-block;
-    vertical-align: middle;
-  }
+    .div_contenedor {
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        background-color: #00a4a9;
+    }
+    
+    .div_contenedor::before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+    }
+    
+    .div_centrado {
+        width: 200px;
+        height: 200px;
+        background: red;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #00a4a9;
+    }
+    
+    * {
+        box-sizing: border-box;
+    }
+    /* Add padding to containers */
+    
+    .container {
+        padding: 16px;
+        background-color: white;
+    }
+    /* Full-width input fields */
+    
+    input[type=text],
+    input[type=password] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        display: inline-block;
+        border: none;
+        background: #f1f1f1;
+    }
+    
+    input[type=text]:focus,
+    input[type=password]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+    /* Overwrite default styles of hr */
+    
+    hr {
+        border: 1px solid #f1f1f1;
+        margin-bottom: 25px;
+    }
+    /* Set a style for the submit button */
+    
+    .registerbtn {
+        background-color: #00a4a9;
+        color: white;
+        padding: 16px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
+    }
+    
+    .registerbtn:hover {
+        opacity: 1;
+    }
+    /* Add a blue text color to links */
+    
+    a {
+        color: dodgerblue;
+    }
+    /* Set a grey background color and center the text of the "sign in" section */
+    
+    .signin {
+        background-color: #f1f1f1;
+        text-align: center;
+    }
 </style>
 <!--<p class="submit"><input type="submit" name="commit" value="Login"></p>-->

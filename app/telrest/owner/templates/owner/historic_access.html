@@ -1,0 +1,190 @@
+{% extends "owner/navbar.html" %} {% load static %} {% block content %} {% include 'owner/button.html' %}
+<br><br><br>
+<form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
+    <i class="fas fa-search" aria-hidden="true"></i>
+    <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Buscar..." aria-label="Search">
+</form>
+
+
+<div class="container">
+    <div class="container_background_search" style="position:relative;float: left;">
+        <br>
+        <form action="..//" method="POST">
+            <legend>Campo a filtrar</legend>
+            <fieldset>
+                <ul style="list-style:none;">
+                    <li>
+                        <label>
+                            <input type="radio" name="filter" value="flat"> Piso
+                            </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="filter" value="state"> Estado
+                            </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="filter" value="start_time"> Fecha de inicio
+                            </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="filter" value="start_hour"> Hora de inicio
+                            </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="filter" value="end_time"> Fecha de fin
+                            </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="filter" value="end_hour"> Hora de fin
+                            </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="filter" value="name"> Nombre
+                            </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="filter" value="lastname"> Apellido
+                            </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="filter" value="tlf"> Telefono
+                            </label>
+                    </li>
+                </ul>
+            </fieldset>
+            <button type="submit" class="registerbtn">Guardar</button>
+        </form>
+    </div>
+    <br>
+    <div class="container_background_content" style="position:relative;float: right; overflow-y: scroll;overflow-x: hidden;max-height: 450px;">
+        <table style="border-collapse: separate; border-spacing: 10px 5px;">
+
+            <tr>
+                <th>Piso</th>
+                <th>Activo</th>
+                <th>Fecha de inicio</th>
+                <th>Hora de inicio</th>
+                <th>Hora de fin</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Telefono</th>
+            </tr>
+            <!--Recorrer tabla de resevas e incluir todos esos campos-->
+            {% for flat in flats %}
+            <tr>
+                <td>{{flat.name}}</td>
+                <td>Si</td>
+                <td>sin info</td>
+                <td>sin info</td>
+                <td>sin info</td>
+                <td>sin info</td>
+                <td>sin info</td>
+                <td>sin info</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+</div>
+
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #00a4a9;
+    }
+    
+    * {
+        box-sizing: border-box;
+    }
+    /* Add padding to containers */
+    
+    .container {
+        padding: 16px;
+        background-color: white;
+    }
+    
+    .container_background_search {
+        background-color: white;
+        margin-left: -16px;
+    }
+    
+    .container_background_content {
+        background-color: white;
+        margin-left: -16px;
+    }
+    
+    input[type=text],
+    input[type=password] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        display: inline-block;
+        border: none;
+        background: #f1f1f1;
+    }
+    
+    input[type=text]:focus,
+    input[type=password]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+    /* Overwrite default styles of hr */
+    
+    hr {
+        border: 1px solid #f1f1f1;
+        margin-bottom: 25px;
+    }
+    /* Set a style for the submit button */
+    
+    .registerbtn {
+        background-color: #00a4a9;
+        color: white;
+        padding: 16px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
+    }
+    
+    .registerbtn:hover {
+        opacity: 1;
+    }
+    /* Add a blue text color to links */
+    
+    a {
+        color: dodgerblue;
+    }
+    /* Set a grey background color and center the text of the "sign in" section */
+    
+    .signin {
+        background-color: #f1f1f1;
+        text-align: center;
+    }
+    
+    thead th,
+    tfoot th {
+        font-family: 'Rock Salt', cursive;
+    }
+    
+    tbody td {
+        text-align: center;
+    }
+    
+    tfoot th {
+        text-align: right;
+    }
+</style>
+
+{% endblock content %}

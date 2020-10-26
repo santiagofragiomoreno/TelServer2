@@ -13,66 +13,16 @@
 <!------------------------------------------------Form------------------------------------------------------------------------------------>
 
 <body>
-    <form action="/newreservation" method="POST">
-        {% csrf_token %}
-        <div class="container">
-            <h1>Crear Reservas</h1>
-            <hr>
-            <label><b>Nombre</b></label>
-            <input type="text" name="nombre_usuario" id="nombre_usuario" required>
-            <label><b>Apellidos</b></label>
-            <input type="text" name="apellidos_usuario" id="apellidos_usuario" required>
-            <label><b>DNI</b></label>
-            <input type="text" name="dni_usuario" id="dni_usuario" required>
-            <label><b>Ciudad</b></label>
-            <input type="text" name="city" id="city" required>
-            <label><b>Codigo Postal</b></label>
-            <input type="text" name="cp" id="cp" required>
-            <label><b>Pais</b></label>
-            <input type="text" name="country" id="country" required>
-            <label><b>Email</b></label>
-            <input type="email" name="email" id="email" required><br><br>
-            <label><b>Fecha de nacimiento</b></label>
-            <input type="date" name="birthdate" id="birthdate" min="1940-01-01" max="2000-10-29" required><br><br>
-            <label><b>Telefono</b></label>
-            <input type="tel" placeholder="656666222" name="telefono_usuario" id="telefono_usuario" pattern="[0-9]{9}" required><br>
-            <br>
-            <label><b>Pisos</b></label>
-            <select name="flats_list">
-                {% for flat in flats %}
-                <option value="{{flat.id}}">{{flat.name}}</option>
-                {% endfor %}
-            </select>
-            <br>
-            <br>
-            <label><b>Fecha inicio</b></label>
-            <input type="date" id="datePickerInit" name="fecha_inicio" required/>
-            <br>
-            <br>
-            <label><b>Fecha fin</b></label>
-            <input type="date" id="datePickerFin" name="fecha_fin" required/>
-            <br>
-            <br>
-            <label><b>Nº numero de huespedes</b></label>
-            <!--Coger el max segun la BBDD-->
-            <input type="number" min="1" max="10" step="1" value="1" size="1" name="huespedes" required>
-            <button type="submit" class="registerbtn">Crear</button>
-        </div>
-        </div>
-    </form>
+    <button>Crear nuevo</button> {% for user in users %}
+    <div>{{ user }}</div>
+    {% endfor %}
 </body>
-
-</html>
-<script>
-    datePickerInit.min = new Date().toISOString().split("T")[0];
-    datePickerFin.min = new Date().toISOString().split("T")[0];
-</script>
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
 <style>
     body {
         font-family: Arial, Helvetica, sans-serif;
-        background-color: black;
+        background-color: #00a4a9;
     }
     
     * {
