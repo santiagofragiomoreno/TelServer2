@@ -29,13 +29,13 @@ ALLOWED_HOSTS = ['192.168.1.33', 'telgate.test', 'localhost', '127.0.0.1']
 
 # Mail Service
 
-DEFAULT_FROM_EMAIL = 'romimellaman@gmail.com'
-SERVER_EMAIL = 'romimellaman@gmail.com'
+DEFAULT_FROM_EMAIL = 'info@ehlock.com'
+SERVER_EMAIL = 'info@ehlock.com'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'romimellaman@gmail.com'
-EMAIL_HOST_PASSWORD = 'oneghoul'
+EMAIL_HOST_USER = 'info@ehlock.com'
+EMAIL_HOST_PASSWORD = 'Cambiame2020'
 
 # Application definition
 
