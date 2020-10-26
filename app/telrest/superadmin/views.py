@@ -4,8 +4,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from .custom_forms import OwnerForm, JuridicaForm, FlatForm
 from django.contrib import messages
-from telapi.models import OwnersData
-from telapi.models import Flat
+from telapi.models import OwnersData, Flat
 from owner.models import Reservation
 
 
@@ -21,8 +20,13 @@ def home(request):
             owner.append(user)
 
     for reserv in Reservation.objects.all():
-        owner_reserva = User.objects.get(id=reserv.owner_user)
-        reservation.append(reserv)
+        owner_reserva = OwnersData.objects.get(owner_user_id=reserv.owner_user_id)
+        piso_reserva = Flat.objects.get(id=reserv.flat_id)
+        reserva = {
+            'owner': owner_reserva.name + ' ' + owner_reserva.last_name,
+            'flat': piso_reserva.name
+        }
+        reservation.append(reserva)
 
     context = {
         'owners': owner,
@@ -153,7 +157,6 @@ def alta_pisos(request):
             'owners': owners_email,
             'form': flat_form,
         }
-        print(owners_email)
     return render(request, 'superadmin/altapisos.html', context)
 
 
@@ -165,7 +168,32 @@ def errores(request):
 
 @login_required
 def bdowners(request):
-    context = {}
+    flats_info = []
+
+    for flat in Flat.objects.all():
+        owner_object = OwnersData.objects.get(id=flat.owners_data_id)
+        owner_name = owner_object.name + ' ' + owner_object.last_name
+
+        ocuppied = 'Desocupado'
+        if flat.ocupied:
+            ocuppied = 'Ocupado'
+
+        activo = 'No activo'
+        if flat.active:
+            activo = 'Activo'
+
+        flat_data = {
+            'owner': owner_name,
+            'piso': flat.name,
+            'estado': ocuppied,
+            'activo': activo
+        }
+        flats_info.append(flat_data)
+
+    context = {
+        'flats': flats_info
+    }
+
     return render(request, 'superadmin/bdowners.html', context)
 
 

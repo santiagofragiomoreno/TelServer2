@@ -120,6 +120,8 @@ class Flat(models.Model):
     reference = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # referencia catastral
     meters = models.PositiveIntegerField(blank=True, unique=False, null=True, db_index=True)  # metros del piso
     owners_data = models.ForeignKey('OwnersData', models.DO_NOTHING, db_index=True)  # fk de owners_data
+    active = models.BooleanField(default=False, db_index=True)
+    ocupied = models.BooleanField(default=False, db_index=True)
 
 
 class FlatOwner(models.Model):

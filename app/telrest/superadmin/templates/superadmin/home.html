@@ -32,48 +32,45 @@
 
     <body>
 
-    <div class="tab-content">
-      <br>
-      <hr>
-          <!------------------------------------------------------------------------------------------------------------------------------------------------------->
-      <button class="altas">
-        <div class="BrandContainerImage" style="position:relative;margin-left: 150px;margin-top: 20px;">
-              <img src="https://www.pngfind.com/pngs/m/365-3658172_open-door-door-opening-door-open-door-vector.png" style="position:relative;float: left;" height="100" width="100" alt="fondo">
-        <label class="BrandContainerTitle">
-          <b>Ultimas altas de clientes</b>
-        </label>
-      </div>
-      </button>
-      <!------------------------------------------------------------------------------------------------------------------------------------------------------->
-      <button class="reservas">
-        <div class="BrandContainerImage" style="position:relative;margin-left: 150px;margin-top: 20px;">
-              <img src="https://www.pngfind.com/pngs/m/365-3658172_open-door-door-opening-door-open-door-vector.png" style="position:relative;float: left;" height="100" width="100" alt="fondo">
-        <label class="BrandContainerTitle">
-          <b>Ultimas reservas</b>
-        </label>
-      </div>
-      </button>
-      <!------------------------------------------------------------------------------------------------------------------------------------------------------->
-      <button class="alertas">
-        <div class="BrandContainerImage" style="position:relative;margin-left: 150px;margin-top: 20px;">
-              <img src="https://www.pngfind.com/pngs/m/365-3658172_open-door-door-opening-door-open-door-vector.png" style="position:relative;float: left;" height="100" width="100" alt="fondo">
-        <label class="BrandContainerTitle">
-          <b>Ultimas altas</b>
-        </label>
-        </div>
-      </button>
-      <!------------------------------------------------------------------------------------------------------------------------------------------------------->
-      <button class="aperturas">
-        <div class="BrandContainerImage" style="position:relative;margin-left: 150px;margin-top: 20px;">
-              <img src="https://www.pngfind.com/pngs/m/365-3658172_open-door-door-opening-door-open-door-vector.png" style="position:relative;float: left;" height="100" width="100" alt="fondo">
-        <label class="BrandContainerTitle">
-          <b>Ultimas altas</b>
-        </label>
-      </div>
-      </button>
-      </div>
+    <h2>Home</h2>
 
-    <br>
+        <div class="row">
+          <div class="col-2">
+            <button class="altas">
+                <img src="https://www.pngfind.com/pngs/m/365-3658172_open-door-door-opening-door-open-door-vector.png" height="100" width="100" alt="fondo">
+                <label>
+                    <b>Últimas altas</b>
+                </label>
+            </button>
+          </div>
+          <div class="col-2">
+              <button class="reservas">
+                <img src="https://www.pngfind.com/pngs/m/365-3658172_open-door-door-opening-door-open-door-vector.png" height="100" width="100" alt="fondo">
+                <label>
+                    <b>Reservas</b>
+                </label>
+              </button>
+          </div>
+          <div class="col-2">
+              <button class="alertas">
+                <img src="https://www.pngfind.com/pngs/m/365-3658172_open-door-door-opening-door-open-door-vector.png" height="100" width="100" alt="fondo">
+                <label>
+                    <b>Alertas</b>
+                </label>
+              </button>
+          </div>
+          <div class="col-2">
+              <button class="aperturas">
+                <img src="https://www.pngfind.com/pngs/m/365-3658172_open-door-door-opening-door-open-door-vector.png" height="100" width="100" alt="fondo">
+                <label>
+                    <b>Apeturas</b>
+                </label>
+              </button>
+          </div>
+        </div>
+
+        <br>
+        <hr>
 
       <div id="owners">
        <div class="card">
@@ -100,15 +97,15 @@
        <div class="card">
         <div class="container">
 
-          {% for o in owners %}
+          {% for r in reservation %}
            <br>
             <div>
-              <label> <b>Usuario: </b>
-                RESERVAS
+              <label> <b>Owner: </b>
+                  {{ r.owner }}
               </label>
 
-              <label> <b>Fecha: </b>
-                PISOS
+              <label> <b>Piso: </b>
+                  {{ r.flat }}
               </label>
             </div>
           {% endfor %}
@@ -165,27 +162,6 @@
     </body>
 
     <style>
-      .BrandContainer
-    {
-           width: 100%;
-    }
-    .BrandContainerTitle
-    {
-           margin-top: 40px;
-           margin-right: 50px;
-           vertical-align: top;
-           float: right;
-    }
-    .BrandContainerImage
-    {
-           vertical-align: top;
-           float: left;
-    }
-    .BrandContainerImage img
-    {
-           height: 100px;
-           width: 100px;
-    }
     .card {
       position: relative;
       margin-right: 800px;
@@ -198,6 +174,24 @@
     /* Add rounded corners to the top left and the top right corner of the image */
     img {
       border-radius: 5px 5px 0 0;
+    }
+
+    .col-1 {width: 8.33%;}
+    .col-2 {width: 16.66%;}
+    .col-3 {width: 25%;}
+    .col-4 {width: 33.33%;}
+    .col-5 {width: 41.66%;}
+    .col-6 {width: 50%;}
+    .col-7 {width: 58.33%;}
+    .col-8 {width: 66.66%;}
+    .col-9 {width: 75%;}
+    .col-10 {width: 83.33%;}
+    .col-11 {width: 91.66%;}
+    .col-12 {width: 100%;}
+
+    [class*="col-"] {
+        float: left;
+        padding: 15px;
     }
     </style>
 
