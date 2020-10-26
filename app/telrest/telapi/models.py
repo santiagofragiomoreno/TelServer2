@@ -96,3 +96,13 @@ class FlatOwner(models.Model):
     owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True)
     flat = models.ForeignKey(Flat, models.DO_NOTHING, db_index=True)
     iot_user_id = models.PositiveIntegerField(blank=True, null=True, db_index=True)
+
+
+class Flat_Owner_Access(models.Model):
+    auth_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True, null=False,)
+    flat = models.ForeignKey(Flat, models.DO_NOTHING, db_index=True, null=False,)
+    date_access=models.CharField(max_length=255, null=False, db_index=True)
+
+    class Meta:
+        managed = True
+        db_table = 'flat_owner_access'

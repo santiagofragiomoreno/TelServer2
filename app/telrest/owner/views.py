@@ -1,5 +1,6 @@
 import binascii
 import os
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
 from django.db import IntegrityError, transaction
 from rest_framework.response import Response
@@ -230,31 +231,50 @@ def savesettings_ck(request):
 
 @login_required
 def reservation(request):
-    settings_forms = Settings_forms.objects.get(owner_user=request.user)
-
     context = {}
     context['msg'] = request.user
-
-    context = {
-                'reservation': {
-                    'reserv': {'form': form_reservation},
-                    'client': {'form': form_client},
-                }
-            }
-
     id_flats = []
     flats = []
 
+    context = {
+                    'reservation': {
+                        'reserv': {'form': form_reservation},
+                        'client': {'form': form_client},
+                    }
+                }
+    
     for e in FlatOwner.objects.all():
         if e.owner_user.id == request.user.id:
-            id_flats.insert(0, e.flat.id)
+            id_flats.append(e.flat.id)
 
     for e in Flat.objects.all():
         if e.id in id_flats:
-            flats.insert(0, e)
+            flats.append(e)
 
     context['flats'] = flats
-    context['forms'] = settings_forms
+    try:
+        settings_forms = Settings_forms.objects.get(owner_user=request.user)
+        context['forms'] = settings_forms
+    except 	ObjectDoesNotExist:
+
+        settings_forms = Settings_forms(
+            owner_user=request.user,
+            is_lastname=True,
+            is_phone=True,
+            is_city=True,
+            is_birthdate=True,
+            is_import=True,
+            is_origin=True,
+            is_code=True,
+            is_capacity=True,
+            is_cancelation=True,
+            is_observation=True,
+            is_pay=True,
+            )
+
+        settings_forms.save()
+        settings_forms = Settings_forms.objects.get(owner_user=request.user)
+        context['forms'] = settings_forms
 
     template = loader.get_template('owner/reservation.html')
     return HttpResponse(template.render(context, request))
@@ -270,12 +290,14 @@ def save_reservation(request):
         if request.method == 'POST':
             form=form_client(request.POST)            
             if form.is_valid():
-                client = Client(
+                
+                
+                """client = Client(
                     name = form.cleaned_data.get('name'),
                     lastname = form.cleaned_data.get('lastname'),
                     email = form.cleaned_data.get('email'),
                     dni = form.cleaned_data.get('dni'),
-                    #birthdate = request.POST["birthdate"],
+                    birthdate = request.POST["birthdate"],
                     tlf = form.cleaned_data.get('tlf'),
                     direction = form.cleaned_data.get('direction'),
                     city = form.cleaned_data.get('city'),
@@ -303,7 +325,7 @@ def save_reservation(request):
                 messages="Se ha creado una reserva para " + form.cleaned_data.get('name') + " con fecha del " + request.POST["start_time"] + " al " + request.POST["end_time"]
 
                 msg = EmailMessage(subject,messages, to=['romanclementejurado@gmail.com'])
-                msg.send()
+                msg.send()"""
 
     except IntegrityError:
         # """payments = Payments.objects.get(owner_user=request.user)

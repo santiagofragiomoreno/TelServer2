@@ -72,8 +72,6 @@ class Client (models.Model):
         managed = True
         db_table = 'client'
 
-    def __str__(self):
-        return str(self.owner_user)
 
 class Reservation(models.Model):
     owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True,unique=True,null=False)
