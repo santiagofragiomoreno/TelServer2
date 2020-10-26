@@ -108,16 +108,16 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#    'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'telfiregate_dump2',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-#     }
-# }
+DATABASES = {
+   'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'telfiregate_dump2',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
 
 
 # Password validation
@@ -171,16 +171,16 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 # pass: lfycx8ot40y4cl684uv8
 # ----------------
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'telfiregate',
-        'USER': 'TELFIREGATEDB',
-        'PASSWORD': 'lfycx8ot40y4cl684uv8',
-        'HOST': 'telfiregatedb.cir9kc3wxllu.eu-west-1.rds.amazonaws.com',
-        'PORT': '3306',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'telfiregate',
+#         'USER': 'TELFIREGATEDB',
+#         'PASSWORD': 'lfycx8ot40y4cl684uv8',
+#         'HOST': 'telfiregatedb.cir9kc3wxllu.eu-west-1.rds.amazonaws.com',
+#         'PORT': '3306',
+#     }
+# }
 
 # LOGIN_REDIRECT_URL = 'panel'
 LOGIN_URL = 'login'

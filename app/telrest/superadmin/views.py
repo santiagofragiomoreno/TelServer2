@@ -6,6 +6,7 @@ from .custom_forms import OwnerForm, JuridicaForm, FlatForm
 from django.contrib import messages
 from telapi.models import OwnersData, Flat
 from owner.models import Reservation
+from django.core.mail import EmailMessage
 
 
 # Create your views here.
@@ -54,10 +55,13 @@ def alta_cliente(request):
         if form.is_valid():
             # creo los objetos de auth user y owners data
             username = form.cleaned_data.get('email')
-            # password = User.objects.make_random_password()
-            password = 'iballes'
+            password = User.objects.make_random_password()
 
             # enviar pass por email o algo
+            # subject = "Nuevo owner creado: " + request.user.username
+            # email = "Se ha creado un owner con id: " + username + " y pass: " + password
+            # msg = EmailMessage(subject, email, to=['ignaballesllere@gmail.com'])
+            # msg.send()
             print('la password es: ' + password)
 
             # guardo el objeto de auth user
@@ -65,8 +69,8 @@ def alta_cliente(request):
             new_user.save()
 
             # añado el usuario al grupo de owners
-            iot_group = Group.objects.get(name='Owner')
-            iot_group.user_set.add(new_user)
+            group = Group.objects.get(name='Owner')
+            group.user_set.add(new_user)
 
             # registro los datos del owner en owners_data
             owner = OwnersData(
@@ -134,8 +138,12 @@ def alta_pisos(request):
 
             # creo y guardo objeto user
             username = 'iotf_' + str(flat_object.id)
-            # password = User.objects.make_random_password()
-            password = 'iballes'
+            password = User.objects.make_random_password()
+
+            # subject = "Nuevo piso de: " + owner_object.name + " " + owner_object.last_name
+            # email = "Se ha creado un iot con id: " + username + " y pass: " + password
+            # msg = EmailMessage(subject, email, to=['ignaballesllere@gmail.com'])
+            # msg.send()
 
             # pass para el arduino
             print('la password de iot es: ' + password)
