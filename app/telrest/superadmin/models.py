@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 # tablas creadas nuevas
-from telapi.models import Flat
+"""from telapi.models import Flat
 
 
 class OwnersData(models.Model):
@@ -45,3 +45,4 @@ class FlatData(models.Model):
     class Meta:
         managed = True
         db_table = 'flat_data'
+        """

@@ -1,6 +1,7 @@
 from django.db import models
-
 from django.contrib.auth.models import User
+
+#from superadmin.models import OwnersData
 
 
 class Instruction(models.Model):
@@ -16,7 +17,7 @@ class Instruction(models.Model):
         db_table = 'instruction'
 
     def __str__(self):
-        return self.user.username + ' - ' + str(self.task.name) + " - " + str(self.issued_date)
+        return self.user.username + ' - '+str(self.task.name) + " - " + str(self.issued_date)
 
 
 class Task(models.Model):
@@ -83,6 +84,28 @@ class SensorType(models.Model):
     name = models.CharField(max_length=255, unique=True, null=True, db_index=True)
 
 
+class OwnersData(models.Model):
+    person_type = models.BooleanField(default=True, db_index=True)  # true si es persona, false si es empresa
+    name = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si persona
+    last_name = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si persona
+    dni = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si persona
+    denomination = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si empresa
+    manager = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si empresa
+    cif = models.CharField(max_length=255, unique=False, null=True, db_index=True)  # si empresa
+    email = models.EmailField(blank=True, db_index=True)
+    owner_user = models.ForeignKey(User, models.DO_NOTHING)  # fk de auth_user
+    address = models.CharField(max_length=1024, unique=False, null=True)
+    floor = models.PositiveIntegerField(blank=True, null=True)
+    door = models.CharField(max_length=255, unique=False, null=True, db_index=True)
+    city = models.CharField(max_length=255, unique=False, null=True, db_index=True)
+    postal_code = models.PositiveIntegerField(blank=True, null=True)
+    phone = models.PositiveIntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'owners_data'
+
+
 class Flat(models.Model):
     name = models.CharField(max_length=255, unique=True, null=True, db_index=True)
     address = models.CharField(max_length=1024, unique=False, null=True)
@@ -90,6 +113,15 @@ class Flat(models.Model):
     door = models.CharField(max_length=255, unique=False, null=True, db_index=True)
     city = models.CharField(max_length=255, unique=False, null=True, db_index=True)
     postal_code = models.PositiveIntegerField(blank=True, null=True)
+    #  nuevos campos de pisos
+    guests = models.PositiveIntegerField(blank=True, unique=False, null=True, db_index=True,default=0)  # huespedes
+    rooms = models.PositiveIntegerField(blank=True, unique=False, null=True, db_index=True,default=0)  # habitaciones
+    baths = models.PositiveIntegerField(blank=True, unique=False, null=True, db_index=True,default=0)  # baños
+    reference = models.CharField(max_length=255, unique=False, null=True, db_index=True,default='')  # referencia catastral
+    meters = models.PositiveIntegerField(blank=True, unique=False, null=True, db_index=True,default=0)  # metros del piso
+    owners_data = models.ForeignKey('OwnersData', models.DO_NOTHING,null=True,db_index=True,default='')  # fk de owners_data
+    active = models.BooleanField(default=False, db_index=True)
+    ocupied = models.BooleanField(default=False, db_index=True)
 
 
 class FlatOwner(models.Model):
@@ -98,9 +130,55 @@ class FlatOwner(models.Model):
     iot_user_id = models.PositiveIntegerField(blank=True, null=True, db_index=True)
 
 
+class Client (models.Model):
+    auth = models.ForeignKey(User, models.DO_NOTHING, db_index=True,unique=True,null=True,default='')
+    name = models.CharField(max_length=255, unique=True, null=True, db_index=True)
+    lastname = models.CharField(max_length=1024, unique=False, null=True)
+    birthdate = models.CharField(max_length=1024, unique=False, null=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    dni = models.CharField(max_length=1024, unique=False, null=True)
+    tlf = models.PositiveIntegerField(max_length=1024, unique=False, null=True)
+    direction = models.CharField(max_length=1024, unique=False, null=True)
+    city = models.CharField(max_length=1024, unique=False, null=True)
+    country = models.CharField(max_length=1024, unique=False, null=True)
+    cp = models.CharField(max_length=1024, unique=False, null=True)
+    
+    class Meta:
+        managed = True
+        db_table = 'client'
+
+class Reservation(models.Model):
+    owner_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True,unique=True,null=False)
+    client = models.ForeignKey(Client, models.DO_NOTHING, db_index=True,unique=True,null=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True, db_index=True)
+    #TODO Este campo deberia ser runa fk de la tabla de precios pero mas de 2 relaciones da error
+    #es importe de la reserva
+    import_price = models.PositiveIntegerField(max_length=1024, unique=False, null=True)
+    #lo mismo para el campo de cancelacion debera cogerse automaticamente de la tabla ya creada de precios
+    cancelation = models.PositiveIntegerField(max_length=1024, unique=False, null=True)
+    flat_id = models.CharField(max_length=1024, unique=False, null=True)
+    start_time = models.CharField(max_length=1024, unique=False, null=True)
+    end_time = models.CharField(max_length=1024, unique=False, null=True)
+    guest = models.PositiveIntegerField(max_length=1024, unique=False, null=True)
+    origin = models.CharField(max_length=1024, unique=False, null=True)
+    #TODO Preguntar a santiago si sera un campo autogenerado y si sera por mi desde app o desde server
+    code = models.CharField(max_length=1024, unique=False, null=True)
+    observation = models.TextField( unique=False, null=True)
+
+
+    class Meta:
+        managed = True
+        db_table = 'reservation'
+
+    def __str__(self):
+        return str(self.owner_user)
+
+
 class Flat_Owner_Access(models.Model):
     auth_user = models.ForeignKey(User, models.DO_NOTHING, db_index=True, null=False,)
     flat = models.ForeignKey(Flat, models.DO_NOTHING, db_index=True, null=False,)
+    reservation = models.ForeignKey(Reservation, models.DO_NOTHING, db_index=True, null=False,)
     date_access_start=models.CharField(max_length=255, null=False, db_index=True,default='')
     date_access_end=models.CharField(max_length=255, null=False, db_index=True,default='')
 

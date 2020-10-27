@@ -59,3 +59,6 @@ NUMS= [
     ]
 class Filter(forms.Form):
     NUMS = forms.ChoiceField(choices=NUMS, widget=forms.RadioSelect)
+
+class Observation(forms.Form):
+    comment= forms.CharField(label='Obervaciones',widget=forms.Textarea)

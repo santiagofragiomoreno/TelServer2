@@ -7,9 +7,9 @@ from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 from security.jwt_gen import JWTEncoder
 import time
-from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData, SensorType, FlatOwner, Flat, Flat_Owner_Access
-from .models import Settings_alerts,Settings_forms,Payments,Client
-from .models import Reservation as model_reservation
+from telapi.models import Instruction, Task, Ownership, Grant, Access, SensorData, SensorType, FlatOwner, Flat, Flat_Owner_Access,Client
+from .models import Settings_alerts,Settings_forms,Payments
+from telapi.models import Reservation as model_reservation
 from security.permissions import IsIot, IsClient, IsSuperuser, IsOwner
 import datetime
 from telapi.validations import validate_date, validate_datetime, validate_clientemail, validate_integer
@@ -21,7 +21,7 @@ from .fomrs import Settings_forms as form_form
 from .fomrs import Settings_checkout as ck
 from .fomrs import Reservation as form_reservation
 from .fomrs import Client as form_client
-from .fomrs import Filter
+from .fomrs import Filter,Observation
 from django.core.mail import send_mail
 from django.conf import settings
 from django import forms
@@ -29,7 +29,6 @@ from django.shortcuts import render
 from django.contrib.auth import logout as logout
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
-from django.contrib.auth.backends import ModelBackend, UserModel
 from django.template import loader
 from django.http import HttpResponse, Http404
 from security.authorization import InstructionAuthorization
@@ -54,11 +53,11 @@ def home(request):
 
     for e in FlatOwner.objects.all():
         if e.owner_user.id == request.user.id:
-            id_flats.insert(0, e.flat.id)
+            id_flats.append(e.flat.id)
 
     for e in Flat.objects.all():
         if e.id in id_flats:
-            flats.insert(0, e)
+            flats.append(e)
 
     context['accesos']=Instruction.objects.order_by('-recieved_date')[:2]
 
@@ -80,11 +79,11 @@ def clean_master(request):
     flats = []
     for e in FlatOwner.objects.all():
         if e.owner_user.id == request.user.id:
-            id_flats.insert(0, e.flat.id)
+            id_flats.append(e.flat.id)
 
     for e in Flat.objects.all():
         if e.id in id_flats:
-            flats.insert(0, e)
+            flats.append(e)
 
     context['flats'] = flats
     context['accesos']=accesos
@@ -360,6 +359,71 @@ def historic_access(request):
 
     template = loader.get_template('owner/historic_access.html')
     return HttpResponse(template.render(context, request))
+
+
+@login_required
+def edit_access(request):
+    context = {}
+    context = {
+                    'obs': {
+                        'observation': {'form': Observation},
+                    }
+                }
+    if request.method == 'POST':
+        
+        try:
+            settings_forms = Settings_forms.objects.get(owner_user=request.user)
+            context['forms'] = settings_forms
+        except 	ObjectDoesNotExist:
+
+            settings_forms = Settings_forms(
+                owner_user=request.user,
+                is_lastname=True,
+                is_phone=True,
+                is_city=True,
+                is_birthdate=True,
+                is_import=True,
+                is_origin=True,
+                is_code=True,
+                is_capacity=True,
+                is_cancelation=True,
+                is_observation=True,
+                is_pay=True,
+                )
+
+            settings_forms.save()
+            settings_forms = Settings_forms.objects.get(owner_user=request.user)
+            context['forms'] = settings_forms
+
+        
+
+        if request.POST["option"] == '1':
+
+            flat_owner = Flat_Owner_Access.objects.get(pk=request.POST["item"])
+            reservation= model_reservation.objects.get(pk=flat_owner.reservation.id)
+            context['reservation']=reservation
+            context['flat_owner']=flat_owner
+            context['type']='1'
+
+        elif request.POST["option"] == '2':
+
+            flat_owner = Flat_Owner_Access.objects.get(pk=request.POST["item"])
+            reservation= model_reservation.objects.get(pk=flat_owner.reservation.id)
+            template = loader.get_template('owner/historic_access.html')
+            return HttpResponse(template.render(context, request))
+
+        else:
+
+            flat_owner = Flat_Owner_Access.objects.get(pk=request.POST["item"])
+            reservation= model_reservation.objects.get(pk=flat_owner.reservation.id)
+            context['reservation']=reservation
+            context['flat_owner']=flat_owner
+            context['type']='2'
+
+
+    template = loader.get_template('owner/edit_access.html')
+    return HttpResponse(template.render(context, request))
+
 
 @login_required
 def logout(request):

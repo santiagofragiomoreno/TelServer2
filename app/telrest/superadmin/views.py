@@ -4,7 +4,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from .custom_forms import OwnerForm, JuridicaForm
 from django.contrib import messages
-from .models import OwnersData, FlatData
+from telapi.models import OwnersData
 
 
 # Create your views here.
