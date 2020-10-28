@@ -151,14 +151,14 @@ def main_door_iot3(request):
         instruction = Instruction(
             task_id=1,
             recieved=0,
-            user_id=6,
-            grant_id=3
+            user_id=27,
+            grant_id=5
         )
         if not Instruction.objects.filter(
             task_id=1,
             recieved=0,
-            user_id=6,
-            grant_id=3
+            user_id=27,
+            grant_id=5
         ).exists():
             instruction.save()
         context['msg'] = 'Main Door Opened'
@@ -173,14 +173,14 @@ def building_door_iot3(request):
         instruction = Instruction(
             task_id=2,
             recieved=0,
-            user_id=6,
-            grant_id=3
+            user_id=27,
+            grant_id=5
         )
         if not Instruction.objects.filter(
             task_id=2,
             recieved=0,
-            user_id=6,
-            grant_id=3
+            user_id=27,
+            grant_id=5
         ).exists():
             instruction.save()
         context['msg'] = 'Building Door Opened'
