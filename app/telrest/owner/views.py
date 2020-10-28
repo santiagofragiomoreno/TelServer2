@@ -407,10 +407,18 @@ def edit_access(request):
 
         elif request.POST["option"] == '2':
 
-            flat_owner = Flat_Owner_Access.objects.get(pk=request.POST["item"])
+            flat_owner = Flat_Owner_Access.objects.get(pk=request.POST["item"]).delete()
+            
+            #TODO Se genera el metodo por si es necesario para la eliminacion de la reserva
+            """flat_owner = Flat_Owner_Access.objects.filter(pk=request.POST["item"],date_access_start=request.POST["start"],date_access_end=request.POST["end"])
+            for e in model_reservation.objects.all():
+                if e == flat_owner.reservation:
+                    context['type']=e
+                    template = loader.get_template('owner/prueba.html')
+                    return HttpResponse(template.render(context, request))
             reservation= model_reservation.objects.get(pk=flat_owner.reservation.id)
             template = loader.get_template('owner/historic_access.html')
-            return HttpResponse(template.render(context, request))
+            return HttpResponse(template.render(context, request))"""
 
         else:
 
